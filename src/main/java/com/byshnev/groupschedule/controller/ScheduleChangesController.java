@@ -1,7 +1,8 @@
 package com.byshnev.groupschedule.controller;
 
+import com.byshnev.groupschedule.model.dto.DateLessonListDto;
+import com.byshnev.groupschedule.model.dto.GroupLessonListDto;
 import com.byshnev.groupschedule.model.dto.LessonDto;
-import com.byshnev.groupschedule.model.dto.LessonExtendedDto;
 import com.byshnev.groupschedule.service.changes.LessonService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -15,29 +16,54 @@ import java.util.List;
 public class ScheduleChangesController {
 	private LessonService service;
 
-	@GetMapping("/group/date")
-	public List<LessonDto> getGroupScheduleChangesByDate(@RequestParam(name = "date") String date, @RequestParam(name = "grNum") Integer groupNum) {
-		return service.getByGroupAndDate(groupNum, date);
+	@GetMapping("/all")
+	public List<GroupLessonListDto> getAllScheduleChanges() {
+		return null;
 	}
 
-	@GetMapping("/group")
-	public List<LessonExtendedDto> getAllGroupScheduleChanges(@RequestParam(name = "grNum") Integer groupNum) {
+	@GetMapping("/by_date/{date}")
+	public DateLessonListDto getAllScheduleChangesByDate(@PathVariable String date) {
+		return service.getByDate(date);
+	}
+
+	@GetMapping("/{groupNumber}")
+	public GroupLessonListDto getAllGroupScheduleChanges(@PathVariable(name = "groupNumber") Integer groupNum) {
 		return service.getByGroup(groupNum);
 	}
 
-	@GetMapping("/date")
-	public List<LessonExtendedDto> getScheduleChangesByTeacher(@RequestParam String name, @RequestParam(name = "surn") String surname, @RequestParam(name = "patr") String patronymic) {
+	@GetMapping("/{groupNum}/{date}")
+	public List<LessonDto> getGroupScheduleChangesByDate(@PathVariable(name = "date") String date, @PathVariable(name = "groupNum") Integer groupNum) {
+		return service.getByGroupAndDate(groupNum, date);
+	}
+
+	@GetMapping("/by_teacher")
+	public List<DateLessonListDto> getScheduleChangesByTeacher(@RequestParam String name, @RequestParam(name = "surn") String surname, @RequestParam(name = "patr") String patronymic) {
 		return service.getByTeacher(name, surname, patronymic);
 	}
 
 	@PostMapping
-	public ResponseEntity<LessonExtendedDto> addScheduleChange(@RequestParam(name = "grNum") Integer groupNum, @RequestParam String date, @RequestBody LessonDto lesson) {
+	public ResponseEntity<LessonDto> addScheduleChange(@RequestParam(name = "grNum") Integer groupNum, @RequestParam String date, @RequestBody LessonDto lesson) {
 		return ResponseEntity.ok(service.add(lesson, date, groupNum));
 	}
 
 	@PutMapping
-	public ResponseEntity<LessonExtendedDto> updateScheduleChange(@RequestParam(name = "grNum") Integer groupNum, @RequestParam String date, @RequestBody LessonDto lesson) {
+	public ResponseEntity<LessonDto> updateScheduleChange(@RequestParam(name = "grNum") Integer groupNum, @RequestParam String date, @RequestBody LessonDto lesson) {
 		return ResponseEntity.ok(service.update(date, lesson.getStartTime(), lesson, groupNum));
 	}
 
+	@DeleteMapping("/{groupNum}/{date}")
+	public ResponseEntity<String> deleteScheduleChange(@PathVariable Integer groupNum, @PathVariable String date) {
+		if (service.deleteByDate(groupNum, date))
+			return ResponseEntity.ok("Deleting was successful");
+		else
+			return ResponseEntity.ok("Deleting wasn't successful");
+	}
+
+	@DeleteMapping("/{groupNum}/{date}/{startTime}")
+	public ResponseEntity<String> deleteScheduleChange(@PathVariable Integer groupNum, @PathVariable String date, @PathVariable String startTime) {
+		if (service.deleteByDateAndTime(date, startTime, groupNum))
+			return ResponseEntity.ok("Deleting was successful");
+		else
+			return ResponseEntity.ok("Deleting wasn't successful");
+	}
 }
