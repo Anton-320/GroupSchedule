@@ -1,8 +1,8 @@
-package com.byshnev.groupschedule.service.impl;
+package com.byshnev.groupschedule.service.search.impl;
 
-import com.byshnev.groupschedule.model.LessonDto;
-import com.byshnev.groupschedule.model.TeacherDto;
-import com.byshnev.groupschedule.service.ScheduleSearchingService;
+import com.byshnev.groupschedule.model.dto.LessonDto;
+import com.byshnev.groupschedule.model.dto.TeacherDto;
+import com.byshnev.groupschedule.service.search.ScheduleSearchingService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -37,7 +37,7 @@ public class ScheduleSearchingServiceImpl implements ScheduleSearchingService {
 	//Отсчёт ведётся с 1 января 2024 года (понедельник)
 	private int[] defineWeekNumber(LocalDate date) {
 		int[] res = new int[2];
-		LocalDate tmpDate = LocalDate.parse("2024-01-01");
+		LocalDate tmpDate = LocalDate.parse("01-01-2024",DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 		int weekNum = 3;	//1 Января - 3-я учебная неделя
 		for (; tmpDate.isBefore(date); weekNum += 4) {
 			tmpDate = tmpDate.plusDays(28);    //проматываем циклически по 4 недели, пока по дате не перелёт

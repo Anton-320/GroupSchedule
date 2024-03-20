@@ -1,7 +1,7 @@
 package com.byshnev.groupschedule.controller;
 
-import com.byshnev.groupschedule.model.LessonDto;
-import com.byshnev.groupschedule.service.ScheduleSearchingService;
+import com.byshnev.groupschedule.model.dto.LessonDto;
+import com.byshnev.groupschedule.service.search.ScheduleSearchingService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;

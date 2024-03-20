@@ -1,4 +1,4 @@
-package com.byshnev.groupschedule.model;
+package com.byshnev.groupschedule.model.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
