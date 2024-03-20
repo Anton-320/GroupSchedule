@@ -24,7 +24,6 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Service
 public class ScheduleSearchingServiceImpl implements ScheduleSearchingService {
