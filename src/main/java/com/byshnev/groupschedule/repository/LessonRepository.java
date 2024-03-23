@@ -1,6 +1,5 @@
 package com.byshnev.groupschedule.repository;
 
-import com.byshnev.groupschedule.model.entity.Date;
 import com.byshnev.groupschedule.model.entity.Lesson;
 import com.byshnev.groupschedule.model.entity.StudentGroup;
 import com.byshnev.groupschedule.model.entity.Teacher;
@@ -13,17 +12,21 @@ import java.util.List;
 
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
-	List<Lesson> findByDate(Date date);
+	List<Lesson> findByDate(LocalDate date);
 
-	Lesson findLessonByDateDateValueAndStartTime(LocalDate date, LocalTime startTime);
+	Lesson findLessonByGroupAndDateAndStartTime(StudentGroup group, LocalDate date, LocalTime startTime);
 
-	boolean deleteByGroupAndDateDateValue(StudentGroup group, LocalDate date);
+	boolean deleteByGroupAndDate(StudentGroup group, LocalDate date);
 
-	boolean deleteByDateDateValueAndStartTimeAndGroup(LocalDate date_date, LocalTime startTime, StudentGroup group);
+	boolean deleteByDateAndStartTimeAndGroup(LocalDate date_date, LocalTime startTime, StudentGroup group);
+
+	boolean deleteByGroupGroupNum(Integer groupNum);
 
 	List<Lesson> findLessonsByGroup(StudentGroup group);
 
-	List<Lesson> findLessonsByGroupAndDate(StudentGroup group, Date date);
+	List<Lesson> findLessonsByGroupAndDate(StudentGroup group, LocalDate date);
+
+	List<Long> findLessonByGroupIdAndDate(Long groupId, LocalDate date);
 
 	List<Lesson> findLessonsByTeachers(Teacher teacher);
 }

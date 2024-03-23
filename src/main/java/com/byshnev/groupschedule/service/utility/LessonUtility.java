@@ -1,4 +1,4 @@
-package com.byshnev.groupschedule.service.changes.utility;
+package com.byshnev.groupschedule.service.utility;
 
 import com.byshnev.groupschedule.model.dto.DateLessonListDto;
 import com.byshnev.groupschedule.model.dto.GroupLessonListDto;
@@ -15,25 +15,25 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class LessonUtility {
-	public static Lesson convertToLessonEntity(LessonDto lessonDto, LocalDate date, Integer group) {
-
-		return new Lesson(group, lessonDto.getName(),
-						  lessonDto.getFullName(),
-						  date,
-						  LocalTime.parse(
-								  lessonDto.getStartTime(),
-								  DateTimeFormatter.ofPattern("HH:mm")),
-						  LocalTime.parse(
-								  lessonDto.getEndTime(),
-								  DateTimeFormatter.ofPattern("HH:mm")),
-						  lessonDto.getNote(),
-						  lessonDto.getLessonTypeAbbr(),
-						  lessonDto.getAuditoriums().stream()
-								  .map(Auditorium::new).collect(Collectors.toList()),
-						  lessonDto.getSubgroupNum(),
-						  lessonDto.getTeachers().stream()
-								  .map(Teacher::new).collect(Collectors.toList()));
-	}
+//	public static Lesson createLessonEntity(LessonDto lessonDto, LocalDate date, Integer group) {
+//
+//		return new Lesson(group, lessonDto.getName(),
+//						  lessonDto.getSubjectFullName(),
+//						  date,
+//						  LocalTime.parse(
+//								  lessonDto.getStartTime(),
+//								  DateTimeFormatter.ofPattern("HH:mm")),
+//						  LocalTime.parse(
+//								  lessonDto.getEndTime(),
+//								  DateTimeFormatter.ofPattern("HH:mm")),
+//						  lessonDto.getNote(),
+//						  lessonDto.getLessonTypeAbbr(),
+//						  lessonDto.getAuditoriums().stream()
+//								  .map(Auditorium::new).collect(Collectors.toList()),
+//						  lessonDto.getSubgroupNum(),
+//						  lessonDto.getTeachers().stream()
+//								  .map(Teacher::new).collect(Collectors.toList()));
+//	}
 
 	public static LessonDto convertToLessonDto(Lesson lesson) {
 		return new LessonDto(
@@ -59,7 +59,7 @@ public class LessonUtility {
 
 	public static GroupLessonListDto convertToGroupLessonListDto(List<Lesson> lessons, Integer groupNum) {
 		Map<LocalDate, List<Lesson>> lessonsByDates = lessons.stream()
-				.collect(Collectors.groupingBy(lesson -> lesson.getDate().getDateValue()));
+				.collect(Collectors.groupingBy(Lesson::getDate));
 		return new GroupLessonListDto(
 				groupNum,
 				lessonsByDates.entrySet().stream()
@@ -90,7 +90,7 @@ public class LessonUtility {
 
 	public static List<DateLessonListDto> convertToDateLessonListDtoList(List<Lesson> lessons) {
 		Map<LocalDate, List<Lesson>> lessonsByDates = lessons.stream()
-				.collect(Collectors.groupingBy(lesson->lesson.getDate().getDateValue()));
+				.collect(Collectors.groupingBy(Lesson::getDate));
 		return lessonsByDates.entrySet().stream()
 				.map(lessonListByDate -> convertToDateLessonListDto(lessonListByDate.getValue(), lessonListByDate.getKey()))
 				.collect(Collectors.toList());

@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 public class LessonDto {
 	private String name;
-	private String fullName;
+	private String subjectFullName;
 	private String startTime;
 	private String endTime;
 	private String note;

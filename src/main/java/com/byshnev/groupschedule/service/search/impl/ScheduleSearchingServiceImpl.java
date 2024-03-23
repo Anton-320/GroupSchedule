@@ -3,10 +3,9 @@ package com.byshnev.groupschedule.service.search.impl;
 import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.model.dto.TeacherDto;
 import com.byshnev.groupschedule.model.entity.Lesson;
-import com.byshnev.groupschedule.repository.DateRepository;
 import com.byshnev.groupschedule.repository.GroupRepository;
 import com.byshnev.groupschedule.repository.LessonRepository;
-import com.byshnev.groupschedule.service.changes.utility.LessonUtility;
+import com.byshnev.groupschedule.service.utility.LessonUtility;
 import com.byshnev.groupschedule.service.search.ScheduleSearchingService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -20,17 +19,14 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @AllArgsConstructor
 @Service
 public class ScheduleSearchingServiceImpl implements ScheduleSearchingService {
-
 	private LessonRepository lessonRepository;
 	private GroupRepository groupRepository;
-	private DateRepository dateRepository;
 
 	private final RestTemplate restTemplate = new RestTemplate();
 	private static final String HTTPS_URL_BSUIR_SRCH = "https://iis.bsuir.by/api/v1/schedule?studentGroup={groupNumber}";
@@ -64,7 +60,7 @@ public class ScheduleSearchingServiceImpl implements ScheduleSearchingService {
 		return res;
 	}
 
-	public List<LessonDto> getScheduleFromBsuirApi(Integer groupNum, LocalDate date) throws JsonProcessingException {
+	private List<LessonDto> getScheduleFromBsuirApi(Integer groupNum, LocalDate date) throws JsonProcessingException {
 		int[] dateInfo = defineWeekNumber(date);	//номер недели и день недели
 		if (dateInfo[1] > 6)
 			return Collections.emptyList();
@@ -111,7 +107,7 @@ public class ScheduleSearchingServiceImpl implements ScheduleSearchingService {
 	public List<LessonDto> getSchedule(Integer groupNum, String dateInStr) throws JsonProcessingException {
 		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 		List<LessonDto> schedule = getScheduleFromBsuirApi(groupNum, date);
-		List<Lesson> tmp = lessonRepository.findLessonsByGroupAndDate(groupRepository.findByGroupNum(groupNum), dateRepository.findByDateValue(date));
+		List<Lesson> tmp = lessonRepository.findLessonsByGroupAndDate(groupRepository.findByGroupNum(groupNum), date);
 		if (tmp.size() > 0) {
 			schedule.addAll(
 					LessonUtility

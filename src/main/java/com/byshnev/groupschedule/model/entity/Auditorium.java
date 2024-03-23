@@ -13,10 +13,11 @@ import java.util.List;
 @NoArgsConstructor
 public class Auditorium {
 	@Id
+	@GeneratedValue
 	private Long id;
 	@NaturalId
 	private String auditorium;
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH}, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	@JoinTable(name = "lessons_auditoriums",
 			joinColumns = {@JoinColumn(name = "auditorium_id")},
 			inverseJoinColumns = {@JoinColumn(name = "lesson_id")})

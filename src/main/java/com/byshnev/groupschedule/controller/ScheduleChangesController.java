@@ -18,7 +18,7 @@ public class ScheduleChangesController {
 
 	@GetMapping("/all")
 	public List<GroupLessonListDto> getAllScheduleChanges() {
-		return null;
+		return service.getAll();
 	}
 
 	@GetMapping("/by_date/{date}")
@@ -42,28 +42,36 @@ public class ScheduleChangesController {
 	}
 
 	@PostMapping
-	public ResponseEntity<LessonDto> addScheduleChange(@RequestParam(name = "grNum") Integer groupNum, @RequestParam String date, @RequestBody LessonDto lesson) {
+	public ResponseEntity<LessonDto> addScheduleChange(@RequestParam(name = "groupNum") Integer groupNum, @RequestParam(name = "date") String date, @RequestBody LessonDto lesson) {
 		return ResponseEntity.ok(service.add(lesson, date, groupNum));
 	}
 
 	@PutMapping
-	public ResponseEntity<LessonDto> updateScheduleChange(@RequestParam(name = "grNum") Integer groupNum, @RequestParam String date, @RequestBody LessonDto lesson) {
+	public ResponseEntity<LessonDto> updateScheduleChange(@RequestParam(name = "groupNum") Integer groupNum, @RequestParam(name = "date") String date, @RequestBody LessonDto lesson) {
 		return ResponseEntity.ok(service.update(date, lesson.getStartTime(), lesson, groupNum));
 	}
 
-	@DeleteMapping("/{groupNum}/{date}")
-	public ResponseEntity<String> deleteScheduleChange(@PathVariable Integer groupNum, @PathVariable String date) {
-		if (service.deleteByDate(groupNum, date))
-			return ResponseEntity.ok("Deleting was successful");
+	@DeleteMapping("/{groupNum}")
+	public ResponseEntity<String> deleteScheduleChanges(@PathVariable Integer groupNum) {
+		if (service.deleteByGroup(groupNum))
+			return ResponseEntity.accepted().body("Deleting was successsful");
 		else
-			return ResponseEntity.ok("Deleting wasn't successful");
+			return ResponseEntity.badRequest().body("Deleting wasn't successful");
+	}
+
+	@DeleteMapping("/{groupNum}/{date}")
+	public ResponseEntity<String> deleteScheduleChanges(@PathVariable Integer groupNum, @PathVariable String date) {
+		if (service.deleteByGroupAndDate(groupNum, date))
+			return ResponseEntity.accepted().body("Deleting was successsful");
+		else
+			return ResponseEntity.badRequest().body("Deleting wasn't successful");
 	}
 
 	@DeleteMapping("/{groupNum}/{date}/{startTime}")
 	public ResponseEntity<String> deleteScheduleChange(@PathVariable Integer groupNum, @PathVariable String date, @PathVariable String startTime) {
 		if (service.deleteByDateAndTime(date, startTime, groupNum))
-			return ResponseEntity.ok("Deleting was successful");
+			return ResponseEntity.accepted().body("Deleting was successsful");
 		else
-			return ResponseEntity.ok("Deleting wasn't successful");
+			return ResponseEntity.badRequest().body("Deleting wasn't successful");
 	}
 }

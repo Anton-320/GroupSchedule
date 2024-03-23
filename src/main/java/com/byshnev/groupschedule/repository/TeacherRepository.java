@@ -1,11 +1,14 @@
 package com.byshnev.groupschedule.repository;
 
 import com.byshnev.groupschedule.model.entity.Teacher;
-import com.byshnev.groupschedule.model.entity.compositekey.FullName;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-public interface TeacherRepository extends JpaRepository<Teacher, FullName> {
-	Teacher findByFullname(FullName fullName);
+@Repository
+public interface TeacherRepository extends JpaRepository<Teacher, String> {
+	Teacher findByUrlId(String urlId);
+	List<Teacher> findBySurname(String surname);
+	Teacher findByNameAndSurnameAndPatronymic(String name, String surname, String patronymic);
 }

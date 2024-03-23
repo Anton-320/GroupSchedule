@@ -24,9 +24,7 @@ public class Lesson {
 	@ManyToOne(cascade = CascadeType.PERSIST)
 	@JoinColumn(name = "group_id")
 	private StudentGroup group;
-	@ManyToOne(cascade = CascadeType.PERSIST)
-	@JoinColumn(name = "date_id")
-	private Date date;
+	private LocalDate date;
 	private String name;
 	private String subjectFullName;
 	private LocalTime startTime;
@@ -39,30 +37,30 @@ public class Lesson {
 	@ManyToMany(mappedBy = "lessons", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	private List<Teacher> teachers = new ArrayList<>();
 
-	public Lesson(LessonDto lessonDto) {
-		this.name = lessonDto.getName();
-		this.subjectFullName = lessonDto.getFullName();
-		this.startTime = LocalTime.parse(
-				lessonDto.getStartTime(),
-				DateTimeFormatter.ofPattern("HH:mm"));
-		this.endTime = LocalTime.parse(
-				lessonDto.getEndTime(),
-				DateTimeFormatter.ofPattern("HH:mm"));
-		this.note = lessonDto.getNote();
-		this.lessonTypeAbbr = lessonDto.getLessonTypeAbbr();
-		this.subgroupNum = lessonDto.getSubgroupNum();
-		this.teachers = lessonDto.getTeachers().stream()
-				.map(Teacher::new)
-				.collect(Collectors.toList());
-		this.auditoriums = lessonDto.getAuditoriums().stream()
-				.map(Auditorium::new).collect(Collectors.toList());
-	}
+//	public Lesson(LessonDto lessonDto) {
+//		this.name = lessonDto.getName();
+//		this.subjectFullName = lessonDto.getSubjectFullName();
+//		this.startTime = LocalTime.parse(
+//				lessonDto.getStartTime(),
+//				DateTimeFormatter.ofPattern("HH:mm"));
+//		this.endTime = LocalTime.parse(
+//				lessonDto.getEndTime(),
+//				DateTimeFormatter.ofPattern("HH:mm"));
+//		this.note = lessonDto.getNote();
+//		this.lessonTypeAbbr = lessonDto.getLessonTypeAbbr();
+//		this.subgroupNum = lessonDto.getSubgroupNum();
+//		this.teachers = lessonDto.getTeachers().stream()
+//				.map(Teacher::new)
+//				.collect(Collectors.toList());
+//		this.auditoriums = lessonDto.getAuditoriums().stream()
+//				.map(Auditorium::new).collect(Collectors.toList());
+//	}
 
-	public Lesson(Integer group, String name, String subjectFullName, LocalDate date, LocalTime startTime, LocalTime endTime, String note, String lessonTypeAbbr, List<Auditorium> auditoriums, int subgroupNum, List<Teacher> teachers) {
-		this.group = new StudentGroup(group);
+	public Lesson(StudentGroup group, String name, String subjectFullName, LocalDate date, LocalTime startTime, LocalTime endTime, String note, String lessonTypeAbbr, List<Auditorium> auditoriums, int subgroupNum, List<Teacher> teachers) {
+		this.group = group;
 		this.name = name;
 		this.subjectFullName = subjectFullName;
-		this.date = new Date(date);
+		this.date = date;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.note = note;

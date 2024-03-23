@@ -1,24 +1,24 @@
-package com.byshnev.groupschedule.service.changes.utility;
+package com.byshnev.groupschedule.service.utility;
 
+import com.byshnev.groupschedule.model.entity.Lesson;
 import com.byshnev.groupschedule.model.entity.Teacher;
 import com.byshnev.groupschedule.model.entity.compositekey.FullName;
 import com.byshnev.groupschedule.model.dto.TeacherDto;
 
 public class TeacherUtility {
 	public static TeacherDto ConvertToDto(Teacher teacher) {
-		return new TeacherDto(teacher.getFullname().getName(),
-							  teacher.getFullname().getSurname(),
-							  teacher.getFullname().getPatronymic(),
+		return new TeacherDto(teacher.getName(),
+							  teacher.getSurname(),
+							  teacher.getPatronymic(),
 							  teacher.getDegree(),
 							  teacher.getEmail());
 	}
 
-	public static Teacher ConvertToTeacherEntity(TeacherDto teacherDto) {
+	public static Teacher createTeacherEntityWithoutLink(TeacherDto teacherDto) {
 		return new Teacher(
-				new FullName(
-						teacherDto.getName(),
-						teacherDto.getSurname(),
-						teacherDto.getPatronymic()),
+				teacherDto.getName(),
+				teacherDto.getSurname(),
+				teacherDto.getPatronymic(),
 				teacherDto.getDegree(),
 				teacherDto.getEmail());
 	}
