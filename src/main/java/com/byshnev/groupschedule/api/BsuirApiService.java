@@ -1,12 +1,10 @@
-package com.byshnev.groupschedule.service.api;
+package com.byshnev.groupschedule.api;
 
 import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.model.dto.TeacherDto;
-import com.byshnev.groupschedule.model.entity.StudentGroup;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 

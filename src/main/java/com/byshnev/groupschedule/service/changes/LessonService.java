@@ -50,7 +50,7 @@ public class LessonService {
 	public List<LessonDto> getByGroupAndDate(Integer groupNum, String dateInStr) {
 		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 		return LessonUtility.convertToLessonDtoList(
-				lessonRepository.findLessonsByGroupAndDate(groupRepository.findByGroupNum(groupNum), date));
+				lessonRepository.findLessonsByGroupAndDate(groupNum, date));
 	}
 
 	public List<DateLessonListDto> getByTeacher(String name, String surname, String patronymic) {
