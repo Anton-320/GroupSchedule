@@ -14,6 +14,7 @@ import java.util.Objects;
 		columnNames = {"name", "surname", "patronymic"}))
 @Getter
 @Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Teacher {
@@ -31,7 +32,8 @@ public class Teacher {
 	)
 	private List<Lesson> lessons = new ArrayList<>();
 
-	public Teacher(String name, String surname, String patronymic, String degree, String email) {
+	public Teacher(String urlId, String name, String surname, String patronymic, String degree, String email) {
+		this.urlId = urlId;
 		this.name = name;
 		this.surname = surname;
 		this.patronymic = patronymic;

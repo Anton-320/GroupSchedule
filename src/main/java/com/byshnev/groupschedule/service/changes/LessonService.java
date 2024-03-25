@@ -7,7 +7,6 @@ import com.byshnev.groupschedule.model.entity.Lesson;
 import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.model.entity.StudentGroup;
 import com.byshnev.groupschedule.model.entity.Teacher;
-import com.byshnev.groupschedule.model.entity.compositekey.FullName;
 import com.byshnev.groupschedule.repository.AuditoriumRepository;
 import com.byshnev.groupschedule.repository.GroupRepository;
 import com.byshnev.groupschedule.repository.LessonRepository;
@@ -62,10 +61,12 @@ public class LessonService {
 
 	public LessonDto add(LessonDto lessonDto, String dateInStr, Integer groupNum) {
 		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+
 		Lesson lesson = lessonRepository.findLessonByGroupAndDateAndStartTime(		//check, if there exists change for thesee group, date and time
 				groupRepository.findByGroupNum(groupNum), date, LocalTime.parse(
 						lessonDto.getStartTime(),
 						DateTimeFormatter.ofPattern("HH:mm")));
+
 		if (lesson == null) {			//if it doesn't exists, create new lesson entity
 
 			lesson = new Lesson(
@@ -84,8 +85,10 @@ public class LessonService {
 					null,
 					lessonDto.getSubgroupNum(),
 					null);
+
 			lesson.setAuditoriums(initCreatedLessonAuditoriums(lessonDto, lesson));
 			lesson.setTeachers(initCreatedLessonTeachers(lessonDto, lesson));
+
 			StudentGroup tmp = groupRepository.findByGroupNum(groupNum);
 			if (tmp == null)
 				lesson.setGroup(new StudentGroup(groupNum));
@@ -153,14 +156,14 @@ public class LessonService {
 
 	private List<Teacher> initUpdatedLessonTeachers(LessonDto lessonDto, Lesson lesson) {
 		return lessonDto.getTeachers().stream()
-				.map(teacherDto -> {
+				.map(tmp -> {
 
-					Teacher teacher = teacherRepository.findByNameAndSurnameAndPatronymic(
-							teacherDto.getName(),
-							teacherDto.getSurname(),
-							teacherDto.getPatronymic());
+					Teacher teacher = teacherRepository.findByUrlId(tmp.getUrlId());
+					if (teacher != null)
+						teacher = teacherRepository.findByNameAndSurnameAndPatronymic(
+								tmp.getName(), tmp.getSurname(), tmp.getPatronymic());
 					if (teacher == null) {		//if not found
-						teacher = TeacherUtility.createTeacherEntityWithoutLink(teacherDto);    //create a teacherentity on the base of dto
+						teacher = TeacherUtility.createEntityObjWithoutLink(tmp);
 						// link teacher entity to created lesson
 						// (not anyway, as if the teacher exists, than don't neen connect existing teacher to existing lesson)
 						// they are already connected by id (in the lesson_teacher table)
@@ -189,15 +192,17 @@ public class LessonService {
 
 	private List<Teacher> initCreatedLessonTeachers(LessonDto lessonDto, Lesson lesson) {
 		return lessonDto.getTeachers().stream()
-				.map(teacherDto -> {
+				.map(tmp -> {
 
-					Teacher teacher = teacherRepository.findByNameAndSurnameAndPatronymic(
-							teacherDto.getName(), teacherDto.getSurname(), teacherDto.getPatronymic());
+					Teacher teacher = teacherRepository.findByUrlId(tmp.getUrlId());
+					if (teacher != null)
+						teacher = teacherRepository.findByNameAndSurnameAndPatronymic(
+								tmp.getName(), tmp.getSurname(), tmp.getPatronymic());
 					if (teacher == null) {		//if not found
-						teacher = TeacherUtility.createTeacherEntityWithoutLink(teacherDto);    //create a teacherentity on the base of dto
+						teacher = TeacherUtility.createEntityObjWithoutLink(tmp);
 					}
 					// link teacher entity to created lesson
-					// (anyway because lesson has new id,
+					// (anyway, because lesson has new id,
 					// therefore the table "lessons_teachers" anyway doesn't have such a link through their id)
 					teacher.getLessons().add(lesson);
 					return teacher;

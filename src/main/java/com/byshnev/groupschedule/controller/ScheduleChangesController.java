@@ -54,7 +54,7 @@ public class ScheduleChangesController {
 	@DeleteMapping("/{groupNum}")
 	public ResponseEntity<String> deleteScheduleChanges(@PathVariable Integer groupNum) {
 		if (service.deleteByGroup(groupNum))
-			return ResponseEntity.accepted().body("Deleting was successsful");
+			return ResponseEntity.accepted().body("Deleting was successful");
 		else
 			return ResponseEntity.badRequest().body("Deleting wasn't successful");
 	}
@@ -62,7 +62,7 @@ public class ScheduleChangesController {
 	@DeleteMapping("/{groupNum}/{date}")
 	public ResponseEntity<String> deleteScheduleChanges(@PathVariable Integer groupNum, @PathVariable String date) {
 		if (service.deleteByGroupAndDate(groupNum, date))
-			return ResponseEntity.accepted().body("Deleting was successsful");
+			return ResponseEntity.accepted().body("Deleting was successful");
 		else
 			return ResponseEntity.badRequest().body("Deleting wasn't successful");
 	}
@@ -70,7 +70,7 @@ public class ScheduleChangesController {
 	@DeleteMapping("/{groupNum}/{date}/{startTime}")
 	public ResponseEntity<String> deleteScheduleChange(@PathVariable Integer groupNum, @PathVariable String date, @PathVariable String startTime) {
 		if (service.deleteByDateAndTime(date, startTime, groupNum))
-			return ResponseEntity.accepted().body("Deleting was successsful");
+			return ResponseEntity.accepted().body("Deleting was successful");
 		else
 			return ResponseEntity.badRequest().body("Deleting wasn't successful");
 	}

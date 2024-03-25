@@ -4,8 +4,8 @@ import com.byshnev.groupschedule.model.dto.DateLessonListDto;
 import com.byshnev.groupschedule.model.dto.GroupLessonListDto;
 import com.byshnev.groupschedule.model.entity.Auditorium;
 import com.byshnev.groupschedule.model.entity.Lesson;
-import com.byshnev.groupschedule.model.entity.Teacher;
 import com.byshnev.groupschedule.model.dto.LessonDto;
+import com.byshnev.groupschedule.model.entity.StudentGroup;
 
 import java.time.LocalDate;
 import java.time.LocalTime;

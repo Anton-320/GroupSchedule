@@ -1,9 +1,13 @@
 package com.byshnev.groupschedule.controller;
 
 import com.byshnev.groupschedule.model.dto.TeacherDto;
+import com.byshnev.groupschedule.model.entity.Teacher;
 import com.byshnev.groupschedule.service.changes.TeacherService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,18 +35,25 @@ public class TeacherController {
 	}
 
 	@PostMapping
-	public ResponseEntity<TeacherDto> addTeacher(@RequestBody TeacherDto teacherDto) {
-		return null;
+	public ResponseEntity<TeacherDto> addTeacher(@RequestBody TeacherDto teacher) {
+		TeacherDto tmp = service.add(teacher);
+		if (tmp != null)
+			return new ResponseEntity<>(tmp, HttpStatus.CREATED);
+		else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 	}
 
 	@PutMapping("/{urlId}")
-	public ResponseEntity<TeacherDto> updateTeacher(@PathVariable String urlId) {
-		return null;
+	public ResponseEntity<TeacherDto> updateTeacher(@PathVariable String urlId, @RequestBody TeacherDto teacher) {
+		TeacherDto tmp = service.update(urlId, teacher);
+		if (tmp != null)
+			return new ResponseEntity<>(tmp, HttpStatus.ACCEPTED);
+		else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	@DeleteMapping("/{urlId}")
 	public ResponseEntity<String> deleteTeacher(@PathVariable String urlId) {
-		return null;
+		if (service.delete(urlId))
+			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+		else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
-
 }

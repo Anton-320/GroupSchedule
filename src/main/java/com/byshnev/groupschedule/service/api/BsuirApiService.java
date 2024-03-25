@@ -1,17 +1,13 @@
-package com.byshnev.groupschedule.service.search.impl;
+package com.byshnev.groupschedule.service.api;
 
 import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.model.dto.TeacherDto;
-import com.byshnev.groupschedule.model.entity.Lesson;
-import com.byshnev.groupschedule.repository.GroupRepository;
-import com.byshnev.groupschedule.repository.LessonRepository;
-import com.byshnev.groupschedule.service.utility.LessonUtility;
-import com.byshnev.groupschedule.service.search.ScheduleSearchingService;
+import com.byshnev.groupschedule.model.entity.StudentGroup;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.*;
-import org.springframework.stereotype.Service;
+import org.springframework.context.annotation.Bean;
+import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
@@ -22,12 +18,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-@AllArgsConstructor
-@Service
-public class ScheduleSearchingServiceImpl implements ScheduleSearchingService {
-	private LessonRepository lessonRepository;
-	private GroupRepository groupRepository;
-
+@Component
+public class BsuirApiService {
 	private final RestTemplate restTemplate = new RestTemplate();
 	private static final String HTTPS_URL_BSUIR_SRCH = "https://iis.bsuir.by/api/v1/schedule?studentGroup={groupNumber}";
 	private static final String[] daysOfWeek = {
@@ -44,7 +36,7 @@ public class ScheduleSearchingServiceImpl implements ScheduleSearchingService {
 	//Отсчёт ведётся с 1 января 2024 года (понедельник)
 	private int[] defineWeekNumber(LocalDate date) {
 		int[] res = new int[2];
-		LocalDate tmpDate = LocalDate.parse("01-01-2024",DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		LocalDate tmpDate = LocalDate.parse("01-01-2024", DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 		int weekNum = 3;	//1 Января - 3-я учебная неделя
 		for (; tmpDate.isBefore(date); weekNum += 4) {
 			tmpDate = tmpDate.plusDays(28);    //проматываем циклически по 4 недели, пока по дате не перелёт
@@ -60,7 +52,7 @@ public class ScheduleSearchingServiceImpl implements ScheduleSearchingService {
 		return res;
 	}
 
-	private List<LessonDto> getScheduleFromBsuirApi(Integer groupNum, LocalDate date) throws JsonProcessingException {
+	public List<LessonDto> getScheduleFromBsuirApi(Integer groupNum, LocalDate date) throws JsonProcessingException {
 		int[] dateInfo = defineWeekNumber(date);	//номер недели и день недели
 		if (dateInfo[1] > 6)
 			return Collections.emptyList();
@@ -88,12 +80,13 @@ public class ScheduleSearchingServiceImpl implements ScheduleSearchingService {
 							subject.get("numSubgroup").asInt(0),
 							StreamSupport.stream(subject.get("employees").spliterator(), false)
 									.map(teacherNode -> new TeacherDto(
-													teacherNode.get("firstName").asText(null),
-													teacherNode.get("lastName").asText(null),
-													teacherNode.get("middleName").asText(null),
-													teacherNode.get("degree").asText(null),
-													teacherNode.get("email").asText(null)
-											)
+												 teacherNode.get("urlId").asText(null),
+												 teacherNode.get("firstName").asText(null),
+												 teacherNode.get("lastName").asText(null),
+												 teacherNode.get("middleName").asText(null),
+												 teacherNode.get("degree").asText(null),
+												 teacherNode.get("email").asText(null)
+										 )
 									)
 									.collect(Collectors.toList())
 					));
@@ -104,19 +97,4 @@ public class ScheduleSearchingServiceImpl implements ScheduleSearchingService {
 		return result;
 	}
 
-	public List<LessonDto> getSchedule(Integer groupNum, String dateInStr) throws JsonProcessingException {
-		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-		List<LessonDto> schedule = getScheduleFromBsuirApi(groupNum, date);
-		List<Lesson> tmp = lessonRepository.findLessonsByGroupAndDate(groupRepository.findByGroupNum(groupNum), date);
-		if (tmp.size() > 0) {
-			schedule.addAll(
-					LessonUtility
-							.convertToLessonDtoList(tmp)
-							.stream()
-							.filter(
-									lessonDto -> schedule.stream().noneMatch(lessonDto1 -> lessonDto1.getStartTime().equals(lessonDto.getStartTime())))
-							.collect(Collectors.toList()));
-		}
-		return schedule;
-	}
 }
