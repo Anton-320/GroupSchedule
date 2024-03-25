@@ -19,6 +19,7 @@ import java.util.stream.StreamSupport;
 @Component
 public class BsuirApiService {
 	private final RestTemplate restTemplate = new RestTemplate();
+	private final ObjectMapper mapper = new ObjectMapper();
 	private static final String HTTPS_URL_BSUIR_SRCH = "https://iis.bsuir.by/api/v1/schedule?studentGroup={groupNumber}";
 	private static final String[] daysOfWeek = {
 			"Понедельник",
@@ -56,7 +57,7 @@ public class BsuirApiService {
 			return Collections.emptyList();
 
 		String jsonResponseStr = restTemplate.getForObject(HTTPS_URL_BSUIR_SRCH, String.class, groupNum.toString());
-		ObjectMapper mapper = new ObjectMapper();
+
 		JsonNode root = mapper.readTree(jsonResponseStr);
 		JsonNode scheduleArrayNode = root.get("schedules").get(daysOfWeek[dateInfo[1] - 1]);
 		List<LessonDto> result = new ArrayList<>();
