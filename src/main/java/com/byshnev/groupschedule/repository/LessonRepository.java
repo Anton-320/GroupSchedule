@@ -20,7 +20,7 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
 	boolean deleteByGroupAndDate(StudentGroup group, LocalDate date);
 
-	boolean deleteByDateAndStartTimeAndGroup(LocalDate date_date, LocalTime startTime, StudentGroup group);
+	boolean deleteByDateAndStartTimeAndGroup(LocalDate date, LocalTime startTime, StudentGroup group);
 
 	boolean deleteByGroupGroupNum(Integer groupNum);
 
