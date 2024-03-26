@@ -15,7 +15,6 @@ import java.util.Optional;
 
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
-	List<Lesson> findByDate(LocalDate date);
 
 	Optional<Lesson> findLessonByGroupAndDateAndStartTime(StudentGroup group, LocalDate date, LocalTime startTime);
 

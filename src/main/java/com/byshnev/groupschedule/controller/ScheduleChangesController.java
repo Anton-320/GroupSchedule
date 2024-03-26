@@ -25,11 +25,6 @@ public class ScheduleChangesController {
 		return service.getAll();
 	}
 
-	@GetMapping("/by_date/{date}")
-	public DateLessonListDto getAllScheduleChangesByDate(@PathVariable String date) {
-		return service.getByDate(date);
-	}
-
 	@GetMapping("/{groupNumber}")
 	public GroupLessonListDto getAllGroupScheduleChanges(@PathVariable(name = "groupNumber") Integer groupNum) {
 		return service.getByGroup(groupNum);

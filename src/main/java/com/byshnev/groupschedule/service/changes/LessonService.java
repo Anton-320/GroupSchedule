@@ -55,12 +55,6 @@ public class LessonService {
 		return null;
 	}
 
-	public DateLessonListDto getByDate(String dateInStr) {
-		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
-		return LessonUtility.convertToDateLessonListDto(
-				lessonRepository.findByDate(date), date);
-	}
-
 	public List<LessonDto> getByGroupAndDate(Integer groupNum, String dateInStr) {
 		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
 		return LessonUtility.convertToLessonDtoList(
