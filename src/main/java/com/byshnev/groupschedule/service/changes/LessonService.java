@@ -32,6 +32,8 @@ public class LessonService {
 	private AuditoriumRepository auditoriumRepository;
 	private ScheduleChangesCache cache;
 
+	private static final String DATE_FORMAT = "dd-MM-yyyy";
+
 	public List<GroupLessonListDto> getAll() {
 		return LessonUtility.convertToGroupLessonListDtoList(lessonRepository.findAll());
 	}
@@ -53,13 +55,13 @@ public class LessonService {
 	}
 
 	public DateLessonListDto getByDate(String dateInStr) {
-		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
 		return LessonUtility.convertToDateLessonListDto(
 				lessonRepository.findByDate(date), date);
 	}
 
 	public List<LessonDto> getByGroupAndDate(Integer groupNum, String dateInStr) {
-		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
 		return LessonUtility.convertToLessonDtoList(
 				lessonRepository.findLessonsByGroupAndDate(groupNum, date));
 	}
@@ -71,7 +73,7 @@ public class LessonService {
 	}
 
 	public LessonDto add(LessonDto lessonDto, String dateInStr, Integer groupNum) {
-		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
 
 		Lesson lesson = lessonRepository.findLessonByGroupAndDateAndStartTime(		//check, if there exists change for thesee group, date and time
 				groupRepository.findByGroupNum(groupNum), date, LocalTime.parse(
@@ -110,7 +112,7 @@ public class LessonService {
 	}
 
 	public LessonDto update(String dateInStr, String startTimeInStr, LessonDto lessonDto, Integer groupNum) {
-		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
 		LocalTime startTime = LocalTime.parse(startTimeInStr, DateTimeFormatter.ofPattern("HH:mm"));
 		Lesson lesson;
 		if ((lesson = lessonRepository.findLessonByGroupAndDateAndStartTime(
@@ -125,12 +127,12 @@ public class LessonService {
 	}
 
 	public boolean deleteByGroupAndDate(Integer groupNum, String dateInStr) {
-		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
 		return lessonRepository.deleteByGroupAndDate(groupRepository.findByGroupNum(groupNum), date);
 	}
 
 	public boolean deleteByDateAndTime(String dateInStr, String startTimeInStr, Integer groupNum) {
-		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
 		LocalTime startTime = LocalTime.parse(startTimeInStr, DateTimeFormatter.ofPattern("HH:mm"));
 		return lessonRepository.deleteByDateAndStartTimeAndGroup(date, startTime, groupRepository.findByGroupNum(groupNum));
 	}
