@@ -56,9 +56,10 @@ public class ScheduleSearchingServiceImpl implements ScheduleSearchingService {
 			schedule = new ArrayList<>();
 
 		}
-		if (!changes.isEmpty()) {
-			schedule.addAll(LessonUtility.convertToLessonDtoList(changes));
+		if (changes.isEmpty()) {
+			return schedule;
 		}
+		schedule.addAll(LessonUtility.convertToLessonDtoList(changes));
 		return schedule;
 	}
 }
