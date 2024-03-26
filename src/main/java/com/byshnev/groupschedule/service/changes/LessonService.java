@@ -21,6 +21,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -115,12 +116,13 @@ public class LessonService {
 	public LessonDto update(String dateInStr, String startTimeInStr, LessonDto lessonDto, Integer groupNum) {
 		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
 		LocalTime startTime = LocalTime.parse(startTimeInStr, DateTimeFormatter.ofPattern(TIME_FORMAT));
-		Lesson lesson;
-		if ((lesson = lessonRepository.findLessonByGroupAndDateAndStartTime(
-				groupRepository.findByGroupNum(groupNum), date, startTime)) != null) {
+		Lesson lesson = lessonRepository.findLessonByGroupAndDateAndStartTime(
+				groupRepository.findByGroupNum(groupNum), date, startTime);
+		if (lesson != null) {
 			lesson = updateLesson(lesson, lessonDto);
+			return LessonUtility.convertToLessonDto(lessonRepository.save(Objects.requireNonNull(lesson)));
 		}
-		return LessonUtility.convertToLessonDto(lessonRepository.save(lesson));
+		return null;
 	}
 
 	public boolean deleteByGroup(Integer groupNum) {
