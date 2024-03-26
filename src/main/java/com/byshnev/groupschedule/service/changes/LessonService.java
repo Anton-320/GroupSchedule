@@ -118,11 +118,11 @@ public class LessonService {
 		LocalTime startTime = LocalTime.parse(startTimeInStr, DateTimeFormatter.ofPattern(TIME_FORMAT));
 		Lesson lesson = lessonRepository.findLessonByGroupAndDateAndStartTime(
 				groupRepository.findByGroupNum(groupNum), date, startTime);
-		if (lesson != null) {
-			lesson = updateLesson(lesson, lessonDto);
-			return LessonUtility.convertToLessonDto(lessonRepository.save(Objects.requireNonNull(lesson)));
+		if (lesson == null) {
+			return null;
 		}
-		else return null;
+		lesson = updateLesson(lesson, lessonDto);
+		return LessonUtility.convertToLessonDto(lessonRepository.save(lesson));
 	}
 
 	public boolean deleteByGroup(Integer groupNum) {
