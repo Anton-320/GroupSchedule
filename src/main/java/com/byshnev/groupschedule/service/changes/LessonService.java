@@ -81,22 +81,19 @@ public class LessonService {
 		if (lesson == null) {			//if it doesn't exists, create new lesson entity
 
 			lesson = new Lesson(
-					null,
 					lessonDto.getName(),
 					lessonDto.getSubjectFullName(),
 					date,
-					LocalTime.parse(
-							lessonDto.getStartTime(),
-							DateTimeFormatter.ofPattern("HH:mm")),
-					LocalTime.parse(
-							lessonDto.getEndTime(),
-							DateTimeFormatter.ofPattern("HH:mm")),
 					lessonDto.getNote(),
 					lessonDto.getLessonTypeAbbr(),
-					null,
-					lessonDto.getSubgroupNum(),
-					null);
+					lessonDto.getSubgroupNum());
 
+			lesson.setStartTime(LocalTime.parse(
+					lessonDto.getStartTime(),
+					DateTimeFormatter.ofPattern("HH:mm")));
+			lesson.setEndTime(LocalTime.parse(
+					lessonDto.getEndTime(),
+					DateTimeFormatter.ofPattern("HH:mm")));
 			lesson.setAuditoriums(initCreatedLessonAuditoriums(lessonDto, lesson));
 			lesson.setTeachers(initCreatedLessonTeachers(lessonDto, lesson));
 

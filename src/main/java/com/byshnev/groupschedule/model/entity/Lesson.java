@@ -34,18 +34,13 @@ public class Lesson {
 	@ManyToMany(mappedBy = "lessons", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	private List<Teacher> teachers = new ArrayList<>();
 
-	public Lesson(StudentGroup group, String name, String subjectFullName, LocalDate date, LocalTime startTime, LocalTime endTime, String note, String lessonTypeAbbr, List<Auditorium> auditoriums, int subgroupNum, List<Teacher> teachers) {
-		this.group = group;
+	public Lesson(String name, String subjectFullName, LocalDate date, String note, String lessonTypeAbbr, int subgroupNum) {
 		this.name = name;
 		this.subjectFullName = subjectFullName;
 		this.date = date;
-		this.startTime = startTime;
-		this.endTime = endTime;
 		this.note = note;
 		this.lessonTypeAbbr = lessonTypeAbbr;
-		this.auditoriums = auditoriums;
 		this.subgroupNum = subgroupNum;
-		this.teachers = teachers;
 	}
 
 
