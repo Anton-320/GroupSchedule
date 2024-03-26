@@ -1,5 +1,6 @@
 package com.byshnev.groupschedule.service.changes;
 
+import com.byshnev.groupschedule.cache.TeacherCache;
 import com.byshnev.groupschedule.model.dto.TeacherDto;
 import com.byshnev.groupschedule.model.entity.Teacher;
 import com.byshnev.groupschedule.repository.TeacherRepository;
@@ -15,6 +16,7 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class TeacherService {
 	private TeacherRepository repository;
+	private TeacherCache cache;
 
 	public List<TeacherDto> findAllTeachers() {
 		return repository.findAll().stream()
@@ -29,28 +31,39 @@ public class TeacherService {
 	}
 
 	public TeacherDto findTeacherByUrlId (String urlId) {
-		return TeacherUtility.ConvertToDto(repository.findByUrlId(urlId));
+		Teacher tmp = cache.get(urlId).orElse(null);
+		if (tmp != null)
+			return TeacherUtility.ConvertToDto(tmp);
+		tmp = repository.findByUrlId(urlId);
+		if (tmp != null)
+			cache.put(urlId, tmp);
+		return TeacherUtility.ConvertToDto(tmp);
 	}
 
 	public TeacherDto add(TeacherDto teacherDto) {
 		if (checkIfTeacherExists(teacherDto))
 			return null;
 		Teacher teacher = TeacherUtility.createEntityObjWithoutLink(teacherDto);
+		cache.put(teacher.getUrlId(), teacher);
 		return TeacherUtility.ConvertToDto(repository.save(teacher));
 	}
 
 	public TeacherDto update(String urlId, TeacherDto teacher) {
 		Teacher tmp = repository.findByUrlId(urlId);
+		if (tmp == null)
+			return null;
 		tmp.setUrlId(teacher.getUrlId());
 		tmp.setName(teacher.getName());
 		tmp.setSurname(teacher.getSurname());
 		tmp.setPatronymic(teacher.getPatronymic());
 		tmp.setDegree(teacher.getDegree());
 		tmp.setEmail(teacher.getEmail());
+		cache.put(tmp.getUrlId(), tmp);
 		return TeacherUtility.ConvertToDto(repository.save(tmp));
 	}
 
 	public boolean delete(String urlId) {
+		cache.remove(urlId);
 		return repository.deleteByUrlId(urlId);
 	}
 

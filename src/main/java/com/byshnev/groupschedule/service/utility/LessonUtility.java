@@ -63,7 +63,8 @@ public class LessonUtility {
 		return new GroupLessonListDto(
 				groupNum,
 				lessonsByDates.entrySet().stream()
-						.map(lessonList -> new GroupLessonListDto.LessonListByDateDto(convertToLessonDtoList(lessonList.getValue()), lessonList.getKey()))
+						.map(lessonList -> new GroupLessonListDto.LessonListByDateDto(
+								convertToLessonDtoList(lessonList.getValue()), lessonList.getKey()))
 						.collect(Collectors.toList()
 				)
 		);
@@ -73,7 +74,8 @@ public class LessonUtility {
 		Map<Integer, List<Lesson>> lessonsByGroup = lessons.stream()
 				.collect(Collectors.groupingBy(lesson -> lesson.getGroup().getGroupNum()));
 		return lessonsByGroup.entrySet().stream()
-				.map(lessonListByGroup ->	convertToGroupLessonListDto(lessonListByGroup.getValue(), lessonListByGroup.getKey()))
+				.map(lessonListByGroup ->	convertToGroupLessonListDto(
+						lessonListByGroup.getValue(), lessonListByGroup.getKey()))
 				.collect(Collectors.toList());
 	}
 

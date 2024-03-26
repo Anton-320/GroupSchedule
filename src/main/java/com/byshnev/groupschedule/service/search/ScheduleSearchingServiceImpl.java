@@ -1,5 +1,7 @@
 package com.byshnev.groupschedule.service.search;
 
+import com.byshnev.groupschedule.cache.Cache;
+import com.byshnev.groupschedule.cache.ScheduleGettingCache;
 import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.model.entity.Lesson;
 import com.byshnev.groupschedule.repository.LessonRepository;
@@ -19,15 +21,26 @@ import java.util.stream.Collectors;
 @Service
 public class ScheduleSearchingServiceImpl implements ScheduleSearchingService {
 	private LessonRepository lessonRepository;
-
 	private BsuirApiService bsuirApiService;
+	private ScheduleGettingCache cache;
 
 	public List<LessonDto> getSchedule(Integer groupNum, String dateInStr) throws JsonProcessingException {
 		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-		List<LessonDto> schedule = bsuirApiService.getScheduleFromBsuirApi(groupNum, date);
-		List<Lesson> tmp = lessonRepository.findLessonsByGroupAndDate(groupNum, date);
+		List<LessonDto> schedule;
+		if (cache.contains(groupNum) && cache.get(groupNum).get().contains(date))
+			schedule = cache.get(groupNum).get().get(date).orElse(null);
+		else {
+			schedule = bsuirApiService.getScheduleFromBsuirApi(groupNum, date);
+			if (schedule != null) {
+				if (!cache.contains(groupNum))
+					cache.put(groupNum, new Cache<>());
+				cache.get(groupNum).get().put(date, schedule);
+			}
+		}
+
+		List<Lesson> changes = lessonRepository.findLessonsByGroupAndDate(groupNum, date);
 		schedule = schedule.stream()
-				.filter(lessonDto -> tmp.stream().noneMatch(lesson -> {
+				.filter(lessonDto -> changes.stream().noneMatch(lesson -> {
 
 					return LocalTime
 							.parse(lessonDto.getStartTime(), DateTimeFormatter.ofPattern("HH:mm"))
@@ -36,8 +49,8 @@ public class ScheduleSearchingServiceImpl implements ScheduleSearchingService {
 				}
 				))
 				.collect(Collectors.toList());
-		if (tmp.size() > 0) {
-			schedule.addAll(LessonUtility.convertToLessonDtoList(tmp));
+		if (changes.size() > 0) {
+			schedule.addAll(LessonUtility.convertToLessonDtoList(changes));
 		}
 		return schedule;
 	}

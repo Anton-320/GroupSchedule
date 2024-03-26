@@ -24,7 +24,8 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
 	boolean deleteByGroupGroupNum(Integer groupNum);
 
-	List<Lesson> findLessonsByGroup(StudentGroup group);
+
+	List<Lesson> findLessonsByGroupGroupNum(Integer group);
 
 	@Query(value = "WITH group_id AS (" +
 			"SELECT id FROM student_group sg " +

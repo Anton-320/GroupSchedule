@@ -5,6 +5,7 @@ import com.byshnev.groupschedule.model.dto.GroupLessonListDto;
 import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.service.changes.LessonService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -29,6 +30,14 @@ public class ScheduleChangesController {
 	@GetMapping("/{groupNumber}")
 	public GroupLessonListDto getAllGroupScheduleChanges(@PathVariable(name = "groupNumber") Integer groupNum) {
 		return service.getByGroup(groupNum);
+	}
+
+	@GetMapping
+	public ResponseEntity<LessonDto> getById(@RequestParam Long id) {
+		LessonDto tmp = service.getById(id);
+		if (tmp != null)
+			return new ResponseEntity<>(tmp, HttpStatus.FOUND);
+		else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	@GetMapping("/{groupNum}/{date}")

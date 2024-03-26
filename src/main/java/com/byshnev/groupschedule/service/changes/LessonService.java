@@ -1,5 +1,6 @@
 package com.byshnev.groupschedule.service.changes;
 
+import com.byshnev.groupschedule.cache.ScheduleChangesCache;
 import com.byshnev.groupschedule.model.dto.DateLessonListDto;
 import com.byshnev.groupschedule.model.dto.GroupLessonListDto;
 import com.byshnev.groupschedule.model.entity.Auditorium;
@@ -29,6 +30,7 @@ public class LessonService {
 	private GroupRepository groupRepository;
 	private TeacherRepository teacherRepository;
 	private AuditoriumRepository auditoriumRepository;
+	private ScheduleChangesCache cache;
 
 	public List<GroupLessonListDto> getAll() {
 		return LessonUtility.convertToGroupLessonListDtoList(lessonRepository.findAll());
@@ -36,9 +38,18 @@ public class LessonService {
 
 	public GroupLessonListDto getByGroup(Integer groupNum) {
 		return LessonUtility.convertToGroupLessonListDto(
-				lessonRepository.findLessonsByGroup(groupRepository.findByGroupNum(groupNum)),
+				lessonRepository.findLessonsByGroupGroupNum(groupNum),
 				groupNum
 		);
+	}
+
+	public LessonDto getById(Long id) {
+		Lesson tmp = cache.get(id).orElse(lessonRepository.findById(id).orElse(null));
+		if (tmp != null) {
+			cache.put(id, tmp);
+			return LessonUtility.convertToLessonDto(tmp);
+		}
+		return null;
 	}
 
 	public DateLessonListDto getByDate(String dateInStr) {
