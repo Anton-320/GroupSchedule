@@ -9,7 +9,7 @@ import java.util.Optional;
 @Getter
 public class Cache<K, T> {
 
-	private static final int capacity = 50;
+	private static final int CAPACITY = 50;
 
 	private final HashMap<K, T> storage;
 
@@ -60,7 +60,7 @@ public class Cache<K, T> {
 	//if the amount of cache elements is more than capacity
 	//then remove the last saved element
 	private void ensureCapacity() {
-		if (size() >= capacity) {
+		if (size() >= CAPACITY) {
 			K key = linkedList.removeLast();
 			storage.remove(key);
 		}
