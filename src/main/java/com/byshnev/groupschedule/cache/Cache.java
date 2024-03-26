@@ -1,7 +1,6 @@
 package com.byshnev.groupschedule.cache;
 
 import lombok.Getter;
-import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -10,7 +9,7 @@ import java.util.Optional;
 @Getter
 public class Cache<K, T> {
 
-	private final int capacity = 50;
+	private static final int capacity = 50;
 
 	private final HashMap<K, T> storage;
 
