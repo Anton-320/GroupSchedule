@@ -67,8 +67,6 @@ public class ScheduleChangesController {
 			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
-
-		//return ResponseEntity.ok();
 	}
 
 	@DeleteMapping("/{groupNum}")
