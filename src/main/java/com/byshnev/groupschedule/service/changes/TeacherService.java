@@ -20,13 +20,13 @@ public class TeacherService {
 	public List<TeacherDto> findAllTeachers() {
 		return repository.findAll().stream()
 				.map((TeacherUtility::ConvertToDto))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public List<TeacherDto> findTeachersBySurname(String surname) {
 		return repository.findBySurname(surname).stream()
 				.map((TeacherUtility::ConvertToDto))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public TeacherDto findTeacherByUrlId (String urlId) {
