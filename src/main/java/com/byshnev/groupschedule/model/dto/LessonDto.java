@@ -1,6 +1,5 @@
 package com.byshnev.groupschedule.model.dto;
 
-import com.byshnev.groupschedule.model.entity.Teacher;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

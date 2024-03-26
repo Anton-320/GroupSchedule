@@ -15,25 +15,6 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 public class LessonUtility {
-//	public static Lesson createLessonEntity(LessonDto lessonDto, LocalDate date, Integer group) {
-//
-//		return new Lesson(group, lessonDto.getName(),
-//						  lessonDto.getSubjectFullName(),
-//						  date,
-//						  LocalTime.parse(
-//								  lessonDto.getStartTime(),
-//								  DateTimeFormatter.ofPattern("HH:mm")),
-//						  LocalTime.parse(
-//								  lessonDto.getEndTime(),
-//								  DateTimeFormatter.ofPattern("HH:mm")),
-//						  lessonDto.getNote(),
-//						  lessonDto.getLessonTypeAbbr(),
-//						  lessonDto.getAuditoriums().stream()
-//								  .map(Auditorium::new).collect(Collectors.toList()),
-//						  lessonDto.getSubgroupNum(),
-//						  lessonDto.getTeachers().stream()
-//								  .map(Teacher::new).collect(Collectors.toList()));
-//	}
 
 	public static LessonDto convertToLessonDto(Lesson lesson) {
 		return new LessonDto(

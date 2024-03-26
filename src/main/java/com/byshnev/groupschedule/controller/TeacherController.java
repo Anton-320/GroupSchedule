@@ -1,13 +1,10 @@
 package com.byshnev.groupschedule.controller;
 
 import com.byshnev.groupschedule.model.dto.TeacherDto;
-import com.byshnev.groupschedule.model.entity.Teacher;
 import com.byshnev.groupschedule.service.changes.TeacherService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
