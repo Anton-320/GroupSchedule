@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -19,24 +18,24 @@ public class TeacherService {
 
 	public List<TeacherDto> findAllTeachers() {
 		return repository.findAll().stream()
-				.map((TeacherUtility::ConvertToDto))
+				.map((TeacherUtility::convertToDto))
 				.toList();
 	}
 
 	public List<TeacherDto> findTeachersBySurname(String surname) {
 		return repository.findBySurname(surname).stream()
-				.map((TeacherUtility::ConvertToDto))
+				.map((TeacherUtility::convertToDto))
 				.toList();
 	}
 
 	public TeacherDto findTeacherByUrlId (String urlId) {
 		Teacher tmp = cache.get(urlId).orElse(null);
 		if (tmp != null)
-			return TeacherUtility.ConvertToDto(tmp);
+			return TeacherUtility.convertToDto(tmp);
 		tmp = repository.findByUrlId(urlId);
 		if (tmp != null)
 			cache.put(urlId, tmp);
-		return TeacherUtility.ConvertToDto(tmp);
+		return TeacherUtility.convertToDto(tmp);
 	}
 
 	public TeacherDto add(TeacherDto teacherDto) {
@@ -44,7 +43,7 @@ public class TeacherService {
 			return null;
 		Teacher teacher = TeacherUtility.createEntityObjWithoutLink(teacherDto);
 		cache.put(teacher.getUrlId(), teacher);
-		return TeacherUtility.ConvertToDto(repository.save(teacher));
+		return TeacherUtility.convertToDto(repository.save(teacher));
 	}
 
 	public TeacherDto update(String urlId, TeacherDto teacher) {
@@ -58,7 +57,7 @@ public class TeacherService {
 		tmp.setDegree(teacher.getDegree());
 		tmp.setEmail(teacher.getEmail());
 		cache.put(tmp.getUrlId(), tmp);
-		return TeacherUtility.ConvertToDto(repository.save(tmp));
+		return TeacherUtility.convertToDto(repository.save(tmp));
 	}
 
 	public boolean delete(String urlId) {

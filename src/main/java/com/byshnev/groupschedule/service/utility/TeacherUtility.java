@@ -4,6 +4,7 @@ package com.byshnev.groupschedule.service.utility;
 import com.byshnev.groupschedule.model.dto.TeacherDto;
 import com.byshnev.groupschedule.model.entity.Teacher;
 
+
 public class TeacherUtility {
 
 	public static Teacher createEntityObjWithoutLink(TeacherDto teacherDto) {
@@ -16,7 +17,7 @@ public class TeacherUtility {
 		);
 	}
 
-	public static TeacherDto ConvertToDto(Teacher teacher) {
+	public static TeacherDto convertToDto(Teacher teacher) {
 		return new TeacherDto(
 				teacher.getUrlId(),
 				teacher.getName(),

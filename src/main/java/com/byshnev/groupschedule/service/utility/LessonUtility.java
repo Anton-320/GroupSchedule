@@ -27,7 +27,7 @@ public class LessonUtility {
 						.toList(),
 				lesson.getSubgroupNum(),
 				lesson.getTeachers().stream()
-						.map(TeacherUtility::ConvertToDto)
+						.map(TeacherUtility::convertToDto)
 						.toList()
 		);
 	}
