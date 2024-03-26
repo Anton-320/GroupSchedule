@@ -80,7 +80,7 @@ public class LessonService {
 		Lesson lesson = lessonRepository.findLessonByGroupAndDateAndStartTime(		//check, if there exists change for thesee group, date and time
 				groupRepository.findByGroupNum(groupNum), date, LocalTime.parse(
 						lessonDto.getStartTime(),
-						DateTimeFormatter.ofPattern(TIME_FORMAT)));
+						DateTimeFormatter.ofPattern(TIME_FORMAT))).orElse(null);
 
 		if (lesson == null) {			//if it doesn't exists, create new lesson entity
 
@@ -113,14 +113,12 @@ public class LessonService {
 		return LessonUtility.convertToLessonDto(lessonRepository.save(lesson));
 	}
 
-	public LessonDto update(String dateInStr, String startTimeInStr, LessonDto lessonDto, Integer groupNum) {
+	public LessonDto update(String dateInStr, String startTimeInStr, LessonDto lessonDto, Integer groupNum) throws Exception {
 		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
 		LocalTime startTime = LocalTime.parse(startTimeInStr, DateTimeFormatter.ofPattern(TIME_FORMAT));
 		Lesson lesson = lessonRepository.findLessonByGroupAndDateAndStartTime(
-				groupRepository.findByGroupNum(groupNum), date, startTime);
-		if (lesson == null) {
-			return null;
-		}
+				groupRepository.findByGroupNum(groupNum), date, startTime).orElseThrow(()->new Exception("Lesson repository exception"));
+//
 		lesson = updateLesson(lesson, lessonDto);
 		return LessonUtility.convertToLessonDto(lessonRepository.save(lesson));
 	}

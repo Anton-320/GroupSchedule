@@ -11,12 +11,13 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
 	List<Lesson> findByDate(LocalDate date);
 
-	Lesson findLessonByGroupAndDateAndStartTime(StudentGroup group, LocalDate date, LocalTime startTime);
+	Optional<Lesson> findLessonByGroupAndDateAndStartTime(StudentGroup group, LocalDate date, LocalTime startTime);
 
 	boolean deleteByGroupAndDate(StudentGroup group, LocalDate date);
 

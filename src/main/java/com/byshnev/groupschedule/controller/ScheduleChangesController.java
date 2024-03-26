@@ -60,7 +60,15 @@ public class ScheduleChangesController {
 
 	@PutMapping
 	public ResponseEntity<LessonDto> updateScheduleChange(@RequestParam(name = "groupNum") Integer groupNum, @RequestParam(name = "date") String date, @RequestBody LessonDto lesson) {
-		return ResponseEntity.ok(service.update(date, lesson.getStartTime(), lesson, groupNum));
+		try {
+			LessonDto tmp = service.update(date, lesson.getStartTime(), lesson, groupNum);
+			return ResponseEntity.ok(tmp);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return ResponseEntity.badRequest().build();
+		}
+
+		//return ResponseEntity.ok();
 	}
 
 	@DeleteMapping("/{groupNum}")
