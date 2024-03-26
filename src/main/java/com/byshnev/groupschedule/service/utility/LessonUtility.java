@@ -5,10 +5,8 @@ import com.byshnev.groupschedule.model.dto.GroupLessonListDto;
 import com.byshnev.groupschedule.model.entity.Auditorium;
 import com.byshnev.groupschedule.model.entity.Lesson;
 import com.byshnev.groupschedule.model.dto.LessonDto;
-import com.byshnev.groupschedule.model.entity.StudentGroup;
 
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Map;
@@ -25,7 +23,7 @@ public class LessonUtility {
 				lesson.getNote(),
 				lesson.getLessonTypeAbbr(),
 				lesson.getAuditoriums().stream()
-						.map(Auditorium::getAuditorium)
+						.map(Auditorium::getName)
 						.collect(Collectors.toList()),
 				lesson.getSubgroupNum(),
 				lesson.getTeachers().stream()

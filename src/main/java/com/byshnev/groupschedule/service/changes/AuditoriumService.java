@@ -17,7 +17,7 @@ public class AuditoriumService {
 
 	public List<String> getAll() {
 		return repository.findAll().stream()
-				.map(Auditorium::getAuditorium)
+				.map(Auditorium::getName)
 				.collect(Collectors.toList());
 	}
 
@@ -27,18 +27,18 @@ public class AuditoriumService {
 			tmp = repository.findById(id).orElse(null);
 			if (tmp != null) {
 				cache.put(id, tmp);
-				return tmp.getAuditorium();
+				return tmp.getName();
 			}
 			return null;
 		}
-		return tmp.getAuditorium();
+		return tmp.getName();
 	}
 
 	public String create(String auditorium) {
 		if (!repository.existsByAuditorium(auditorium)) {
 			Auditorium tmp = repository.save(new Auditorium(auditorium));
 			cache.put(tmp.getId(), tmp);
-			return tmp.getAuditorium();
+			return tmp.getName();
 		}
 		else return null;
 	}
@@ -46,9 +46,9 @@ public class AuditoriumService {
 	public String update(Long id, String auditorium) {
 		Auditorium tmp = repository.findById(id).orElse(null);
 		if (tmp != null) {
-			tmp.setAuditorium(auditorium);
+			tmp.setName(auditorium);
 			cache.put(tmp.getId(),tmp);
-			return repository.save(tmp).getAuditorium();
+			return repository.save(tmp).getName();
 		}
 		else return null;
 	}

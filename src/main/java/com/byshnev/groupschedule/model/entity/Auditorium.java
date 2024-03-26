@@ -16,7 +16,7 @@ public class Auditorium {
 	@GeneratedValue
 	private Long id;
 	@NaturalId
-	private String auditorium;
+	private String name;
 	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
 	@JoinTable(name = "lessons_auditoriums",
 			joinColumns = {@JoinColumn(name = "auditorium_id")},
@@ -24,6 +24,6 @@ public class Auditorium {
 	List<Lesson> lessons = new ArrayList<>();
 
 	public Auditorium(String dtoAuditorium) {
-		this.auditorium = dtoAuditorium;
+		this.name = dtoAuditorium;
 	}
 }
