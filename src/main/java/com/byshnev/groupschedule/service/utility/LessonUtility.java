@@ -14,6 +14,10 @@ import java.util.stream.Collectors;
 
 public class LessonUtility {
 
+	private LessonUtility() {
+
+	}
+
 	public static LessonDto convertToLessonDto(Lesson lesson) {
 		return new LessonDto(
 				lesson.getName(),

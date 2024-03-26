@@ -7,6 +7,10 @@ import com.byshnev.groupschedule.model.entity.Teacher;
 
 public class TeacherUtility {
 
+	private TeacherUtility() {
+
+	}
+
 	public static Teacher createEntityObjWithoutLink(TeacherDto teacherDto) {
 		return new Teacher(teacherDto.getUrlId(),
 						   teacherDto.getName(),
