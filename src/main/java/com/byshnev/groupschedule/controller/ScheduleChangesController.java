@@ -16,6 +16,9 @@ import java.util.List;
 @AllArgsConstructor
 public class ScheduleChangesController {
 	private LessonService service;
+	private static final String SUCCESSFUL_DELETING = "Deleting was successful";
+	private static final String NOT_SUCCESSFUL_DELETING = "Deleting wasn't successful";
+
 
 	@GetMapping("/all")
 	public List<GroupLessonListDto> getAllScheduleChanges() {
@@ -63,24 +66,24 @@ public class ScheduleChangesController {
 	@DeleteMapping("/{groupNum}")
 	public ResponseEntity<String> deleteScheduleChanges(@PathVariable Integer groupNum) {
 		if (service.deleteByGroup(groupNum))
-			return ResponseEntity.accepted().body("Deleting was successful");
+			return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
 		else
-			return ResponseEntity.badRequest().body("Deleting wasn't successful");
+			return ResponseEntity.badRequest().body(NOT_SUCCESSFUL_DELETING);
 	}
 
 	@DeleteMapping("/{groupNum}/{date}")
 	public ResponseEntity<String> deleteScheduleChanges(@PathVariable Integer groupNum, @PathVariable String date) {
 		if (service.deleteByGroupAndDate(groupNum, date))
-			return ResponseEntity.accepted().body("Deleting was successful");
+			return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
 		else
-			return ResponseEntity.badRequest().body("Deleting wasn't successful");
+			return ResponseEntity.badRequest().body(NOT_SUCCESSFUL_DELETING);
 	}
 
 	@DeleteMapping("/{groupNum}/{date}/{startTime}")
 	public ResponseEntity<String> deleteScheduleChange(@PathVariable Integer groupNum, @PathVariable String date, @PathVariable String startTime) {
 		if (service.deleteByDateAndTime(date, startTime, groupNum))
-			return ResponseEntity.accepted().body("Deleting was successful");
+			return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
 		else
-			return ResponseEntity.badRequest().body("Deleting wasn't successful");
+			return ResponseEntity.badRequest().body(NOT_SUCCESSFUL_DELETING);
 	}
 }
