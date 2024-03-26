@@ -122,7 +122,7 @@ public class LessonService {
 			lesson = updateLesson(lesson, lessonDto);
 			return LessonUtility.convertToLessonDto(lessonRepository.save(Objects.requireNonNull(lesson)));
 		}
-		return null;
+		else return null;
 	}
 
 	public boolean deleteByGroup(Integer groupNum) {
