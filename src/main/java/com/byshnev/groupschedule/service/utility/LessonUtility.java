@@ -24,16 +24,16 @@ public class LessonUtility {
 				lesson.getLessonTypeAbbr(),
 				lesson.getAuditoriums().stream()
 						.map(Auditorium::getName)
-						.collect(Collectors.toList()),
+						.toList(),
 				lesson.getSubgroupNum(),
 				lesson.getTeachers().stream()
 						.map(TeacherUtility::ConvertToDto)
-						.collect(Collectors.toList())
+						.toList()
 		);
 	}
 
 	public static List<LessonDto> convertToLessonDtoList(List<Lesson> lessons) {
-		return lessons.stream().map(LessonUtility::convertToLessonDto).collect(Collectors.toList());
+		return lessons.stream().map(LessonUtility::convertToLessonDto).toList();
 	}
 
 	public static GroupLessonListDto convertToGroupLessonListDto(List<Lesson> lessons, Integer groupNum) {
@@ -44,8 +44,7 @@ public class LessonUtility {
 				lessonsByDates.entrySet().stream()
 						.map(lessonList -> new GroupLessonListDto.LessonListByDateDto(
 								convertToLessonDtoList(lessonList.getValue()), lessonList.getKey()))
-						.collect(Collectors.toList()
-				)
+						.toList()
 		);
 	}
 
@@ -55,7 +54,7 @@ public class LessonUtility {
 		return lessonsByGroup.entrySet().stream()
 				.map(lessonListByGroup ->	convertToGroupLessonListDto(
 						lessonListByGroup.getValue(), lessonListByGroup.getKey()))
-				.collect(Collectors.toList());
+				.toList();
 	}
 
 	public static DateLessonListDto convertToDateLessonListDto(List<Lesson> lessons, LocalDate date) {
@@ -66,7 +65,7 @@ public class LessonUtility {
 				lessonsByGroup.entrySet().stream()
 						.map(lessonList -> new DateLessonListDto.LessonListByGroupDto(
 								lessonList.getKey(), convertToLessonDtoList(lessonList.getValue())))
-						.collect(Collectors.toList()));
+						.toList());
 	}
 
 	public static List<DateLessonListDto> convertToDateLessonListDtoList(List<Lesson> lessons) {
@@ -74,6 +73,6 @@ public class LessonUtility {
 				.collect(Collectors.groupingBy(Lesson::getDate));
 		return lessonsByDates.entrySet().stream()
 				.map(lessonListByDate -> convertToDateLessonListDto(lessonListByDate.getValue(), lessonListByDate.getKey()))
-				.collect(Collectors.toList());
+				.toList();
 	}
 }
