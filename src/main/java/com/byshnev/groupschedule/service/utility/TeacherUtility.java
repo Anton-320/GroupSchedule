@@ -3,9 +3,7 @@ package com.byshnev.groupschedule.service.utility;
 
 import com.byshnev.groupschedule.model.dto.TeacherDto;
 import com.byshnev.groupschedule.model.entity.Teacher;
-import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 public class TeacherUtility {
 
 	public static Teacher createEntityObjWithoutLink(TeacherDto teacherDto) {
