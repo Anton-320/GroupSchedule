@@ -75,7 +75,7 @@ public class BsuirApiService {
 							subject.get("lessonTypeAbbrev").asText(null),
 							StreamSupport.stream(subject.get("auditories").spliterator(), false)
 									.map(JsonNode::asText)	//method reference (instead of lambda)
-									.collect(Collectors.toList()),
+									.toList(),
 							subject.get("numSubgroup").asInt(0),
 							StreamSupport.stream(subject.get("employees").spliterator(), false)
 									.map(teacherNode -> new TeacherDto(
@@ -87,7 +87,7 @@ public class BsuirApiService {
 												 teacherNode.get("email").asText(null)
 										 )
 									)
-									.collect(Collectors.toList())
+									.toList()
 					));
 					break;
 				}

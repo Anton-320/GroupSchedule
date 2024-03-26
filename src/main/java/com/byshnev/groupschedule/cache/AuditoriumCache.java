@@ -7,5 +7,4 @@ import org.springframework.stereotype.Component;
 @Component
 @NoArgsConstructor
 public class AuditoriumCache extends Cache<Long, Auditorium> {
-
 }
