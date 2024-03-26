@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface AuditoriumRepository extends JpaRepository<Auditorium, Long> {
-	Auditorium findByAuditorium(String auditorium);
+	Auditorium findByName(String auditorium);
 
-	boolean existsByAuditorium(String auditorium);
+	boolean existsByName(String auditorium);
 }

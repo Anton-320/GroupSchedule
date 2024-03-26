@@ -21,7 +21,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -154,7 +153,7 @@ public class LessonService {
 		return lessonDto.getAuditoriums().stream()
 				.map((auditorium) -> {
 
-					Auditorium tmp = auditoriumRepository.findByAuditorium(auditorium);
+					Auditorium tmp = auditoriumRepository.findByName(auditorium);
 					if (tmp == null) {
 						tmp = new Auditorium(auditorium);
 						tmp.getLessons().add(lesson);
@@ -190,7 +189,7 @@ public class LessonService {
 		return lessonDto.getAuditoriums().stream()
 				.map((auditorium) -> {
 
-					Auditorium tmp = auditoriumRepository.findByAuditorium(auditorium);
+					Auditorium tmp = auditoriumRepository.findByName(auditorium);
 					if (tmp == null) {
 						tmp = new Auditorium(auditorium);
 					}

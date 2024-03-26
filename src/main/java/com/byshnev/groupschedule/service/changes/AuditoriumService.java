@@ -35,7 +35,7 @@ public class AuditoriumService {
 	}
 
 	public String create(String auditorium) {
-		if (!repository.existsByAuditorium(auditorium)) {
+		if (!repository.existsByName(auditorium)) {
 			Auditorium tmp = repository.save(new Auditorium(auditorium));
 			cache.put(tmp.getId(), tmp);
 			return tmp.getName();
