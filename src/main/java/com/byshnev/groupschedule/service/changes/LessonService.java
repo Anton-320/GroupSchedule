@@ -117,9 +117,9 @@ public class LessonService {
 		LocalTime startTime = LocalTime.parse(startTimeInStr, DateTimeFormatter.ofPattern(TimeFormat));
 		Lesson lesson;
 		if ((lesson = lessonRepository.findLessonByGroupAndDateAndStartTime(
-				groupRepository.findByGroupNum(groupNum), date, startTime)) == null)
-			return null;
-		lesson = updateLesson(lesson, lessonDto);
+				groupRepository.findByGroupNum(groupNum), date, startTime)) != null) {
+			lesson = updateLesson(lesson, lessonDto);
+		}
 		return LessonUtility.convertToLessonDto(lessonRepository.save(lesson));
 	}
 
