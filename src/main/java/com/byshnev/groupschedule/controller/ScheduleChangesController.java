@@ -59,7 +59,6 @@ public class ScheduleChangesController {
 			LessonDto tmp = service.update(date, lesson.getStartTime(), lesson, groupNum);
 			return ResponseEntity.ok(tmp);
 		} catch (Exception e) {
-			e.printStackTrace();
 			return ResponseEntity.badRequest().build();
 		}
 	}
