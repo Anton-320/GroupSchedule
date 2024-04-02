@@ -14,8 +14,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static java.util.stream.Collectors.toList;
 
 @AllArgsConstructor
 @Service
@@ -37,23 +40,23 @@ public class ScheduleSearchingService {
 		if (schedule != null) {
 			schedule = schedule.stream()
 					.filter(lessonDto -> changes.stream().noneMatch(lesson -> {
-
 						return LocalTime
 								.parse(lessonDto.getStartTime(), DateTimeFormatter.ofPattern("HH:mm"))
 								.equals(lesson.getStartTime());
-
 					}
 					))
-					.collect(Collectors.toList());
+					.toList();
 		}
 		else {
 			schedule = new ArrayList<>();
-
 		}
 		if (changes.isEmpty()) {
 			return schedule;
 		}
+
 		schedule.addAll(LessonUtility.convertToLessonDtoList(changes));
+//						 .stream()
+//						 .sorted(Comparator.comparing(Lesson::getStartTime)).toList()));
 		return schedule;
 	}
 }

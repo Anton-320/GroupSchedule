@@ -1,5 +1,6 @@
 package com.byshnev.groupschedule.controller;
 
+import com.byshnev.groupschedule.model.entity.StudentGroup;
 import com.byshnev.groupschedule.service.changes.GroupService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping
+@RequestMapping("/api/v1/groups")
 @AllArgsConstructor
 public class GroupController {
 	private GroupService service;
@@ -19,33 +20,33 @@ public class GroupController {
 		return service.getAllGroups();
 	}
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Integer> getGroupById(@PathVariable Integer id) {
-		Integer tmp = service.getById(id);
+	@GetMapping("/{groupNum}")
+	public ResponseEntity<Integer> getGroupById(@PathVariable Integer groupNum) {
+		Integer tmp = service.getById(groupNum);
 		if (tmp != null)
 			return new ResponseEntity<>(tmp, HttpStatus.FOUND);
 		else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	@PostMapping()
-	public ResponseEntity<Integer> addGroup(@RequestBody Integer groupNum) {
-		Integer tmp = service.add(groupNum);
+	public ResponseEntity<Integer> addGroup(@RequestBody StudentGroup group) {
+		Integer tmp = service.add(group);
 		if (tmp == null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		else return new ResponseEntity<>(tmp, HttpStatus.CREATED);
 	}
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Integer> updateGroup(@PathVariable Integer id, @RequestBody Integer groupNum) {
-		Integer tmp = service.update(id, groupNum);
+	@PutMapping("/{groupNum}")
+	public ResponseEntity<Integer> updateGroup(@PathVariable Integer groupNum, @RequestBody StudentGroup group) {
+		Integer tmp = service.update(groupNum, group);
 		if (tmp == null)
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		else return new ResponseEntity<>(HttpStatus.ACCEPTED);
 	}
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<String> deleteGroup(@PathVariable Integer id) {
-		if (service.delete(id))
+	@DeleteMapping("/{groupNum}")
+	public ResponseEntity<String> deleteGroup(@PathVariable Integer groupNum) {
+		if (service.delete(groupNum))
 			return new ResponseEntity<>("Deleting was successful", HttpStatus.NO_CONTENT);
 		else return new ResponseEntity<>("The resource is not found", HttpStatus.NOT_FOUND);
 	}

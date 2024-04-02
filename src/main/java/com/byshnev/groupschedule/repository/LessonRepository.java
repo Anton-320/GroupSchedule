@@ -24,14 +24,9 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
 	boolean deleteByGroupGroupNum(Integer groupNum);
 
-
 	List<Lesson> findLessonsByGroupGroupNum(Integer group);
 
-	@Query(value = "WITH group_id AS (" +
-			"SELECT id FROM student_group sg " +
-				"WHERE sg.group_num = :group_num" +
-			")" +
-			"SELECT * FROM lessons l WHERE l.group_id = group_id AND l.date = :date",
+	@Query(value = "SELECT * FROM lessons l WHERE l.group_id = :group_num AND l.date = :date",
 			nativeQuery = true)
 	List<Lesson> findLessonsByGroupAndDate(@Param("group_num") Integer groupNum,
 										   @Param("date") LocalDate date);

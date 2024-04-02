@@ -14,14 +14,17 @@ import java.util.List;
 @AllArgsConstructor
 public class StudentGroup {
 	@Id
-	@GeneratedValue
-	private Integer id;
-	@NaturalId
 	private Integer groupNum;
+	private Integer studentsAmount;
 	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.LAZY)	//link to lessons
 	private List<Lesson> lessons;
 
 	public StudentGroup(Integer groupNum) {
 		this.groupNum = groupNum;
+	}
+
+	public StudentGroup(Integer groupNum, Integer studentsAmount) {
+		this.groupNum = groupNum;
+		this.studentsAmount = studentsAmount;
 	}
 }
