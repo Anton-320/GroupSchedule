@@ -9,6 +9,4 @@ public interface AuditoriumRepository extends JpaRepository<Auditorium, Long> {
 	Auditorium findByName(String auditorium);
 
 	boolean existsByName(String auditorium);
-
-	void deleteByName(String auditorium);
 }

@@ -17,7 +17,6 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
 	Optional<Lesson> findLessonByGroupGroupNumAndDateAndStartTime(Integer group, LocalDate date, LocalTime startTime);
 
-	List<Lesson> findByGroupGroupNum(Integer groupNum);
 	List<Lesson> findLessonsByGroupGroupNum(Integer group);
 
 	@Query(value = "SELECT * FROM lessons l WHERE l.group_id = :group_num AND l.date = :date",
@@ -28,10 +27,4 @@ public interface LessonRepository extends JpaRepository<Lesson, Long> {
 	List<Lesson> findLessonsByTeachers(Teacher teacher);
 
 	Integer deleteByGroupGroupNumAndDate(Integer group, LocalDate date);
-
-	void deleteByDateAndStartTimeAndGroupGroupNum(LocalDate date, LocalTime startTime, Integer group);
-
-	void deleteAllByGroupGroupNum(Integer groupNum);
-
-	boolean existsByGroupGroupNum(Integer groupNum);
 }
