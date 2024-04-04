@@ -1,7 +1,6 @@
 package com.byshnev.groupschedule.repository;
 
 import com.byshnev.groupschedule.model.entity.Lesson;
-import com.byshnev.groupschedule.model.entity.StudentGroup;
 import com.byshnev.groupschedule.model.entity.Teacher;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
