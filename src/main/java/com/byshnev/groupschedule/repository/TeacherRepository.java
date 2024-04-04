@@ -18,5 +18,4 @@ public interface TeacherRepository extends JpaRepository<Teacher, String> {
 
 	boolean existsByNameAndSurnameAndPatronymic(String name, String surname, String patronymic);
 
-	void deleteByUrlId(String urlId);
 }
