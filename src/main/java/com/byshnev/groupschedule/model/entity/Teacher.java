@@ -24,7 +24,7 @@ public class Teacher {
 	private String patronymic;
 	private String degree;
 	private String email;
-	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "lessons_teachers",
 			joinColumns = {@JoinColumn(name = "teacher_id")},
 			inverseJoinColumns = {@JoinColumn(name = "lesson_id")}

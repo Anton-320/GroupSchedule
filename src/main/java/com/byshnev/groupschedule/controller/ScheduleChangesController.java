@@ -53,22 +53,21 @@ public class ScheduleChangesController {
 		return ResponseEntity.ok(service.add(lesson, date, groupNum));
 	}
 
-	@PutMapping
-	public ResponseEntity<LessonDto> updateScheduleChange(@RequestParam(name = "groupNum") Integer groupNum, @RequestParam(name = "date") String date, @RequestBody LessonDto lesson) {
+	@PutMapping("/{id}")
+	public ResponseEntity<LessonDto> updateScheduleChange(@PathVariable Long id, @RequestBody LessonDto lesson) {
 		try {
-			LessonDto tmp = service.update(date, lesson.getStartTime(), lesson, groupNum);
+			LessonDto tmp = service.update(id, lesson);
 			return ResponseEntity.ok(tmp);
-		} catch (Exception e) {
-			return ResponseEntity.badRequest().build();
+		} catch (RuntimeException e) {
+			return ResponseEntity.notFound().build();
 		}
 	}
 
 	@DeleteMapping("/{groupNum}")
 	public ResponseEntity<String> deleteScheduleChanges(@PathVariable Integer groupNum) {
-		if (service.deleteByGroup(groupNum))
+		if(service.deleteByGroup(groupNum))
 			return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
-		else
-			return ResponseEntity.badRequest().body(NOT_SUCCESSFUL_DELETING);
+		else return ResponseEntity.badRequest().body(NOT_SUCCESSFUL_DELETING);
 	}
 
 	@DeleteMapping("/{groupNum}/{date}")
@@ -81,7 +80,7 @@ public class ScheduleChangesController {
 
 	@DeleteMapping("/{groupNum}/{date}/{startTime}")
 	public ResponseEntity<String> deleteScheduleChange(@PathVariable Integer groupNum, @PathVariable String date, @PathVariable String startTime) {
-		if (service.deleteByDateAndTime(date, startTime, groupNum))
+		if (service.deleteByGroupAndDateAndTime(date, startTime, groupNum))
 			return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
 		else
 			return ResponseEntity.badRequest().body(NOT_SUCCESSFUL_DELETING);

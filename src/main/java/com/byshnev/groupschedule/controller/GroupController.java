@@ -21,33 +21,34 @@ public class GroupController {
 	}
 
 	@GetMapping("/{groupNum}")
-	public ResponseEntity<Integer> getGroupById(@PathVariable Integer groupNum) {
-		Integer tmp = service.getById(groupNum);
+	public ResponseEntity<StudentGroup> getGroupById(@PathVariable Integer groupNum) {
+		StudentGroup tmp = service.getByNum(groupNum);
 		if (tmp != null)
 			return new ResponseEntity<>(tmp, HttpStatus.FOUND);
 		else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	@PostMapping()
-	public ResponseEntity<Integer> addGroup(@RequestBody StudentGroup group) {
-		Integer tmp = service.add(group);
+	public ResponseEntity<StudentGroup> addGroup(@RequestBody StudentGroup group) {
+		StudentGroup tmp = service.add(group);
 		if (tmp == null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		else return new ResponseEntity<>(tmp, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{groupNum}")
-	public ResponseEntity<Integer> updateGroup(@PathVariable Integer groupNum, @RequestBody StudentGroup group) {
-		Integer tmp = service.update(groupNum, group);
+	public ResponseEntity<StudentGroup> updateGroup(@PathVariable Integer groupNum, @RequestBody StudentGroup group) {
+		StudentGroup tmp = service.update(groupNum, group);
 		if (tmp == null)
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-		else return new ResponseEntity<>(HttpStatus.ACCEPTED);
+		else return new ResponseEntity<>(tmp, HttpStatus.ACCEPTED);
 	}
 
 	@DeleteMapping("/{groupNum}")
 	public ResponseEntity<String> deleteGroup(@PathVariable Integer groupNum) {
 		if (service.delete(groupNum))
 			return new ResponseEntity<>("Deleting was successful", HttpStatus.NO_CONTENT);
-		else return new ResponseEntity<>("The resource is not found", HttpStatus.NOT_FOUND);
+		else
+			return new ResponseEntity<>("Deleting wasn't successful", HttpStatus.NOT_FOUND);
 	}
 }

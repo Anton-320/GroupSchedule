@@ -17,7 +17,7 @@ public class Auditorium {
 	private Long id;
 	@NaturalId
 	private String name;
-	@ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE}, fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.LAZY)
 	@JoinTable(name = "lessons_auditoriums",
 			joinColumns = {@JoinColumn(name = "auditorium_id")},
 			inverseJoinColumns = {@JoinColumn(name = "lesson_id")})

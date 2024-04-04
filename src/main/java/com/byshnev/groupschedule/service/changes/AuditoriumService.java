@@ -3,6 +3,7 @@ package com.byshnev.groupschedule.service.changes;
 import com.byshnev.groupschedule.cache.AuditoriumCache;
 import com.byshnev.groupschedule.model.entity.Auditorium;
 import com.byshnev.groupschedule.repository.AuditoriumRepository;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -43,6 +44,7 @@ public class AuditoriumService {
 		else return null;
 	}
 
+
 	public String update(Long id, String auditorium) {
 		Auditorium tmp = repository.findById(id).orElse(null);
 		if (tmp != null) {
@@ -53,12 +55,16 @@ public class AuditoriumService {
 		else return null;
 	}
 
+	@Transactional
 	public boolean delete(Long id) {
-		if (repository.existsById(id)) {
-			repository.deleteById(id);
-			cache.remove(id);
-			return true;
-		}
-		else return false;
+		if (!repository.existsById(id))
+			return false;
+		Auditorium tmp = repository.findById(id).orElse(null);
+		if (tmp == null)
+			return false;
+		tmp.getLessons().forEach(lesson -> lesson.getAuditoriums().remove(tmp));
+		repository.delete(tmp);
+		cache.remove(id);
+		return true;
 	}
 }

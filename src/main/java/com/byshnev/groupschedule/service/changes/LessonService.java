@@ -14,6 +14,7 @@ import com.byshnev.groupschedule.repository.LessonRepository;
 import com.byshnev.groupschedule.repository.TeacherRepository;
 import com.byshnev.groupschedule.service.utility.LessonUtility;
 import com.byshnev.groupschedule.service.utility.TeacherUtility;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +22,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -35,10 +35,12 @@ public class LessonService {
 	private static final String DATE_FORMAT = "dd-MM-yyyy";
 	private static final String TIME_FORMAT = "HH:mm";
 
+	@Transactional
 	public List<GroupLessonListDto> getAll() {
 		return LessonUtility.convertToGroupLessonListDtoList(lessonRepository.findAll());
 	}
 
+	@Transactional
 	public GroupLessonListDto getByGroup(Integer groupNum) {
 		return LessonUtility.convertToGroupLessonListDto(
 				lessonRepository.findLessonsByGroupGroupNum(groupNum),
@@ -46,6 +48,7 @@ public class LessonService {
 		);
 	}
 
+	@Transactional
 	public LessonDto getById(Long id) {
 		Lesson tmp = cache.get(id).orElse(lessonRepository.findById(id).orElse(null));
 		if (tmp != null) {
@@ -55,80 +58,122 @@ public class LessonService {
 		return null;
 	}
 
+	@Transactional
 	public List<LessonDto> getByGroupAndDate(Integer groupNum, String dateInStr) {
 		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
 		return LessonUtility.convertToLessonDtoList(
 				lessonRepository.findLessonsByGroupAndDate(groupNum, date));
 	}
 
+	@Transactional
 	public List<DateLessonListDto> getByTeacher(String name, String surname, String patronymic) {
 		return LessonUtility.convertToDateLessonListDtoList(
 				lessonRepository.findLessonsByTeachers(
 						teacherRepository.findByNameAndSurnameAndPatronymic(name, surname, patronymic)));
 	}
 
+	@Transactional
 	public LessonDto add(LessonDto lessonDto, String dateInStr, Integer groupNum) {
 		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
-
-		Lesson lesson = lessonRepository.findLessonByGroupAndDateAndStartTime(		//check, if there exists change for thesee group, date and time
-				groupRepository.findByGroupNum(groupNum), date, LocalTime.parse(
+		Lesson lesson = lessonRepository.findLessonByGroupGroupNumAndDateAndStartTime(
+				groupNum, date, LocalTime.parse(
 						lessonDto.getStartTime(),
 						DateTimeFormatter.ofPattern(TIME_FORMAT))).orElse(null);
-
-		if (lesson == null) {			//if it doesn't exists, create new lesson entity
-
-			lesson = new Lesson(
-					lessonDto.getName(),
-					lessonDto.getSubjectFullName(),
-					date,
-					lessonDto.getNote(),
-					lessonDto.getLessonTypeAbbr(),
-					lessonDto.getSubgroupNum());
-
-			lesson.setStartTime(LocalTime.parse(
-					lessonDto.getStartTime(),
-					DateTimeFormatter.ofPattern(TIME_FORMAT)));
-			lesson.setEndTime(LocalTime.parse(
-					lessonDto.getEndTime(),
-					DateTimeFormatter.ofPattern(TIME_FORMAT)));
-			lesson.setAuditoriums(initCreatedLessonAuditoriums(lessonDto, lesson));
-			lesson.setTeachers(initCreatedLessonTeachers(lessonDto, lesson));
-
-			StudentGroup tmp = groupRepository.findByGroupNum(groupNum);
-			if (tmp == null)
-				lesson.setGroup(new StudentGroup(groupNum));
-			else lesson.setGroup(tmp);
-
-		}
-		else {
-			lesson = updateLesson(lesson, lessonDto);
-		}
-		return LessonUtility.convertToLessonDto(lessonRepository.save(lesson));
+		LessonDto result;
+		if (lesson == null)		//if it doesn't exists, create new lesson entity
+			result = LessonUtility.convertToLessonDto(createLesson(lessonDto, date, groupNum));
+		else
+			result = LessonUtility.convertToLessonDto(updateLesson(lesson, lessonDto));
+		return result;
 	}
 
-	public LessonDto update(String dateInStr, String startTimeInStr, LessonDto lessonDto, Integer groupNum) throws Exception {
-		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
-		LocalTime startTime = LocalTime.parse(startTimeInStr, DateTimeFormatter.ofPattern(TIME_FORMAT));
-		Lesson lesson = lessonRepository.findLessonByGroupAndDateAndStartTime(
-				groupRepository.findByGroupNum(groupNum), date, startTime).orElseThrow(()->new Exception("Lesson repository exception"));
-//
-		lesson = updateLesson(lesson, lessonDto);
-		return LessonUtility.convertToLessonDto(lessonRepository.save(lesson));
+	@Transactional
+	public LessonDto update(Long id, LessonDto lessonDto) throws RuntimeException {
+		Lesson lesson = lessonRepository.findById(id).
+				orElseThrow(() -> new RuntimeException("The lesson with such an id is not found"));
+
+
+		return LessonUtility.convertToLessonDto(
+				lessonRepository.save(updateLesson(lesson, lessonDto)));
 	}
 
+	@Transactional
 	public boolean deleteByGroup(Integer groupNum) {
-		return lessonRepository.deleteByGroupGroupNum(groupNum);
+		List<Lesson> tmp = lessonRepository.findLessonsByGroupGroupNum(groupNum);
+		if (tmp.isEmpty())
+			return false;
+		deleteLinksOfLessons(tmp);
+		lessonRepository.deleteAll(tmp);
+		return true;
 	}
 
+	@Transactional
 	public boolean deleteByGroupAndDate(Integer groupNum, String dateInStr) {
 		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
-		return lessonRepository.deleteByGroupAndDate(groupRepository.findByGroupNum(groupNum), date);
+		List<Lesson> tmp = lessonRepository.findLessonsByGroupAndDate(groupNum, date);
+		if (tmp.isEmpty())
+			return false;
+		deleteLinksOfLessons(tmp);
+		return lessonRepository.deleteByGroupGroupNumAndDate(groupNum, date) != 0;
 	}
 
-	public boolean deleteByDateAndTime(String dateInStr, String startTimeInStr, Integer groupNum) {
+	@Transactional
+	public boolean deleteByGroupAndDateAndTime(String dateInStr, String startTimeInStr, Integer groupNum) {
 		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
 		LocalTime startTime = LocalTime.parse(startTimeInStr, DateTimeFormatter.ofPattern(TIME_FORMAT));
-		return lessonRepository.deleteByDateAndStartTimeAndGroup(date, startTime, groupRepository.findByGroupNum(groupNum));
+		Lesson lesson = lessonRepository.findLessonByGroupGroupNumAndDateAndStartTime(groupNum, date, startTime).orElse(null);
+		if (lesson == null)
+			return false;
+		lesson.getAuditoriums().forEach(auditorium -> auditorium.getLessons().remove(lesson));
+		lesson.getTeachers().forEach(teacher -> teacher.getLessons().remove(lesson));
+		lesson.getAuditoriums().clear();
+		lesson.getTeachers().clear();
+		lessonRepository.delete(lesson);
+		return true;
+	}
+
+	private Lesson createLesson(LessonDto lessonDto, LocalDate date, Integer groupNum) {
+		Lesson lesson = new Lesson(
+				lessonDto.getName(),
+				lessonDto.getSubjectFullName(),
+				date,
+				lessonDto.getNote(),
+				lessonDto.getLessonTypeAbbr(),
+				lessonDto.getSubgroupNum());
+		lesson.setStartTime(LocalTime.parse(
+				lessonDto.getStartTime(),
+				DateTimeFormatter.ofPattern(TIME_FORMAT)));
+		lesson.setEndTime(LocalTime.parse(
+				lessonDto.getEndTime(),
+				DateTimeFormatter.ofPattern(TIME_FORMAT)));
+
+		lessonDto.getAuditoriums().forEach((auditorium) -> {
+			Auditorium auditorEntity = auditoriumRepository.findByName(auditorium);
+			if (auditorEntity == null) {
+				auditorEntity = new Auditorium(auditorium);
+			}
+			//link lesson to auditorium
+			auditorEntity.getLessons().add(lesson);
+			lesson.getAuditoriums().add(auditorEntity);
+		});
+
+		lessonDto.getTeachers().forEach(tmp -> {
+			Teacher teacher = teacherRepository.findByUrlId(tmp.getUrlId());
+			if (teacher == null)
+				teacher = teacherRepository.findByNameAndSurnameAndPatronymic(
+						tmp.getName(), tmp.getSurname(), tmp.getPatronymic());
+			if (teacher == null) {        //if not found, create
+				teacher = TeacherUtility.createEntityObjWithoutLink(tmp);
+			}
+			// link teacher entity to updated lesson
+			teacher.getLessons().add(lesson);
+			lesson.getTeachers().add(teacher);
+		});
+		StudentGroup tmp = groupRepository.findByGroupNum(groupNum);
+		if (tmp == null)
+			lesson.setGroup(new StudentGroup(groupNum));
+		else lesson.setGroup(tmp);
+		return lessonRepository.save(lesson);
 	}
 
 	private Lesson updateLesson(Lesson lesson, LessonDto newLessonForm) {
@@ -137,82 +182,52 @@ public class LessonService {
 			lesson.setEndTime(LocalTime.parse(newLessonForm.getEndTime(), DateTimeFormatter.ofPattern(TIME_FORMAT)));
 			lesson.setNote(newLessonForm.getNote());
 			lesson.setLessonTypeAbbr(newLessonForm.getLessonTypeAbbr());
-			lesson.setAuditoriums(initUpdatedLessonAuditoriums(newLessonForm, lesson));
 			lesson.setSubgroupNum(newLessonForm.getSubgroupNum());
-			lesson.setTeachers(initUpdatedLessonTeachers(newLessonForm, lesson));
+			deleteLinksOfLesson(lesson);	//delete lesson links to teachers and auditoriums
+
+			newLessonForm.getAuditoriums().forEach((auditorium) -> {
+				Auditorium auditorEntity = auditoriumRepository.findByName(auditorium);
+				if (auditorEntity == null) {
+					auditorEntity = new Auditorium(auditorium);
+				}
+				auditorEntity.getLessons().add(lesson);
+				lesson.getAuditoriums().add(auditorEntity);
+				auditoriumRepository.saveAndFlush(auditorEntity); //safe if the auditorium doesn't exist
+				});
+
+			newLessonForm.getTeachers().forEach(tmp -> {
+				Teacher teacher = teacherRepository.findByUrlId(tmp.getUrlId());
+				if (teacher == null)
+					teacher = teacherRepository.findByNameAndSurnameAndPatronymic(
+							tmp.getName(), tmp.getSurname(), tmp.getPatronymic());
+				if (teacher == null) {        //if not found, create
+					teacher = TeacherUtility.createEntityObjWithoutLink(tmp);
+				}
+				// link teacher entity to updated lesson
+				// anyway, as all the links were deleted by deleteLinksOfLesson
+				teacher.getLessons().add(lesson);
+				lesson.getTeachers().add(teacher);
+				teacherRepository.saveAndFlush(teacher);
+			});
+
+			lessonRepository.flush();
 			return lesson;
 	}
 
-	private List<Auditorium> initUpdatedLessonAuditoriums(LessonDto lessonDto, Lesson lesson) {
-		return lessonDto.getAuditoriums().stream()
-				.map((auditorium) -> {
-
-					Auditorium tmp = auditoriumRepository.findByName(auditorium);
-					if (tmp == null) {
-						tmp = new Auditorium(auditorium);
-						tmp.getLessons().add(lesson);
-					}
-					return tmp;
-
-				})
-				.collect(Collectors.toList());
+	private void deleteLinksOfLessons(List<Lesson> lessons) {
+		lessons.forEach(lesson -> {
+			lesson.getAuditoriums().forEach(auditorium -> auditorium.getLessons().remove(lesson));
+			lesson.getTeachers().forEach(teacher -> teacher.getLessons().remove(lesson));
+			lesson.getAuditoriums().clear();
+			lesson.getTeachers().clear();
+		});
 	}
 
-	private List<Teacher> initUpdatedLessonTeachers(LessonDto lessonDto, Lesson lesson) {
-		return lessonDto.getTeachers().stream()
-				.map(tmp -> {
-
-					Teacher teacher = teacherRepository.findByUrlId(tmp.getUrlId());
-					if (teacher != null)
-						teacher = teacherRepository.findByNameAndSurnameAndPatronymic(
-								tmp.getName(), tmp.getSurname(), tmp.getPatronymic());
-					if (teacher == null) {		//if not found
-						teacher = TeacherUtility.createEntityObjWithoutLink(tmp);
-						// link teacher entity to created lesson
-						// (not anyway, as if the teacher exists, than don't neen connect existing teacher to existing lesson)
-						// they are already connected by id (in the lesson_teacher table)
-						teacher.getLessons().add(lesson);
-					}
-					return teacher;
-
-				})
-				.collect(Collectors.toList());
-	}
-
-	private List<Auditorium> initCreatedLessonAuditoriums(LessonDto lessonDto, Lesson lesson) {
-		return lessonDto.getAuditoriums().stream()
-				.map((auditorium) -> {
-
-					Auditorium tmp = auditoriumRepository.findByName(auditorium);
-					if (tmp == null) {
-						tmp = new Auditorium(auditorium);
-					}
-					tmp.getLessons().add(lesson);
-					return tmp;
-
-				})
-				.collect(Collectors.toList());
-	}
-
-	private List<Teacher> initCreatedLessonTeachers(LessonDto lessonDto, Lesson lesson) {
-		return lessonDto.getTeachers().stream()
-				.map(tmp -> {
-
-					Teacher teacher = teacherRepository.findByUrlId(tmp.getUrlId());
-					if (teacher != null)
-						teacher = teacherRepository.findByNameAndSurnameAndPatronymic(
-								tmp.getName(), tmp.getSurname(), tmp.getPatronymic());
-					if (teacher == null) {		//if not found
-						teacher = TeacherUtility.createEntityObjWithoutLink(tmp);
-					}
-					// link teacher entity to created lesson
-					// (anyway, because lesson has new id,
-					// therefore the table "lessons_teachers" anyway doesn't have such a link through their id)
-					teacher.getLessons().add(lesson);
-					return teacher;
-
-				})
-				.collect(Collectors.toList());
+	private void deleteLinksOfLesson(Lesson lesson) {
+		lesson.getAuditoriums().forEach(auditorium -> auditorium.getLessons().remove(lesson));
+		lesson.getTeachers().forEach(teacher -> teacher.getLessons().remove(lesson));
+		lesson.getAuditoriums().clear();
+		lesson.getTeachers().clear();
 	}
 }
 

@@ -50,7 +50,7 @@ public class ScheduleSearchingService {
 			return schedule;
 		}
 
-		schedule = new ArrayList<>(schedule);
+		schedule = new ArrayList<>(schedule);	//VERY IMPORTANT
 		schedule.addAll(LessonUtility.convertToLessonDtoList(changes
 						 .stream()
 						 .sorted(Comparator.comparing(Lesson::getStartTime)).toList()));

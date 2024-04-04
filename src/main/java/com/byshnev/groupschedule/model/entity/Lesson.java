@@ -41,7 +41,5 @@ public class Lesson {
 		this.lessonTypeAbbr = lessonTypeAbbr;
 		this.subgroupNum = subgroupNum;
 	}
-
-
 }
 
