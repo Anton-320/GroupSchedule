@@ -93,11 +93,8 @@ public class LessonService {
 
 	@Transactional
 	public LessonDto update(Long id, LessonDto lessonDto) throws RuntimeException {
-		Lesson lesson = lessonRepository.findById(id).orElse(null);
-				//orElseThrow(() -> new RuntimeException("The lesson with such an id is not found"));
-
-		if (lesson == null)
-			return null;
+		Lesson lesson = lessonRepository.findById(id)
+				.orElseThrow(() -> new RuntimeException("The lesson with such an id is not found"));
 		return LessonUtility.convertToLessonDto(
 				lessonRepository.save(updateLesson(lesson, lessonDto)));
 	}
