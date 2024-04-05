@@ -25,13 +25,6 @@ public class TeacherService {
 	}
 
 	@Transactional
-	public List<TeacherDto> findTeachersBySurname(String surname) {
-		return repository.findBySurname(surname).stream()
-				.map((TeacherUtility::convertToDto))
-				.toList();
-	}
-
-	@Transactional
 	public TeacherDto findTeacherByUrlId (String urlId) {
 		TeacherDto tmpDto = cache.get(urlId).orElse(null);
 		Teacher tmp;

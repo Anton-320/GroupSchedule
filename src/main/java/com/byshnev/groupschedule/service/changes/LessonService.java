@@ -166,12 +166,7 @@ public class LessonService {
 	}
 
 	private void deleteLinksOfLessons(List<Lesson> lessons) {
-		lessons.forEach(lesson -> {
-			lesson.getAuditoriums().forEach(auditorium -> auditorium.getLessons().remove(lesson));
-			lesson.getTeachers().forEach(teacher -> teacher.getLessons().remove(lesson));
-			lesson.getAuditoriums().clear();
-			lesson.getTeachers().clear();
-		});
+		lessons.forEach(this::deleteLinksOfLesson);
 	}
 
 	private void deleteLinksOfLesson(Lesson lesson) {

@@ -21,11 +21,6 @@ public class TeacherController {
 		return service.findAllTeachers();
 	}
 
-	@GetMapping("/surn")
-	public List<TeacherDto> getTeachersBySurname(@RequestParam(name = "surn") String surname) {
-		return service.findTeachersBySurname(surname);
-	}
-
 	@GetMapping("/{urlId}")
 	public TeacherDto getTeacherByUrlId(@PathVariable String urlId) {
 		return service.findTeacherByUrlId(urlId);
