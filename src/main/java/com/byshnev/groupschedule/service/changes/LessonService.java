@@ -45,7 +45,6 @@ public class LessonService {
 		);
 	}
 
-	@Transactional
 	public LessonDto getById(Long id) {
 		LessonDto tmpDto = cache.get(id).orElse(null);
 		if (tmpDto != null)
@@ -145,29 +144,7 @@ public class LessonService {
 		lesson.setEndTime(LocalTime.parse(
 				lessonDto.getEndTime(),
 				DateTimeFormatter.ofPattern(TIME_FORMAT)));
-
-		lessonDto.getAuditoriums().forEach((auditorium) -> {
-			Auditorium auditorEntity = auditoriumRepository.findByName(auditorium);
-			if (auditorEntity == null) {
-				auditorEntity = new Auditorium(auditorium);
-			}
-			//link lesson to auditorium
-			auditorEntity.getLessons().add(lesson);
-			lesson.getAuditoriums().add(auditorEntity);
-		});
-
-		lessonDto.getTeachers().forEach(tmp -> {
-			Teacher teacher = teacherRepository.findByUrlId(tmp.getUrlId());
-			if (teacher == null)
-				teacher = teacherRepository.findByNameAndSurnameAndPatronymic(
-						tmp.getName(), tmp.getSurname(), tmp.getPatronymic());
-			if (teacher == null) {        //if not found, create
-				teacher = TeacherUtility.createEntityObjWithoutLink(tmp);
-			}
-			// link teacher entity to updated lesson
-			teacher.getLessons().add(lesson);
-			lesson.getTeachers().add(teacher);
-		});
+		addTeachersAndAuditoriums(lesson, lessonDto);
 		StudentGroup tmp = groupRepository.findByGroupNum(groupNum);
 		if (tmp == null)
 			lesson.setGroup(new StudentGroup(groupNum));
@@ -183,33 +160,8 @@ public class LessonService {
 			lesson.setLessonTypeAbbr(newLessonForm.getLessonTypeAbbr());
 			lesson.setSubgroupNum(newLessonForm.getSubgroupNum());
 			deleteLinksOfLesson(lesson);	//delete lesson links to teachers and auditoriums
+			addTeachersAndAuditoriums(lesson, newLessonForm);
 			lessonRepository.flush();
-
-			newLessonForm.getAuditoriums().forEach((auditorium) -> {
-				Auditorium auditorEntity = auditoriumRepository.findByName(auditorium);
-				if (auditorEntity == null) {
-					auditorEntity = new Auditorium(auditorium);
-				}
-				auditorEntity.getLessons().add(lesson);
-				lesson.getAuditoriums().add(auditorEntity);
-				auditoriumRepository.saveAndFlush(auditorEntity); //safe if the auditorium doesn't exist
-				});
-
-			newLessonForm.getTeachers().forEach(tmp -> {
-				Teacher teacher = teacherRepository.findByUrlId(tmp.getUrlId());
-				if (teacher == null)
-					teacher = teacherRepository.findByNameAndSurnameAndPatronymic(
-							tmp.getName(), tmp.getSurname(), tmp.getPatronymic());
-				if (teacher == null) {        //if not found, create
-					teacher = TeacherUtility.createEntityObjWithoutLink(tmp);
-				}
-				// link teacher entity to updated lesson
-				// anyway, as all the links were deleted by deleteLinksOfLesson
-				teacher.getLessons().add(lesson);
-				lesson.getTeachers().add(teacher);
-				teacherRepository.save(teacher);
-			});
-
 			return lesson;
 	}
 
@@ -227,6 +179,32 @@ public class LessonService {
 		lesson.getTeachers().forEach(teacher -> teacher.getLessons().remove(lesson));
 		lesson.getAuditoriums().clear();
 		lesson.getTeachers().clear();
+	}
+
+	//creates and links teachers and auditoriums to the lesson entity according to the dto content
+	private void addTeachersAndAuditoriums(Lesson lesson, LessonDto newLessonForm) {
+		newLessonForm.getAuditoriums().forEach((auditorium) -> {
+			Auditorium auditorEntity = auditoriumRepository.findByName(auditorium);
+			if (auditorEntity == null) {
+				auditorEntity = new Auditorium(auditorium);
+			}
+			auditorEntity.getLessons().add(lesson);
+			lesson.getAuditoriums().add(auditorEntity);
+		});
+
+		newLessonForm.getTeachers().forEach(tmp -> {
+			Teacher teacher = teacherRepository.findByUrlId(tmp.getUrlId());
+			if (teacher == null)
+				teacher = teacherRepository.findByNameAndSurnameAndPatronymic(
+						tmp.getName(), tmp.getSurname(), tmp.getPatronymic());
+			if (teacher == null) {        //if not found, create
+				teacher = TeacherUtility.createEntityObjWithoutLink(tmp);
+			}
+			// link teacher entity to updated lesson
+			// anyway, as all the links were deleted by deleteLinksOfLesson
+			teacher.getLessons().add(lesson);
+			lesson.getTeachers().add(teacher);
+		});
 	}
 }
 
