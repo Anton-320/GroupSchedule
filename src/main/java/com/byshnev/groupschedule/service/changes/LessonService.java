@@ -182,17 +182,17 @@ public class LessonService {
 	}
 
 	//creates and links teachers and auditoriums to the lesson entity according to the dto content
-	private void addTeachersAndAuditoriums(Lesson lesson, LessonDto newLessonForm) {
-		newLessonForm.getAuditoriums().forEach((auditorium) -> {
-			Auditorium auditorEntity = auditoriumRepository.findByName(auditorium);
-			if (auditorEntity == null) {
-				auditorEntity = new Auditorium(auditorium);
+	private void addTeachersAndAuditoriums(Lesson lesson, LessonDto lessonDto) {
+		lessonDto.getAuditoriums().forEach((auditorium) -> {
+			Auditorium entity = auditoriumRepository.findByName(auditorium);
+			if (entity == null) {
+				entity = new Auditorium(auditorium);
 			}
-			auditorEntity.getLessons().add(lesson);
-			lesson.getAuditoriums().add(auditorEntity);
+			entity.getLessons().add(lesson);
+			lesson.getAuditoriums().add(entity);
 		});
 
-		newLessonForm.getTeachers().forEach(tmp -> {
+		lessonDto.getTeachers().forEach(tmp -> {
 			Teacher teacher = teacherRepository.findByUrlId(tmp.getUrlId());
 			if (teacher == null)
 				teacher = teacherRepository.findByNameAndSurnameAndPatronymic(
