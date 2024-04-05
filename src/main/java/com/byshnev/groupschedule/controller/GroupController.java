@@ -1,6 +1,6 @@
 package com.byshnev.groupschedule.controller;
 
-import com.byshnev.groupschedule.model.entity.StudentGroup;
+import com.byshnev.groupschedule.model.dto.GroupDto;
 import com.byshnev.groupschedule.service.changes.GroupService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,29 +16,29 @@ public class GroupController {
 	private GroupService service;
 
 	@GetMapping("/all")
-	public List<Integer> getAllGroups() {
+	public List<GroupDto> getAllGroups() {
 		return service.getAllGroups();
 	}
 
 	@GetMapping("/{groupNum}")
-	public ResponseEntity<StudentGroup> getGroupById(@PathVariable Integer groupNum) {
-		StudentGroup tmp = service.getByNum(groupNum);
+	public ResponseEntity<GroupDto> getById(@PathVariable Integer groupNum) {
+		GroupDto tmp = service.getGroupSize(groupNum);
 		if (tmp != null)
 			return new ResponseEntity<>(tmp, HttpStatus.FOUND);
 		else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
 	@PostMapping()
-	public ResponseEntity<StudentGroup> addGroup(@RequestBody StudentGroup group) {
-		StudentGroup tmp = service.add(group);
+	public ResponseEntity<GroupDto> addGroup(@RequestBody GroupDto group) {
+		GroupDto tmp = service.add(group);
 		if (tmp == null)
 			return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
 		else return new ResponseEntity<>(tmp, HttpStatus.CREATED);
 	}
 
 	@PutMapping("/{groupNum}")
-	public ResponseEntity<StudentGroup> updateGroup(@PathVariable Integer groupNum, @RequestBody StudentGroup group) {
-		StudentGroup tmp = service.update(groupNum, group);
+	public ResponseEntity<GroupDto> updateGroup(@PathVariable Integer groupNum, @RequestBody GroupDto group) {
+		GroupDto tmp = service.update(groupNum, group);
 		if (tmp == null)
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		else return new ResponseEntity<>(tmp, HttpStatus.ACCEPTED);

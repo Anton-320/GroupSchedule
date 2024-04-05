@@ -43,9 +43,9 @@ public class ScheduleChangesController {
 		return service.getByGroupAndDate(groupNum, date);
 	}
 
-	@GetMapping("/by_teacher")
-	public List<DateLessonListDto> getScheduleChangesByTeacher(@RequestParam String name, @RequestParam(name = "surn") String surname, @RequestParam(name = "patr") String patronymic) {
-		return service.getByTeacher(name, surname, patronymic);
+	@GetMapping("/by_teacher/{urlId}")
+	public List<DateLessonListDto> getScheduleChangesByTeacher(@PathVariable String urlId) {
+		return service.getByTeacher(urlId);
 	}
 
 	@PostMapping

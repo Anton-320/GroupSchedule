@@ -23,22 +23,23 @@ public class AuditoriumService {
 	}
 
 	public String getById(Long id) {
-		Auditorium tmp = cache.get(id).orElse(null);
-		if (tmp == null) {
+		String tmpDto = cache.get(id).orElse(null);
+		Auditorium tmp;
+		if (tmpDto == null) {
 			tmp = repository.findById(id).orElse(null);
 			if (tmp != null) {
-				cache.put(id, tmp);
+				cache.put(id, tmpDto);
 				return tmp.getName();
 			}
 			return null;
 		}
-		return tmp.getName();
+		return tmpDto;
 	}
 
 	public String create(String auditorium) {
 		if (!repository.existsByName(auditorium)) {
 			Auditorium tmp = repository.save(new Auditorium(auditorium));
-			cache.put(tmp.getId(), tmp);
+			cache.put(tmp.getId(), auditorium);
 			return tmp.getName();
 		}
 		else return null;
@@ -49,7 +50,7 @@ public class AuditoriumService {
 		Auditorium tmp = repository.findById(id).orElse(null);
 		if (tmp != null) {
 			tmp.setName(auditorium);
-			cache.put(tmp.getId(),tmp);
+			cache.put(tmp.getId(), tmp.getName());
 			return repository.save(tmp).getName();
 		}
 		else return null;

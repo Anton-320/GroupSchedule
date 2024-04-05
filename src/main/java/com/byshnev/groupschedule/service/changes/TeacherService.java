@@ -34,13 +34,15 @@ public class TeacherService {
 
 	@Transactional
 	public TeacherDto findTeacherByUrlId (String urlId) {
-		Teacher tmp = cache.get(urlId).orElse(null);
-		if (tmp != null)
-			return TeacherUtility.convertToDto(tmp);
+		TeacherDto tmpDto = cache.get(urlId).orElse(null);
+		Teacher tmp;
+		if (tmpDto != null)
+			return tmpDto;
 		tmp = repository.findByUrlId(urlId);
 		if (tmp != null) {
-			cache.put(urlId, tmp);
-			return TeacherUtility.convertToDto(tmp);
+			tmpDto = TeacherUtility.convertToDto(tmp);
+			cache.put(urlId, tmpDto);
+			return tmpDto;
 		}
 		else return null;
 	}
@@ -50,23 +52,23 @@ public class TeacherService {
 		if (checkIfTeacherExists(teacherDto))
 			return null;
 		Teacher teacher = TeacherUtility.createEntityObjWithoutLink(teacherDto);
-		cache.put(teacher.getUrlId(), teacher);
+		cache.put(teacherDto.getUrlId(), teacherDto);
 		return TeacherUtility.convertToDto(repository.save(teacher));
 	}
 
 	@Transactional
-	public TeacherDto update(String urlId, TeacherDto teacher) {
-		Teacher tmp = repository.findByUrlId(urlId);
-		if (tmp == null)
+	public TeacherDto update(String urlId, TeacherDto teacherDto) {
+		Teacher teacher = repository.findByUrlId(urlId);
+		if (teacher == null)
 			return null;
-		tmp.setUrlId(teacher.getUrlId());
-		tmp.setName(teacher.getName());
-		tmp.setSurname(teacher.getSurname());
-		tmp.setPatronymic(teacher.getPatronymic());
-		tmp.setDegree(teacher.getDegree());
-		tmp.setEmail(teacher.getEmail());
-		cache.put(tmp.getUrlId(), tmp);
-		return TeacherUtility.convertToDto(repository.save(tmp));
+		teacher.setUrlId(teacherDto.getUrlId());
+		teacher.setName(teacherDto.getName());
+		teacher.setSurname(teacherDto.getSurname());
+		teacher.setPatronymic(teacherDto.getPatronymic());
+		teacher.setDegree(teacherDto.getDegree());
+		teacher.setEmail(teacherDto.getEmail());
+		cache.put(teacher.getUrlId(), teacherDto);
+		return TeacherUtility.convertToDto(repository.save(teacher));
 	}
 
 	@Transactional

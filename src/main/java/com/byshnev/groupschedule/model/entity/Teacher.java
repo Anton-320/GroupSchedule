@@ -13,7 +13,6 @@ import java.util.Objects;
 		columnNames = {"name", "surname", "patronymic"}))
 @Getter
 @Setter
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class Teacher {

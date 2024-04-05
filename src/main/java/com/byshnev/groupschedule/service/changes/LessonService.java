@@ -50,10 +50,14 @@ public class LessonService {
 
 	@Transactional
 	public LessonDto getById(Long id) {
-		Lesson tmp = cache.get(id).orElse(lessonRepository.findById(id).orElse(null));
+		LessonDto tmpDto = cache.get(id).orElse(null);
+		if (tmpDto != null)
+			return tmpDto;
+		Lesson tmp = lessonRepository.findById(id).orElse(null);
 		if (tmp != null) {
-			cache.put(id, tmp);
-			return LessonUtility.convertToLessonDto(tmp);
+			tmpDto = LessonUtility.convertToLessonDto(tmp);
+			cache.put(id, tmpDto);
+			return tmpDto;
 		}
 		return null;
 	}
@@ -66,10 +70,10 @@ public class LessonService {
 	}
 
 	@Transactional
-	public List<DateLessonListDto> getByTeacher(String name, String surname, String patronymic) {
+	public List<DateLessonListDto> getByTeacher(String urlId) {
 		return LessonUtility.convertToDateLessonListDtoList(
 				lessonRepository.findLessonsByTeachers(
-						teacherRepository.findByNameAndSurnameAndPatronymic(name, surname, patronymic)));
+						teacherRepository.findByUrlId(urlId)));
 	}
 
 	@Transactional
@@ -89,10 +93,11 @@ public class LessonService {
 
 	@Transactional
 	public LessonDto update(Long id, LessonDto lessonDto) throws RuntimeException {
-		Lesson lesson = lessonRepository.findById(id).
-				orElseThrow(() -> new RuntimeException("The lesson with such an id is not found"));
+		Lesson lesson = lessonRepository.findById(id).orElse(null);
+				//orElseThrow(() -> new RuntimeException("The lesson with such an id is not found"));
 
-
+		if (lesson == null)
+			return null;
 		return LessonUtility.convertToLessonDto(
 				lessonRepository.save(updateLesson(lesson, lessonDto)));
 	}
@@ -184,6 +189,7 @@ public class LessonService {
 			lesson.setLessonTypeAbbr(newLessonForm.getLessonTypeAbbr());
 			lesson.setSubgroupNum(newLessonForm.getSubgroupNum());
 			deleteLinksOfLesson(lesson);	//delete lesson links to teachers and auditoriums
+			lessonRepository.flush();
 
 			newLessonForm.getAuditoriums().forEach((auditorium) -> {
 				Auditorium auditorEntity = auditoriumRepository.findByName(auditorium);
@@ -207,10 +213,9 @@ public class LessonService {
 				// anyway, as all the links were deleted by deleteLinksOfLesson
 				teacher.getLessons().add(lesson);
 				lesson.getTeachers().add(teacher);
-				teacherRepository.saveAndFlush(teacher);
+				teacherRepository.save(teacher);
 			});
 
-			lessonRepository.flush();
 			return lesson;
 	}
 
