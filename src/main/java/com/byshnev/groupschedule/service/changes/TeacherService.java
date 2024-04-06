@@ -24,7 +24,6 @@ public class TeacherService {
 				.toList();
 	}
 
-	@Transactional
 	public TeacherDto findTeacherByUrlId (String urlId) {
 		TeacherDto tmpDto = cache.get(urlId).orElse(null);
 		Teacher tmp;
@@ -49,18 +48,18 @@ public class TeacherService {
 	}
 
 	@Transactional
-	public TeacherDto update(String urlId, TeacherDto teacherDto) {
+	public TeacherDto update(String urlId, TeacherDto dto) {
 		Teacher teacher = repository.findByUrlId(urlId);
 		if (teacher == null)
 			return null;
-		teacher.setUrlId(teacherDto.getUrlId());
-		teacher.setName(teacherDto.getName());
-		teacher.setSurname(teacherDto.getSurname());
-		teacher.setPatronymic(teacherDto.getPatronymic());
-		teacher.setDegree(teacherDto.getDegree());
-		teacher.setEmail(teacherDto.getEmail());
-		cache.put(teacher.getUrlId(), teacherDto);
-		return TeacherUtility.convertToDto(repository.save(teacher));
+		teacher.setUrlId(dto.getUrlId());
+		teacher.setName(dto.getName());
+		teacher.setSurname(dto.getSurname());
+		teacher.setPatronymic(dto.getPatronymic());
+		teacher.setDegree(dto.getDegree());
+		teacher.setEmail(dto.getEmail());
+		cache.put(teacher.getUrlId(), dto);
+		return TeacherUtility.convertToDto(teacher);
 	}
 
 	@Transactional

@@ -22,7 +22,7 @@ public class GroupController {
 
 	@GetMapping("/{groupNum}")
 	public ResponseEntity<GroupDto> getById(@PathVariable Integer groupNum) {
-		GroupDto tmp = service.getGroupSize(groupNum);
+		GroupDto tmp = service.getGroupByNum(groupNum);
 		if (tmp != null)
 			return new ResponseEntity<>(tmp, HttpStatus.FOUND);
 		else return new ResponseEntity<>(HttpStatus.NOT_FOUND);

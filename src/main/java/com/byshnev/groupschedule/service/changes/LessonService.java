@@ -74,16 +74,21 @@ public class LessonService {
 
 	@Transactional
 	public LessonDto add(LessonDto lessonDto, String dateInStr, Integer groupNum) {
+		LessonDto result;
 		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
 		Lesson lesson = lessonRepository.findLessonByGroupGroupNumAndDateAndStartTime(
 				groupNum, date, LocalTime.parse(
 						lessonDto.getStartTime(),
 						DateTimeFormatter.ofPattern(TIME_FORMAT))).orElse(null);
-		LessonDto result;
-		if (lesson == null)		//if it doesn't exists, create new lesson entity
-			result = LessonUtility.convertToLessonDto(createLesson(lessonDto, date, groupNum));
-		else
+		if (lesson == null)	{	//if it doesn't exists, create new lesson entity
+			lesson = createLesson(lessonDto, date, groupNum);
+			result = LessonUtility.convertToLessonDto(lesson);
+		}
+		else {
+			cache.remove(lesson.getId());
 			result = LessonUtility.convertToLessonDto(updateLesson(lesson, lessonDto));
+		}
+		cache.put(lesson.getId(), result);
 		return result;
 	}
 
@@ -91,6 +96,8 @@ public class LessonService {
 	public LessonDto update(Long id, LessonDto lessonDto) throws RuntimeException {
 		Lesson lesson = lessonRepository.findById(id)
 				.orElseThrow(() -> new RuntimeException("The lesson with such an id is not found"));
+		cache.remove(id);
+		cache.put(id, lessonDto);
 		return LessonUtility.convertToLessonDto(
 				lessonRepository.save(updateLesson(lesson, lessonDto)));
 	}
@@ -100,6 +107,7 @@ public class LessonService {
 		List<Lesson> tmp = lessonRepository.findLessonsByGroupGroupNum(groupNum);
 		if (tmp.isEmpty())
 			return false;
+		tmp.forEach(lesson -> cache.remove(lesson.getId()));
 		deleteLinksOfLessons(tmp);
 		lessonRepository.deleteAll(tmp);
 		return true;
@@ -111,6 +119,7 @@ public class LessonService {
 		List<Lesson> tmp = lessonRepository.findLessonsByGroupAndDate(groupNum, date);
 		if (tmp.isEmpty())
 			return false;
+		tmp.forEach(lesson -> cache.remove(lesson.getId()));
 		deleteLinksOfLessons(tmp);
 		return lessonRepository.deleteByGroupGroupNumAndDate(groupNum, date) != 0;
 	}
@@ -126,6 +135,7 @@ public class LessonService {
 		lesson.getTeachers().forEach(teacher -> teacher.getLessons().remove(lesson));
 		lesson.getAuditoriums().clear();
 		lesson.getTeachers().clear();
+		cache.remove(lesson.getId());
 		lessonRepository.delete(lesson);
 		return true;
 	}
@@ -202,4 +212,3 @@ public class LessonService {
 		});
 	}
 }
-

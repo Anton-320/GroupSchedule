@@ -27,8 +27,7 @@ public class GroupService {
 				.toList();
 	}
 
-	@Transactional
-	public GroupDto getGroupSize(Integer groupNum) {
+	public GroupDto getGroupByNum(Integer groupNum) {
 		GroupDto tmpDto = groupCache.get(groupNum).orElse(null);
 		StudentGroup tmp;
 		if (tmpDto != null)

@@ -16,6 +16,7 @@ public class AuditoriumService {
 	private AuditoriumRepository repository;
 	private AuditoriumCache cache;
 
+	@Transactional
 	public List<String> getAll() {
 		return repository.findAll().stream()
 				.map(Auditorium::getName)
@@ -36,6 +37,7 @@ public class AuditoriumService {
 		return tmpDto;
 	}
 
+	@Transactional
 	public String create(String auditorium) {
 		if (!repository.existsByName(auditorium)) {
 			Auditorium tmp = repository.save(new Auditorium(auditorium));
@@ -45,7 +47,7 @@ public class AuditoriumService {
 		else return null;
 	}
 
-
+	@Transactional
 	public String update(Long id, String auditorium) {
 		Auditorium tmp = repository.findById(id).orElse(null);
 		if (tmp != null) {
