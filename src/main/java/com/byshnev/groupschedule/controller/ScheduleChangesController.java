@@ -26,7 +26,7 @@ public class ScheduleChangesController {
 	}
 
 	@GetMapping("/{groupNumber}")
-	public GroupLessonListDto getAllGroupScheduleChanges(@PathVariable(name = "groupNumber") Integer groupNum) {
+	public GroupLessonListDto getAllGroupScheduleChanges(@RequestParam(name = "groupNumber") Integer groupNum) {
 		return service.getByGroup(groupNum);
 	}
 
@@ -55,12 +55,8 @@ public class ScheduleChangesController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<LessonDto> updateScheduleChange(@PathVariable Long id, @RequestBody LessonDto lesson) {
-		try {
-			LessonDto tmp = service.update(id, lesson);
+		LessonDto tmp = service.update(id, lesson);
 			return ResponseEntity.ok(tmp);
-		} catch (RuntimeException e) {
-			return ResponseEntity.notFound().build();
-		}
 	}
 
 	@DeleteMapping("/{groupNum}")

@@ -1,6 +1,6 @@
 package com.byshnev.groupschedule.service.changes;
 
-import com.byshnev.groupschedule.cache.AuditoriumCache;
+import com.byshnev.groupschedule.components.cache.AuditoriumCache;
 import com.byshnev.groupschedule.model.entity.Auditorium;
 import com.byshnev.groupschedule.repository.AuditoriumRepository;
 import jakarta.transaction.Transactional;

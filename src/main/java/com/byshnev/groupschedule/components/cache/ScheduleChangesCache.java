@@ -1,4 +1,4 @@
-package com.byshnev.groupschedule.cache;
+package com.byshnev.groupschedule.components.cache;
 
 import com.byshnev.groupschedule.model.dto.LessonDto;
 import org.springframework.stereotype.Component;

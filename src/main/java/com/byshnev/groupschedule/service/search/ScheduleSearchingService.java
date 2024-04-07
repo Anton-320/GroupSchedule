@@ -1,6 +1,6 @@
 package com.byshnev.groupschedule.service.search;
 
-import com.byshnev.groupschedule.cache.ScheduleGettingCache;
+import com.byshnev.groupschedule.components.cache.ScheduleGettingCache;
 import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.model.entity.Lesson;
 import com.byshnev.groupschedule.repository.LessonRepository;

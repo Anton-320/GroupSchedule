@@ -1,6 +1,6 @@
 package com.byshnev.groupschedule.service.changes;
 
-import com.byshnev.groupschedule.cache.ScheduleChangesCache;
+import com.byshnev.groupschedule.components.cache.ScheduleChangesCache;
 import com.byshnev.groupschedule.model.dto.DateLessonListDto;
 import com.byshnev.groupschedule.model.dto.GroupLessonListDto;
 import com.byshnev.groupschedule.model.entity.Auditorium;
