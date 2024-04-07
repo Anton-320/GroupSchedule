@@ -26,7 +26,7 @@ public class ScheduleChangesController {
 	}
 
 	@GetMapping("/{groupNumber}")
-	public GroupLessonListDto getAllGroupScheduleChanges(@RequestParam(name = "groupNumber") Integer groupNum) {
+	public GroupLessonListDto getAllGroupScheduleChanges(@PathVariable(name = "groupNumber") Integer groupNum) {
 		return service.getByGroup(groupNum);
 	}
 
