@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 @Component
 public class LoggerAspect {
-	private final Logger LOGGER = LoggerFactory.getLogger(LoggerAspect.class);
+	private final Logger logger = LoggerFactory.getLogger(LoggerAspect.class);
 
 	@Pointcut("execution(public * com.byshnev.groupschedule.service.changes.*.*(..))" +
 			"|| execution(public * com.byshnev.groupschedule.service.search.*.*(..))")
@@ -19,7 +19,7 @@ public class LoggerAspect {
 
 	@Before("servicesPointcut()")
 	public void serviceLog(JoinPoint joinPoint) {
-		LOGGER.info("Service method was invoked - Class: {}, Method: {}, Args: {}",
+		logger.info("Service method was invoked - Class: {}, Method: {}, Args: {}",
 					joinPoint.getTarget().getClass().getName(),
 					joinPoint.getSignature().getName(),
 					joinPoint.getArgs());
@@ -27,7 +27,7 @@ public class LoggerAspect {
 
 	@Before("execution(* com.byshnev.groupschedule.exception.ExceptionsHandler.*(..))")
 	public void errorLog(JoinPoint joinPoint) {
-		LOGGER.error("error: Exception handler {} with parameter(s) {} invoked",
+		logger.error("error: Exception handler {} with parameter(s) {} invoked",
 					 joinPoint.getSignature().getName(),
 					 joinPoint.getArgs());
 	}
