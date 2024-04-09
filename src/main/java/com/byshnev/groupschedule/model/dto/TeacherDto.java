@@ -1,5 +1,6 @@
 package com.byshnev.groupschedule.model.dto;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class TeacherDto {
+	@NotNull
 	private String urlId;
 	private String name;
 	private String surname;

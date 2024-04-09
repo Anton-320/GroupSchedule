@@ -8,14 +8,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.NoHandlerFoundException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @RestControllerAdvice
 public class ExceptionsHandler {
 
-
 	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(Exception.class)
-	public ErrorResponse handlerInternalServerError(Exception ex) {
+	@ExceptionHandler(RuntimeException.class)
+	public ErrorResponse handlerInternalServerError(RuntimeException ex) {
 		return new ErrorResponse(ex.getMessage());
 	}
 
@@ -32,7 +32,7 @@ public class ExceptionsHandler {
 	}
 
 	@ResponseStatus(HttpStatus.NOT_FOUND)
-	@ExceptionHandler(NoHandlerFoundException.class)
+	@ExceptionHandler({NoHandlerFoundException.class, NoResourceFoundException.class})
 	public ErrorResponse handlerFoundException(Exception ex) {
 		return new ErrorResponse("404 error, NOT FOUND");
 	}

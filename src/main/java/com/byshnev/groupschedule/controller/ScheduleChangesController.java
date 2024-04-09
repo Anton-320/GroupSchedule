@@ -4,13 +4,16 @@ import com.byshnev.groupschedule.model.dto.DateLessonListDto;
 import com.byshnev.groupschedule.model.dto.GroupLessonListDto;
 import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.service.changes.LessonService;
+import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Validated
 @RestController
 @RequestMapping("api/v1/changes")
 @AllArgsConstructor
@@ -26,7 +29,7 @@ public class ScheduleChangesController {
 	}
 
 	@GetMapping("/{groupNumber}")
-	public GroupLessonListDto getAllGroupScheduleChanges(@PathVariable(name = "groupNumber") Integer groupNum) {
+	public GroupLessonListDto getAllGroupScheduleChanges(@Positive @PathVariable(name = "groupNumber") Integer groupNum) {
 		return service.getByGroup(groupNum);
 	}
 
@@ -60,7 +63,7 @@ public class ScheduleChangesController {
 	}
 
 	@DeleteMapping("/{groupNum}")
-	public ResponseEntity<String> deleteScheduleChanges(@PathVariable Integer groupNum) {
+	public ResponseEntity<String> deleteScheduleChanges(@Positive @PathVariable Integer groupNum) {
 		if(service.deleteByGroup(groupNum))
 			return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
 		else return ResponseEntity.badRequest().body(NOT_SUCCESSFUL_DELETING);

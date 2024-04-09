@@ -31,8 +31,7 @@ public class ScheduleSearchingService {
 		List<LessonDto> schedule = cache.get(key).orElse(null);
 		if (schedule == null) {
 			schedule = bsuirApiService.getScheduleFromBsuirApi(groupNum, date);
-			if (cache.contains(key))
-				cache.put(key, schedule);
+			cache.put(key, schedule);
 		}
 		List<Lesson> changes = lessonRepository.findLessonsByGroupAndDate(groupNum, date);
 		if (schedule != null) {
@@ -51,8 +50,7 @@ public class ScheduleSearchingService {
 		}
 
 		schedule = new ArrayList<>(schedule);	//VERY IMPORTANT
-		schedule.addAll(LessonUtility.convertToLessonDtoList(changes
-						 .stream()
+		schedule.addAll(LessonUtility.convertToLessonDtoList(changes.stream()
 						 .sorted(Comparator.comparing(Lesson::getStartTime)).toList()));
 		return schedule;
 	}
