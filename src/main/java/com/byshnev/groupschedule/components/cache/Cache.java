@@ -40,7 +40,7 @@ public class Cache<K, T> {
 		if (contains(key)) {
 			linkedList.remove(key);
 		} else {
-			ensureCapacity();
+			ensureSize();
 		}
 		storage.put(key, value);
 		linkedList.addFirst(key);
@@ -59,7 +59,7 @@ public class Cache<K, T> {
 
 	//if the amount of cache elements is more than capacity
 	//then remove the last saved element
-	private void ensureCapacity() {
+	private void ensureSize() {
 		if (size() >= CAPACITY) {
 			K key = linkedList.removeLast();
 			storage.remove(key);
