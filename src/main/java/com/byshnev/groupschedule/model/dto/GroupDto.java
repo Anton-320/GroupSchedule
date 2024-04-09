@@ -6,6 +6,6 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class GroupDto {
-	private Integer groupNum;
+	private Integer groupNumber;
 	private Integer studentsAmount;
 }

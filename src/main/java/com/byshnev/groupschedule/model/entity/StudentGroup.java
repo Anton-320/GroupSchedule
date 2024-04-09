@@ -13,17 +13,17 @@ import java.util.List;
 @AllArgsConstructor
 public class StudentGroup {
 	@Id
-	private Integer groupNum;
+	private Integer groupNumber;
 	private Integer studentsAmount;
 	@OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.LAZY)	//link to lessons
 	private List<Lesson> lessons;
 
 	public StudentGroup(Integer groupNum) {
-		this.groupNum = groupNum;
+		this.groupNumber = groupNum;
 	}
 
-	public StudentGroup(Integer groupNum, Integer studentsAmount) {
-		this.groupNum = groupNum;
+	public StudentGroup(Integer groupNumber, Integer studentsAmount) {
+		this.groupNumber = groupNumber;
 		this.studentsAmount = studentsAmount;
 	}
 }

@@ -15,7 +15,7 @@ public class DateLessonListDto {
 	@Data
 	@AllArgsConstructor
 	public static class LessonListByGroupDto {
-		private Integer groupNum;
+		private Integer group;
 		private List<LessonDto> lessons;
 	}
 }

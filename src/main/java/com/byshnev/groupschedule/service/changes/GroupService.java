@@ -27,14 +27,14 @@ public class GroupService {
 				.toList();
 	}
 
-	public GroupDto getGroupByNum(Integer groupNum) {
-		GroupDto tmpDto = groupCache.get(groupNum).orElse(null);
+	public GroupDto getGroupByNum(Integer groupNumber) {
+		GroupDto tmpDto = groupCache.get(groupNumber).orElse(null);
 		StudentGroup tmp;
 		if (tmpDto != null)
 			return tmpDto;
-		else if ((tmp = groupRepository.findById(groupNum).orElse(null)) != null) {
+		else if ((tmp = groupRepository.findById(groupNumber).orElse(null)) != null) {
 			tmpDto = GroupUtility.convertToDto(tmp);
-			groupCache.put(groupNum, tmpDto);
+			groupCache.put(groupNumber, tmpDto);
 			return tmpDto;
 		}
 		return null;
@@ -42,8 +42,8 @@ public class GroupService {
 
 	@Transactional
 	public GroupDto add(GroupDto group) {
-		if (groupRepository.findByGroupNum(group.getGroupNum()) == null) {
-			groupCache.put(group.getGroupNum(), group);
+		if (groupRepository.findByGroupNumber(group.getGroupNumber()) == null) {
+			groupCache.put(group.getGroupNumber(), group);
 			return GroupUtility.convertToDto(
 					groupRepository.save(GroupUtility.createEntityWithoutLink(group)));
 		}
@@ -51,12 +51,12 @@ public class GroupService {
 	}
 
 	@Transactional
-	public GroupDto update(Integer groupNum, GroupDto group) {
-		StudentGroup tmp = groupRepository.findById(groupNum).orElse(null);
+	public GroupDto update(Integer groupNumber, GroupDto group) {
+		StudentGroup tmp = groupRepository.findById(groupNumber).orElse(null);
 		if (tmp != null) {
-			tmp.setGroupNum(group.getGroupNum());
+			tmp.setGroupNumber(group.getGroupNumber());
 			tmp.setStudentsAmount(group.getStudentsAmount());
-			groupCache.put(groupNum, group);
+			groupCache.put(groupNumber, group);
 			groupRepository.flush();
 			return group;
 		}
@@ -64,17 +64,17 @@ public class GroupService {
 	}
 
 	@Transactional
-	public boolean delete(Integer groupNum) {
-		StudentGroup tmp = groupRepository.findById(groupNum).orElse(null);
+	public boolean delete(Integer groupNumber) {
+		StudentGroup tmp = groupRepository.findById(groupNumber).orElse(null);
 		if (tmp == null) {
 			return false;
 		}
 		for (var lesson : tmp.getLessons()) {
 			lessonCache.remove(lesson.getId());
 		}
-		groupCache.remove(groupNum);
-		lessonService.deleteByGroup(groupNum);
-		groupRepository.deleteById(groupNum);
+		groupCache.remove(groupNumber);
+		lessonService.deleteByGroup(groupNumber);
+		groupRepository.deleteById(groupNumber);
 		return true;
 	}
 

@@ -38,10 +38,10 @@ public class LessonService {
 	}
 
 	@Transactional
-	public GroupLessonListDto getByGroup(Integer groupNum) {
+	public GroupLessonListDto getByGroup(Integer groupNumber) {
 		return LessonUtility.convertToGroupLessonListDto(
-				lessonRepository.findLessonsByGroupGroupNum(groupNum),
-				groupNum
+				lessonRepository.findLessonsByGroupGroupNumber(groupNumber),
+				groupNumber
 		);
 	}
 
@@ -59,10 +59,10 @@ public class LessonService {
 	}
 
 	@Transactional
-	public List<LessonDto> getByGroupAndDate(Integer groupNum, String dateInStr) {
+	public List<LessonDto> getByGroupAndDate(Integer groupNumber, String dateInStr) {
 		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
 		return LessonUtility.convertToLessonDtoList(
-				lessonRepository.findLessonsByGroupAndDate(groupNum, date));
+				lessonRepository.findLessonsByGroupAndDate(groupNumber, date));
 	}
 
 	@Transactional
@@ -73,15 +73,15 @@ public class LessonService {
 	}
 
 	@Transactional
-	public LessonDto add(LessonDto lessonDto, String dateInStr, Integer groupNum) {
+	public LessonDto add(LessonDto lessonDto, String dateInStr, Integer groupNumber) {
 		LessonDto result;
 		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
-		Lesson lesson = lessonRepository.findLessonByGroupGroupNumAndDateAndStartTime(
-				groupNum, date, LocalTime.parse(
+		Lesson lesson = lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(
+				groupNumber, date, LocalTime.parse(
 						lessonDto.getStartTime(),
 						DateTimeFormatter.ofPattern(TIME_FORMAT))).orElse(null);
 		if (lesson == null)	{	//if it doesn't exists, create new lesson entity
-			lesson = createLesson(lessonDto, date, groupNum);
+			lesson = createLesson(lessonDto, date, groupNumber);
 			result = LessonUtility.convertToLessonDto(lesson);
 		}
 		else {
@@ -103,8 +103,8 @@ public class LessonService {
 	}
 
 	@Transactional
-	public boolean deleteByGroup(Integer groupNum) {
-		List<Lesson> tmp = lessonRepository.findLessonsByGroupGroupNum(groupNum);
+	public boolean deleteByGroup(Integer groupNumber) {
+		List<Lesson> tmp = lessonRepository.findLessonsByGroupGroupNumber(groupNumber);
 		if (tmp.isEmpty())
 			return false;
 		tmp.forEach(lesson -> cache.remove(lesson.getId()));
@@ -114,21 +114,21 @@ public class LessonService {
 	}
 
 	@Transactional
-	public boolean deleteByGroupAndDate(Integer groupNum, String dateInStr) {
+	public boolean deleteByGroupAndDate(Integer groupNumber, String dateInStr) {
 		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
-		List<Lesson> tmp = lessonRepository.findLessonsByGroupAndDate(groupNum, date);
+		List<Lesson> tmp = lessonRepository.findLessonsByGroupAndDate(groupNumber, date);
 		if (tmp.isEmpty())
 			return false;
 		tmp.forEach(lesson -> cache.remove(lesson.getId()));
 		deleteLinksOfLessons(tmp);
-		return lessonRepository.deleteByGroupGroupNumAndDate(groupNum, date) != 0;
+		return lessonRepository.deleteByGroupGroupNumberAndDate(groupNumber, date) != 0;
 	}
 
 	@Transactional
-	public boolean deleteByGroupAndDateAndTime(String dateInStr, String startTimeInStr, Integer groupNum) {
+	public boolean deleteByGroupAndDateAndTime(String dateInStr, String startTimeInStr, Integer groupNumber) {
 		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
 		LocalTime startTime = LocalTime.parse(startTimeInStr, DateTimeFormatter.ofPattern(TIME_FORMAT));
-		Lesson lesson = lessonRepository.findLessonByGroupGroupNumAndDateAndStartTime(groupNum, date, startTime).orElse(null);
+		Lesson lesson = lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(groupNumber, date, startTime).orElse(null);
 		if (lesson == null)
 			return false;
 		lesson.getAuditoriums().forEach(auditorium -> auditorium.getLessons().remove(lesson));
@@ -140,7 +140,7 @@ public class LessonService {
 		return true;
 	}
 
-	private Lesson createLesson(LessonDto lessonDto, LocalDate date, Integer groupNum) {
+	private Lesson createLesson(LessonDto lessonDto, LocalDate date, Integer groupNumber) {
 		Lesson lesson = new Lesson(
 				lessonDto.getName(),
 				lessonDto.getSubjectFullName(),
@@ -155,9 +155,9 @@ public class LessonService {
 				lessonDto.getEndTime(),
 				DateTimeFormatter.ofPattern(TIME_FORMAT)));
 		addTeachersAndAuditoriums(lesson, lessonDto);
-		StudentGroup tmp = groupRepository.findByGroupNum(groupNum);
+		StudentGroup tmp = groupRepository.findByGroupNumber(groupNumber);
 		if (tmp == null)
-			lesson.setGroup(new StudentGroup(groupNum));
+			lesson.setGroup(new StudentGroup(groupNumber));
 		else lesson.setGroup(tmp);
 		return lessonRepository.save(lesson);
 	}

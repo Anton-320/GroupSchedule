@@ -41,8 +41,8 @@ public class ScheduleChangesController {
 		else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 	}
 
-	@GetMapping("/{groupNum}/{date}")
-	public List<LessonDto> getGroupScheduleChangesByDate(@PathVariable(name = "date") String date, @PathVariable(name = "groupNum") Integer groupNum) {
+	@GetMapping("/{groupNumber}/{date}")
+	public List<LessonDto> getGroupScheduleChangesByDate(@PathVariable(name = "date") String date, @PathVariable(name = "groupNumber") Integer groupNum) {
 		return service.getByGroupAndDate(groupNum, date);
 	}
 
@@ -62,24 +62,24 @@ public class ScheduleChangesController {
 			return ResponseEntity.ok(tmp);
 	}
 
-	@DeleteMapping("/{groupNum}")
-	public ResponseEntity<String> deleteScheduleChanges(@Positive @PathVariable Integer groupNum) {
-		if(service.deleteByGroup(groupNum))
+	@DeleteMapping("/{groupNumber}")
+	public ResponseEntity<String> deleteScheduleChanges(@Positive @PathVariable Integer groupNumber) {
+		if(service.deleteByGroup(groupNumber))
 			return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
 		else return ResponseEntity.badRequest().body(NOT_SUCCESSFUL_DELETING);
 	}
 
-	@DeleteMapping("/{groupNum}/{date}")
-	public ResponseEntity<String> deleteScheduleChanges(@PathVariable Integer groupNum, @PathVariable String date) {
-		if (service.deleteByGroupAndDate(groupNum, date))
+	@DeleteMapping("/{groupNumber}/{date}")
+	public ResponseEntity<String> deleteScheduleChanges(@PathVariable Integer groupNumber, @PathVariable String date) {
+		if (service.deleteByGroupAndDate(groupNumber, date))
 			return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
 		else
 			return ResponseEntity.badRequest().body(NOT_SUCCESSFUL_DELETING);
 	}
 
-	@DeleteMapping("/{groupNum}/{date}/{startTime}")
-	public ResponseEntity<String> deleteScheduleChange(@PathVariable Integer groupNum, @PathVariable String date, @PathVariable String startTime) {
-		if (service.deleteByGroupAndDateAndTime(date, startTime, groupNum))
+	@DeleteMapping("/{groupNumber}/{date}/{startTime}")
+	public ResponseEntity<String> deleteScheduleChange(@PathVariable Integer groupNumber, @PathVariable String date, @PathVariable String startTime) {
+		if (service.deleteByGroupAndDateAndTime(date, startTime, groupNumber))
 			return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
 		else
 			return ResponseEntity.badRequest().body(NOT_SUCCESSFUL_DELETING);

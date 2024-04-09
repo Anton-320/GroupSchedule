@@ -10,11 +10,11 @@ public class GroupUtility {
 	}
 
 	public static GroupDto convertToDto(StudentGroup group) {
-		return new GroupDto(group.getGroupNum(), group.getStudentsAmount());
+		return new GroupDto(group.getGroupNumber(), group.getStudentsAmount());
 	}
 
 	public static StudentGroup createEntityWithoutLink(GroupDto dto) {
-		return new StudentGroup(dto.getGroupNum(), dto.getStudentsAmount());
+		return new StudentGroup(dto.getGroupNumber(), dto.getStudentsAmount());
 	}
 }
 

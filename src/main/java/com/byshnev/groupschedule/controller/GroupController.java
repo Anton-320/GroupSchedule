@@ -23,9 +23,9 @@ public class GroupController {
 		return service.getAllGroups();
 	}
 
-	@GetMapping("/{groupNum}")
-	public ResponseEntity<GroupDto> getById(@Positive @PathVariable Integer groupNum) {
-		GroupDto tmp = service.getGroupByNum(groupNum);
+	@GetMapping("/{groupNumber}")
+	public ResponseEntity<GroupDto> getById(@Positive @PathVariable Integer groupNumber) {
+		GroupDto tmp = service.getGroupByNum(groupNumber);
 		if (tmp != null)
 			return new ResponseEntity<>(tmp, HttpStatus.FOUND);
 		else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -39,17 +39,17 @@ public class GroupController {
 		else return new ResponseEntity<>(tmp, HttpStatus.CREATED);
 	}
 
-	@PutMapping("/{groupNum}")
-	public ResponseEntity<GroupDto> updateGroup(@Positive @PathVariable Integer groupNum, @RequestBody GroupDto group) {
-		GroupDto tmp = service.update(groupNum, group);
+	@PutMapping("/{groupNumber}")
+	public ResponseEntity<GroupDto> updateGroup(@Positive @PathVariable Integer groupNumber, @RequestBody GroupDto group) {
+		GroupDto tmp = service.update(groupNumber, group);
 		if (tmp == null)
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		else return new ResponseEntity<>(tmp, HttpStatus.ACCEPTED);
 	}
 
-	@DeleteMapping("/{groupNum}")
-	public ResponseEntity<String> deleteGroup(@Positive @PathVariable Integer groupNum) {
-		if (service.delete(groupNum))
+	@DeleteMapping("/{groupNumber}")
+	public ResponseEntity<String> deleteGroup(@Positive @PathVariable Integer groupNumber) {
+		if (service.delete(groupNumber))
 			return new ResponseEntity<>("Deleting was successful", HttpStatus.NO_CONTENT);
 		else
 			return new ResponseEntity<>("Deleting wasn't successful", HttpStatus.NOT_FOUND);
