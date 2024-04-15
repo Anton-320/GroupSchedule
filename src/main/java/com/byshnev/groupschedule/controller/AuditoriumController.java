@@ -45,7 +45,10 @@ public class AuditoriumController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity<String> deleteAuditorium(@PathVariable Long id) {
 		if (service.delete(id))
-			return new ResponseEntity<>("Deleting was successful", HttpStatus.NO_CONTENT);
-		else return new ResponseEntity<>("Deleting wasn't successful", HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>("Deleting was successful",
+										HttpStatus.NO_CONTENT);
+		else
+			return new ResponseEntity<>("Deleting wasn't successful",
+										 HttpStatus.NOT_FOUND);
 	}
 }

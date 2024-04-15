@@ -9,11 +9,11 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class TeacherDto {
-	@NotNull
-	private String urlId;
-	private String name;
-	private String surname;
-	private String patronymic;
-	private String degree;
-	private String email;
+  @NotNull
+  private String urlId;
+  private String name;
+  private String surname;
+  private String patronymic;
+  private String degree;
+  private String email;
 }

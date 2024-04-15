@@ -20,14 +20,14 @@ import java.util.List;
 @AllArgsConstructor
 public class ScheduleSearchingController {
 
-	private ScheduleSearchingService service;
+  private ScheduleSearchingService service;
 
-	@GetMapping
-	public List<LessonDto> getSchedule(@Positive @RequestParam Integer groupNumber, @RequestParam String date) {
-		try {
-			return service.getSchedule(groupNumber, date);
-		} catch (JsonProcessingException e) {
-			return Collections.emptyList();
-		}
-	}
+  @GetMapping
+  public List<LessonDto> getSchedule(@Positive @RequestParam Integer groupNumber, @RequestParam String date) {
+    try {
+      return service.getSchedule(groupNumber, date);
+    } catch (JsonProcessingException e) {
+      return Collections.emptyList();
+    }
+  }
 }

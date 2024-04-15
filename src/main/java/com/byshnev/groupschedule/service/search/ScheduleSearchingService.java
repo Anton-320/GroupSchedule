@@ -21,37 +21,37 @@ import java.util.List;
 @AllArgsConstructor
 @Service
 public class ScheduleSearchingService {
-	private LessonRepository lessonRepository;
-	private BsuirApiService bsuirApiService;
-	private ScheduleGettingCache cache;
+  private LessonRepository lessonRepository;
+  private BsuirApiService bsuirApiService;
+  private ScheduleGettingCache cache;
 
-	public List<LessonDto> getSchedule(Integer groupNum, String dateInStr) throws JsonProcessingException {
-		LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-		String key = groupNum.toString() + dateInStr;
-		List<LessonDto> schedule = cache.get(key).orElse(null);
-		if (schedule == null) {
-			schedule = bsuirApiService.getScheduleFromBsuirApi(groupNum, date);
-			cache.put(key, schedule);
-		}
-		List<Lesson> changes = lessonRepository.findLessonsByGroupAndDate(groupNum, date);
-		if (schedule != null) {
-			schedule = schedule.stream()
-					.filter(lessonDto -> changes.stream().noneMatch(lesson -> LocalTime
-							.parse(lessonDto.getStartTime(), DateTimeFormatter.ofPattern("HH:mm"))
-							.equals(lesson.getStartTime())
-					))
-					.toList();
-		}
-		else {
-			schedule = new ArrayList<>();
-		}
-		if (changes.isEmpty()) {
-			return schedule;
-		}
+  public List<LessonDto> getSchedule(Integer groupNum, String dateInStr) throws JsonProcessingException {
+    LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+    String key = groupNum.toString() + dateInStr;
+    List<LessonDto> schedule = cache.get(key).orElse(null);
+    if (schedule == null) {
+      schedule = bsuirApiService.getScheduleFromBsuirApi(groupNum, date);
+      cache.put(key, schedule);
+    }
+    List<Lesson> changes = lessonRepository.findLessonsByGroupAndDate(groupNum, date);
+    if (schedule != null) {
+      schedule = schedule.stream()
+          .filter(lessonDto -> changes.stream().noneMatch(lesson -> LocalTime
+              .parse(lessonDto.getStartTime(), DateTimeFormatter.ofPattern("HH:mm"))
+              .equals(lesson.getStartTime())
+          ))
+          .toList();
+    }
+    else {
+      schedule = new ArrayList<>();
+    }
+    if (changes.isEmpty()) {
+      return schedule;
+    }
 
-		schedule = new ArrayList<>(schedule);	//VERY IMPORTANT
-		schedule.addAll(LessonUtility.convertToLessonDtoList(changes.stream()
-						 .sorted(Comparator.comparing(Lesson::getStartTime)).toList()));
-		return schedule;
-	}
+    schedule = new ArrayList<>(schedule);	//VERY IMPORTANT
+    schedule.addAll(LessonUtility.convertToLessonDtoList(changes.stream()
+                                                             .sorted(Comparator.comparing(Lesson::getStartTime)).toList()));
+    return schedule;
+  }
 }

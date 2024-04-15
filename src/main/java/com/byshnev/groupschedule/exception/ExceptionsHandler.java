@@ -13,27 +13,27 @@ import org.springframework.web.servlet.resource.NoResourceFoundException;
 @RestControllerAdvice
 public class ExceptionsHandler {
 
-	@ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
-	@ExceptionHandler(RuntimeException.class)
-	public ErrorResponse handlerInternalServerError(RuntimeException ex) {
-		return new ErrorResponse(ex.getMessage());
-	}
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ExceptionHandler(RuntimeException.class)
+  public ErrorResponse handlerInternalServerError(RuntimeException ex) {
+    return new ErrorResponse(ex.getMessage());
+  }
 
-	@ResponseStatus(HttpStatus.BAD_REQUEST)
-	@ExceptionHandler({HttpClientErrorException.class, MethodArgumentNotValidException.class})
-	public ErrorResponse handlerBadRequestException(Exception ex) {
-		return new ErrorResponse("400 error, BAD REQUEST");
-	}
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ExceptionHandler({HttpClientErrorException.class, MethodArgumentNotValidException.class})
+  public ErrorResponse handlerBadRequestException(Exception ex) {
+    return new ErrorResponse("400 error, BAD REQUEST");
+  }
 
-	@ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
-	@ExceptionHandler(HttpRequestMethodNotSupportedException.class)
-	public ErrorResponse handlerMethodNotAllowed(Exception ex) {
-		return new ErrorResponse("405 error, METHOD NOT ALLOWED");
-	}
+  @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+  @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
+  public ErrorResponse handlerMethodNotAllowed(Exception ex) {
+    return new ErrorResponse("405 error, METHOD NOT ALLOWED");
+  }
 
-	@ResponseStatus(HttpStatus.NOT_FOUND)
-	@ExceptionHandler({NoHandlerFoundException.class, NoResourceFoundException.class})
-	public ErrorResponse handlerFoundException(Exception ex) {
-		return new ErrorResponse("404 error, NOT FOUND");
-	}
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  @ExceptionHandler({NoHandlerFoundException.class, NoResourceFoundException.class})
+  public ErrorResponse handlerFoundException(Exception ex) {
+    return new ErrorResponse("404 error, NOT FOUND");
+  }
 }

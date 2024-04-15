@@ -15,16 +15,16 @@ import java.util.Optional;
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
-	Optional<Lesson> findLessonByGroupGroupNumberAndDateAndStartTime(Integer group, LocalDate date, LocalTime startTime);
+  Optional<Lesson> findLessonByGroupGroupNumberAndDateAndStartTime(Integer group, LocalDate date, LocalTime startTime);
 
-	List<Lesson> findLessonsByGroupGroupNumber(Integer group);
+  List<Lesson> findLessonsByGroupGroupNumber(Integer group);
 
-	@Query(value = "SELECT * FROM lessons l WHERE l.group_id = :group_num AND l.date = :date",
-			nativeQuery = true)
-	List<Lesson> findLessonsByGroupAndDate(@Param("group_num") Integer groupNum,
-										   @Param("date") LocalDate date);
+  @Query(value = "SELECT * FROM lessons l WHERE l.group_id = :group_num AND l.date = :date",
+      nativeQuery = true)
+  List<Lesson> findLessonsByGroupAndDate(@Param("group_num") Integer groupNum,
+                                         @Param("date") LocalDate date);
 
-	List<Lesson> findLessonsByTeachers(Teacher teacher);
+  List<Lesson> findLessonsByTeachers(Teacher teacher);
 
-	Integer deleteByGroupGroupNumberAndDate(Integer group, LocalDate date);
+  Integer deleteByGroupGroupNumberAndDate(Integer group, LocalDate date);
 }

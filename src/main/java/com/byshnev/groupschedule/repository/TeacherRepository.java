@@ -6,11 +6,11 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TeacherRepository extends JpaRepository<Teacher, String> {
-	Teacher findByUrlId(String urlId);
+  Teacher findByUrlId(String urlId);
 
-	Teacher findByNameAndSurnameAndPatronymic(String name, String surname, String patronymic);
+  Teacher findByNameAndSurnameAndPatronymic(String name, String surname, String patronymic);
 
-	boolean existsByUrlId(String urlId);
+  boolean existsByUrlId(String urlId);
 
-	boolean existsByNameAndSurnameAndPatronymic(String name, String surname, String patronymic);
+  boolean existsByNameAndSurnameAndPatronymic(String name, String surname, String patronymic);
 }

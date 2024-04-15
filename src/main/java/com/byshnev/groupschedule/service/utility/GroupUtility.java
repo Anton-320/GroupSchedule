@@ -5,16 +5,16 @@ import com.byshnev.groupschedule.model.entity.StudentGroup;
 
 public class GroupUtility {
 
-	private GroupUtility() {
+  private GroupUtility() {
 
-	}
+  }
 
-	public static GroupDto convertToDto(StudentGroup group) {
-		return new GroupDto(group.getGroupNumber(), group.getStudentsAmount());
-	}
+  public static GroupDto convertToDto(StudentGroup group) {
+    return new GroupDto(group.getGroupNumber(), group.getStudentsAmount());
+  }
 
-	public static StudentGroup createEntityWithoutLink(GroupDto dto) {
-		return new StudentGroup(dto.getGroupNumber(), dto.getStudentsAmount());
-	}
+  public static StudentGroup createEntityWithoutLink(GroupDto dto) {
+    return new StudentGroup(dto.getGroupNumber(), dto.getStudentsAmount());
+  }
 }
 

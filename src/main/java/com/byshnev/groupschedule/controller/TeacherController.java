@@ -17,38 +17,38 @@ import java.util.List;
 @AllArgsConstructor
 public class TeacherController {
 
-	private TeacherService service;
+  private TeacherService service;
 
-	@GetMapping("/all")
-	public List<TeacherDto> getAllTeachers() {
-		return service.findAllTeachers();
-	}
+  @GetMapping("/all")
+  public List<TeacherDto> getAllTeachers() {
+    return service.findAllTeachers();
+  }
 
-	@GetMapping("/{urlId}")
-	public TeacherDto getTeacherByUrlId(@NotEmpty @PathVariable String urlId) {
-		return service.findTeacherByUrlId(urlId);
-	}
+  @GetMapping("/{urlId}")
+  public TeacherDto getTeacherByUrlId(@NotEmpty @PathVariable String urlId) {
+    return service.findTeacherByUrlId(urlId);
+  }
 
-	@PostMapping
-	public ResponseEntity<TeacherDto> addTeacher(@NotEmpty @RequestBody TeacherDto teacher) {
-		TeacherDto tmp = service.add(teacher);
-		if (tmp != null)
-			return new ResponseEntity<>(tmp, HttpStatus.CREATED);
-		else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-	}
+  @PostMapping
+  public ResponseEntity<TeacherDto> addTeacher(@NotEmpty @RequestBody TeacherDto teacher) {
+    TeacherDto tmp = service.add(teacher);
+    if (tmp != null)
+      return new ResponseEntity<>(tmp, HttpStatus.CREATED);
+    else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+  }
 
-	@PutMapping("/{urlId}")
-	public ResponseEntity<TeacherDto> updateTeacher(@NotEmpty @PathVariable String urlId, @RequestBody TeacherDto teacher) {
-		TeacherDto tmp = service.update(urlId, teacher);
-		if (tmp != null)
-			return new ResponseEntity<>(tmp, HttpStatus.ACCEPTED);
-		else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
+  @PutMapping("/{urlId}")
+  public ResponseEntity<TeacherDto> updateTeacher(@NotEmpty @PathVariable String urlId, @RequestBody TeacherDto teacher) {
+    TeacherDto tmp = service.update(urlId, teacher);
+    if (tmp != null)
+      return new ResponseEntity<>(tmp, HttpStatus.ACCEPTED);
+    else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+  }
 
-	@DeleteMapping("/{urlId}")
-	public ResponseEntity<String> deleteTeacher(@NotEmpty @PathVariable String urlId) {
-		if (service.delete(urlId))
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-	}
+  @DeleteMapping("/{urlId}")
+  public ResponseEntity<String> deleteTeacher(@NotEmpty @PathVariable String urlId) {
+    if (service.delete(urlId))
+      return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+  }
 }
