@@ -12,9 +12,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 
-/**
- * Comment.
- * */
 @Service
 @AllArgsConstructor
 public class GroupService {
@@ -23,9 +20,6 @@ public class GroupService {
   private ScheduleChangesCache lessonCache;
   private LessonService lessonService;
 
-  /**
-   * Comment.
-   * */
   @Transactional
   public List<GroupDto> getAllGroups() {
     return groupRepository.findAll().stream()
@@ -33,9 +27,6 @@ public class GroupService {
         .toList();
   }
 
-  /**
-   * Comment.
-   * */
   public GroupDto getGroupByNum(Integer groupNumber) {
     GroupDto tmpDto = groupCache.get(groupNumber).orElse(null);
     StudentGroup tmp;
@@ -51,9 +42,6 @@ public class GroupService {
     return null;
   }
 
-  /**
-   * Comment.
-   * */
   @Transactional
   public GroupDto add(GroupDto group) {
     if (groupRepository.findByGroupNumber(group.getGroupNumber()) == null) {
@@ -65,9 +53,6 @@ public class GroupService {
     }
   }
 
-  /**
-   * Comment.
-   * */
   @Transactional
   public GroupDto update(Integer groupNumber, GroupDto group) {
     StudentGroup tmp = groupRepository.findById(groupNumber).orElse(null);
@@ -82,9 +67,6 @@ public class GroupService {
     }
   }
 
-  /**
-   * Comment.
-   * */
   @Transactional
   public boolean delete(Integer groupNumber) {
     StudentGroup tmp = groupRepository.findById(groupNumber).orElse(null);

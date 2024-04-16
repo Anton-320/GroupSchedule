@@ -5,9 +5,6 @@ import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-/**
- * Comment.
- * */
 @Data
 @AllArgsConstructor
 public class LessonDto {

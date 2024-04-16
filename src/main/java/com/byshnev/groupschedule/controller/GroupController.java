@@ -32,9 +32,6 @@ public class GroupController {
     return service.getAllGroups();
   }
 
-  /**
-   * Method.
-   * */
   @GetMapping("/{groupNumber}")
   public ResponseEntity<GroupDto> getById(@Positive @PathVariable Integer groupNumber) {
     GroupDto tmp = service.getGroupByNum(groupNumber);
@@ -45,9 +42,6 @@ public class GroupController {
     }
   }
 
-  /**
-   * Method.
-   * */
   @PostMapping()
   public ResponseEntity<GroupDto> addGroup(@Positive @RequestBody GroupDto group) {
     GroupDto tmp = service.add(group);
@@ -58,9 +52,6 @@ public class GroupController {
     }
   }
 
-  /**
-   * Method.
-   * */
   @PutMapping("/{groupNumber}")
   public ResponseEntity<GroupDto> updateGroup(@Positive @PathVariable Integer groupNumber,
                                               @RequestBody GroupDto group) {
@@ -72,9 +63,6 @@ public class GroupController {
     }
   }
 
-  /**
-   * Method.
-   * */
   @DeleteMapping("/{groupNumber}")
   public ResponseEntity<String> deleteGroup(@Positive @PathVariable Integer groupNumber) {
     if (service.delete(groupNumber)) {

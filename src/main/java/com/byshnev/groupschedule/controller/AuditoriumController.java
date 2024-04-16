@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 /**
- * slkdf.
+ * Controller.
  * */
 @Validated
 @RestController
@@ -37,9 +37,6 @@ public class AuditoriumController {
     return service.getById(id);
   }
 
-  /**
-   * slkdf.
-   * */
   @PostMapping()
   public ResponseEntity<String> addAuditorium(@RequestBody String auditorium) {
     String tmp = service.create(auditorium);
@@ -50,9 +47,6 @@ public class AuditoriumController {
     }
   }
 
-  /**
-   * slkdf.
-   * */
   @PutMapping("/{id}")
   public ResponseEntity<String> updateAuditorium(@PathVariable Long id,
                                                  @RequestBody String auditorium) {
@@ -64,9 +58,6 @@ public class AuditoriumController {
     }
   }
 
-  /**
-   * slkdf.
-   * */
   @DeleteMapping("/{id}")
   public ResponseEntity<String> deleteAuditorium(@PathVariable Long id) {
     if (service.delete(id)) {

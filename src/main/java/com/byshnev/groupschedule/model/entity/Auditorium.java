@@ -13,9 +13,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.NaturalId;
 
-/**
- * орпмора.
- * */
 @Entity
 @Data
 @NoArgsConstructor

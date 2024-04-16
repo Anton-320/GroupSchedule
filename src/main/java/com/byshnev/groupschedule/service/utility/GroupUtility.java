@@ -3,9 +3,6 @@ package com.byshnev.groupschedule.service.utility;
 import com.byshnev.groupschedule.model.dto.GroupDto;
 import com.byshnev.groupschedule.model.entity.StudentGroup;
 
-/**
- * Comment.
- * */
 public class GroupUtility {
 
   private GroupUtility() {

@@ -9,18 +9,12 @@ import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-/**
- * asjkdb.
- * */
 @Service
 @AllArgsConstructor
 public class AuditoriumService {
   private AuditoriumRepository repository;
   private AuditoriumCache cache;
 
-  /**
-   * asjkdb.
-   * */
   @Transactional
   public List<String> getAll() {
     return repository.findAll().stream()
@@ -28,9 +22,6 @@ public class AuditoriumService {
         .collect(Collectors.toList());
   }
 
-  /**
-   * asjkdb.
-   * */
   public String getById(Long id) {
     String tmpDto = cache.get(id).orElse(null);
     Auditorium tmp;
@@ -45,9 +36,6 @@ public class AuditoriumService {
     return tmpDto;
   }
 
-  /**
-   * asjkdb.
-   * */
   @Transactional
   public String create(String auditorium) {
     if (!repository.existsByName(auditorium)) {
@@ -59,9 +47,6 @@ public class AuditoriumService {
     }
   }
 
-  /**
-   * asjkdb.
-   * */
   @Transactional
   public String update(Long id, String auditorium) {
     Auditorium tmp = repository.findById(id).orElse(null);
@@ -74,9 +59,6 @@ public class AuditoriumService {
     }
   }
 
-  /**
-   * asjkdb.
-   * */
   @Transactional
   public boolean delete(Long id) {
     if (!repository.existsById(id)) {

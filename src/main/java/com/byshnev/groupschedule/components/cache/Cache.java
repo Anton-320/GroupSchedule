@@ -6,7 +6,7 @@ import java.util.Optional;
 import lombok.Getter;
 
 /**
- * sdfvhb.
+ * Cache
  * */
 @Getter
 public class Cache<K, T> {
@@ -18,17 +18,11 @@ public class Cache<K, T> {
   //to save the order of adding elements
   private final LinkedList<K> linkedList;
 
-  /**
-   * sdfvhb.
-   * */
   public Cache() {
     storage = new HashMap<>();
     linkedList = new LinkedList<>();
   }
 
-  /**
-   * sdfvhb.
-   * */
   public Optional<T> get(final K key) {
     Optional<T> result = Optional.empty();
     if (contains(key)) {
@@ -40,16 +34,10 @@ public class Cache<K, T> {
     return result;
   }
 
-  /**
-   * sdfvhb.
-   * */
   public int size() {
     return linkedList.size();
   }
 
-  /**
-   * sdfvhb.
-   * */
   public void put(final K key, final T value) {
     if (contains(key)) {
       linkedList.remove(key);
@@ -64,9 +52,6 @@ public class Cache<K, T> {
     return storage.containsKey(key);
   }
 
-  /**
-   * sdfvhb.
-   * */
   public void remove(final K key) {
     if (contains(key)) {
       linkedList.remove(key);

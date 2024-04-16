@@ -17,9 +17,6 @@ import java.util.List;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-/**
- * sdfg.
- * */
 @Data
 @NoArgsConstructor
 @Entity
