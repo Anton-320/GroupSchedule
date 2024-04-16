@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
-
 @AllArgsConstructor
 @Service
 public class ScheduleSearchingService {
@@ -41,8 +40,7 @@ public class ScheduleSearchingService {
               .equals(lesson.getStartTime())
           ))
           .toList();
-    }
-    else {
+    } else {
       schedule = new ArrayList<>();
     }
     if (changes.isEmpty()) {

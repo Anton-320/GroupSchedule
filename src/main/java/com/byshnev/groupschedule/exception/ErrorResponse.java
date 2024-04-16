@@ -1,5 +1,8 @@
 package com.byshnev.groupschedule.exception;
 
+/**
+ * Simple error response class.
+ * */
 public class ErrorResponse {
   private String message;
 

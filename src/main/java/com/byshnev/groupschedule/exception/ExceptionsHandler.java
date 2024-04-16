@@ -10,6 +10,9 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+/**
+ * Simple exception handler.
+ * */
 @RestControllerAdvice
 public class ExceptionsHandler {
 

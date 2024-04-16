@@ -63,7 +63,7 @@ public class LessonUtility {
 
   public static DateLessonListDto convertToDateLessonListDto(List<Lesson> lessons, LocalDate date) {
     Map<Integer, List<Lesson>> lessonsByGroup = lessons.stream()
-        .collect(Collectors.groupingBy(lesson->lesson.getGroup().getGroupNumber()));
+        .collect(Collectors.groupingBy(lesson -> lesson.getGroup().getGroupNumber()));
     return new DateLessonListDto(
         date,
         lessonsByGroup.entrySet().stream()

@@ -3,23 +3,28 @@ package com.byshnev.groupschedule.service.changes;
 import com.byshnev.groupschedule.components.cache.ScheduleChangesCache;
 import com.byshnev.groupschedule.model.dto.DateLessonListDto;
 import com.byshnev.groupschedule.model.dto.GroupLessonListDto;
+import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.model.entity.Auditorium;
 import com.byshnev.groupschedule.model.entity.Lesson;
-import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.model.entity.StudentGroup;
 import com.byshnev.groupschedule.model.entity.Teacher;
-import com.byshnev.groupschedule.repository.*;
+import com.byshnev.groupschedule.repository.AuditoriumRepository;
+import com.byshnev.groupschedule.repository.GroupRepository;
+import com.byshnev.groupschedule.repository.LessonRepository;
+import com.byshnev.groupschedule.repository.TeacherRepository;
 import com.byshnev.groupschedule.service.utility.LessonUtility;
 import com.byshnev.groupschedule.service.utility.TeacherUtility;
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
+/**
+ * Comment.
+ * */
 @Service
 @AllArgsConstructor
 public class LessonService {
@@ -47,8 +52,9 @@ public class LessonService {
 
   public LessonDto getById(Long id) {
     LessonDto tmpDto = cache.get(id).orElse(null);
-    if (tmpDto != null)
+    if (tmpDto != null) {
       return tmpDto;
+    }
     Lesson tmp = lessonRepository.findById(id).orElse(null);
     if (tmp != null) {
       tmpDto = LessonUtility.convertToLessonDto(tmp);
@@ -83,8 +89,7 @@ public class LessonService {
     if (lesson == null)	{	//if it doesn't exists, create new lesson entity
       lesson = createLesson(lessonDto, date, groupNumber);
       result = LessonUtility.convertToLessonDto(lesson);
-    }
-    else {
+    } else {
       cache.remove(lesson.getId());
       result = LessonUtility.convertToLessonDto(updateLesson(lesson, lessonDto));
     }
@@ -105,8 +110,9 @@ public class LessonService {
   @Transactional
   public boolean deleteByGroup(Integer groupNumber) {
     List<Lesson> tmp = lessonRepository.findLessonsByGroupGroupNumber(groupNumber);
-    if (tmp.isEmpty())
+    if (tmp.isEmpty()) {
       return false;
+    }
     tmp.forEach(lesson -> cache.remove(lesson.getId()));
     deleteLinksOfLessons(tmp);
     lessonRepository.deleteAll(tmp);
@@ -117,8 +123,9 @@ public class LessonService {
   public boolean deleteByGroupAndDate(Integer groupNumber, String dateInStr) {
     LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
     List<Lesson> tmp = lessonRepository.findLessonsByGroupAndDate(groupNumber, date);
-    if (tmp.isEmpty())
+    if (tmp.isEmpty()) {
       return false;
+    }
     tmp.forEach(lesson -> cache.remove(lesson.getId()));
     deleteLinksOfLessons(tmp);
     return lessonRepository.deleteByGroupGroupNumberAndDate(groupNumber, date) != 0;
@@ -129,8 +136,9 @@ public class LessonService {
     LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
     LocalTime startTime = LocalTime.parse(startTimeInStr, DateTimeFormatter.ofPattern(TIME_FORMAT));
     Lesson lesson = lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(groupNumber, date, startTime).orElse(null);
-    if (lesson == null)
+    if (lesson == null) {
       return false;
+    }
     lesson.getAuditoriums().forEach(auditorium -> auditorium.getLessons().remove(lesson));
     lesson.getTeachers().forEach(teacher -> teacher.getLessons().remove(lesson));
     lesson.getAuditoriums().clear();
@@ -156,9 +164,11 @@ public class LessonService {
         DateTimeFormatter.ofPattern(TIME_FORMAT)));
     addTeachersAndAuditoriums(lesson, lessonDto);
     StudentGroup tmp = groupRepository.findByGroupNumber(groupNumber);
-    if (tmp == null)
+    if (tmp == null) {
       lesson.setGroup(new StudentGroup(groupNumber));
-    else lesson.setGroup(tmp);
+    } else {
+      lesson.setGroup(tmp);
+    }
     return lessonRepository.save(lesson);
   }
 
@@ -199,9 +209,10 @@ public class LessonService {
 
     lessonDto.getTeachers().forEach(tmp -> {
       Teacher teacher = teacherRepository.findByUrlId(tmp.getUrlId());
-      if (teacher == null)
+      if (teacher == null) {
         teacher = teacherRepository.findByNameAndSurnameAndPatronymic(
             tmp.getName(), tmp.getSurname(), tmp.getPatronymic());
+      }
       if (teacher == null) {        //if not found, create
         teacher = TeacherUtility.createEntityObjWithoutLink(tmp);
       }

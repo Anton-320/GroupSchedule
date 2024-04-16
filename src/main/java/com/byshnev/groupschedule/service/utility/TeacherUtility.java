@@ -28,6 +28,4 @@ public class TeacherUtility {
         teacher.getDegree(),
         teacher.getEmail());
   }
-
-
 }

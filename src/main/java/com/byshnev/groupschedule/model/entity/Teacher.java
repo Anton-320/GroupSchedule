@@ -41,8 +41,12 @@ public class Teacher {
 
   @Override
   public boolean equals(Object o) {
-    if (this == o) return true;
-    if (o == null || getClass() != o.getClass()) return false;
+    if (this == o) {
+      return true;
+    }
+    if (o == null || getClass() != o.getClass()) {
+      return false;
+    }
     Teacher teacher = (Teacher) o;
     return name.equals(teacher.name) && surname.equals(teacher.surname) && patronymic.equals(teacher.patronymic);
   }

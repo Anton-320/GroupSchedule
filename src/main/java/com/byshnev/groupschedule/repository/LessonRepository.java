@@ -2,20 +2,23 @@ package com.byshnev.groupschedule.repository;
 
 import com.byshnev.groupschedule.model.entity.Lesson;
 import com.byshnev.groupschedule.model.entity.Teacher;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.List;
-import java.util.Optional;
-
+/**
+ * LessonRepository.
+ * */
 @Repository
 public interface LessonRepository extends JpaRepository<Lesson, Long> {
 
-  Optional<Lesson> findLessonByGroupGroupNumberAndDateAndStartTime(Integer group, LocalDate date, LocalTime startTime);
+  Optional<Lesson> findLessonByGroupGroupNumberAndDateAndStartTime(
+      Integer group, LocalDate date, LocalTime startTime);
 
   List<Lesson> findLessonsByGroupGroupNumber(Integer group);
 

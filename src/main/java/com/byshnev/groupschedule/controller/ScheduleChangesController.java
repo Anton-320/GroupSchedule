@@ -22,7 +22,6 @@ public class ScheduleChangesController {
   private static final String SUCCESSFUL_DELETING = "Deleting was successful";
   private static final String NOT_SUCCESSFUL_DELETING = "Deleting wasn't successful";
 
-
   @GetMapping("/all")
   public List<GroupLessonListDto> getAllScheduleChanges() {
     return service.getAll();
@@ -36,9 +35,11 @@ public class ScheduleChangesController {
   @GetMapping
   public ResponseEntity<LessonDto> getById(@RequestParam Long id) {
     LessonDto tmp = service.getById(id);
-    if (tmp != null)
+    if (tmp != null) {
       return new ResponseEntity<>(tmp, HttpStatus.FOUND);
-    else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
   }
 
   @GetMapping("/{groupNumber}/{date}")
@@ -64,24 +65,28 @@ public class ScheduleChangesController {
 
   @DeleteMapping("/{groupNumber}")
   public ResponseEntity<String> deleteScheduleChanges(@Positive @PathVariable Integer groupNumber) {
-    if(service.deleteByGroup(groupNumber))
+    if (service.deleteByGroup(groupNumber)) {
       return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
-    else return ResponseEntity.badRequest().body(NOT_SUCCESSFUL_DELETING);
+    } else {
+      return ResponseEntity.badRequest().body(NOT_SUCCESSFUL_DELETING);
+    }
   }
 
   @DeleteMapping("/{groupNumber}/{date}")
   public ResponseEntity<String> deleteScheduleChanges(@PathVariable Integer groupNumber, @PathVariable String date) {
-    if (service.deleteByGroupAndDate(groupNumber, date))
+    if (service.deleteByGroupAndDate(groupNumber, date)) {
       return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
-    else
+    } else {
       return ResponseEntity.badRequest().body(NOT_SUCCESSFUL_DELETING);
+    }
   }
 
   @DeleteMapping("/{groupNumber}/{date}/{startTime}")
   public ResponseEntity<String> deleteScheduleChange(@PathVariable Integer groupNumber, @PathVariable String date, @PathVariable String startTime) {
-    if (service.deleteByGroupAndDateAndTime(date, startTime, groupNumber))
+    if (service.deleteByGroupAndDateAndTime(date, startTime, groupNumber)) {
       return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
-    else
+    } else {
       return ResponseEntity.badRequest().body(NOT_SUCCESSFUL_DELETING);
+    }
   }
 }

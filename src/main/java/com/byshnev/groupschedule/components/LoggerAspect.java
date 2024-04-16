@@ -18,7 +18,7 @@ public class LoggerAspect {
 
   @Pointcut("execution(public * com.byshnev.groupschedule.service.changes.*.*(..))"
       + "|| execution(public * com.byshnev.groupschedule.service.search.*.*(..))")
-  public void servicesPointcut() {}
+  public void servicesPointcut() { }
 
   /**
    * skdfjvb.

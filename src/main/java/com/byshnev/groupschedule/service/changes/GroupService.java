@@ -7,11 +7,14 @@ import com.byshnev.groupschedule.model.entity.StudentGroup;
 import com.byshnev.groupschedule.repository.GroupRepository;
 import com.byshnev.groupschedule.service.utility.GroupUtility;
 import jakarta.transaction.Transactional;
+import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 
+/**
+ * Comment.
+ * */
 @Service
 @AllArgsConstructor
 public class GroupService {
@@ -20,6 +23,9 @@ public class GroupService {
   private ScheduleChangesCache lessonCache;
   private LessonService lessonService;
 
+  /**
+   * Comment.
+   * */
   @Transactional
   public List<GroupDto> getAllGroups() {
     return groupRepository.findAll().stream()
@@ -27,12 +33,17 @@ public class GroupService {
         .toList();
   }
 
+  /**
+   * Comment.
+   * */
   public GroupDto getGroupByNum(Integer groupNumber) {
     GroupDto tmpDto = groupCache.get(groupNumber).orElse(null);
     StudentGroup tmp;
-    if (tmpDto != null)
+    if (tmpDto != null) {
       return tmpDto;
-    else if ((tmp = groupRepository.findById(groupNumber).orElse(null)) != null) {
+    }
+    tmp = groupRepository.findById(groupNumber).orElse(null);
+    if (tmp != null) {
       tmpDto = GroupUtility.convertToDto(tmp);
       groupCache.put(groupNumber, tmpDto);
       return tmpDto;
@@ -40,16 +51,23 @@ public class GroupService {
     return null;
   }
 
+  /**
+   * Comment.
+   * */
   @Transactional
   public GroupDto add(GroupDto group) {
     if (groupRepository.findByGroupNumber(group.getGroupNumber()) == null) {
       groupCache.put(group.getGroupNumber(), group);
       return GroupUtility.convertToDto(
           groupRepository.save(GroupUtility.createEntityWithoutLink(group)));
+    } else {
+      return null;
     }
-    else return null;
   }
 
+  /**
+   * Comment.
+   * */
   @Transactional
   public GroupDto update(Integer groupNumber, GroupDto group) {
     StudentGroup tmp = groupRepository.findById(groupNumber).orElse(null);
@@ -59,10 +77,14 @@ public class GroupService {
       groupCache.put(groupNumber, group);
       groupRepository.flush();
       return group;
+    } else {
+      return null;
     }
-    else return null;
   }
 
+  /**
+   * Comment.
+   * */
   @Transactional
   public boolean delete(Integer groupNumber) {
     StudentGroup tmp = groupRepository.findById(groupNumber).orElse(null);
@@ -77,5 +99,4 @@ public class GroupService {
     groupRepository.deleteById(groupNumber);
     return true;
   }
-
 }

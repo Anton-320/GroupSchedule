@@ -32,23 +32,29 @@ public class TeacherController {
   @PostMapping
   public ResponseEntity<TeacherDto> addTeacher(@NotEmpty @RequestBody TeacherDto teacher) {
     TeacherDto tmp = service.add(teacher);
-    if (tmp != null)
+    if (tmp != null) {
       return new ResponseEntity<>(tmp, HttpStatus.CREATED);
-    else return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    } else {
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
   }
 
   @PutMapping("/{urlId}")
   public ResponseEntity<TeacherDto> updateTeacher(@NotEmpty @PathVariable String urlId, @RequestBody TeacherDto teacher) {
     TeacherDto tmp = service.update(urlId, teacher);
-    if (tmp != null)
+    if (tmp != null) {
       return new ResponseEntity<>(tmp, HttpStatus.ACCEPTED);
-    else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
   }
 
   @DeleteMapping("/{urlId}")
   public ResponseEntity<String> deleteTeacher(@NotEmpty @PathVariable String urlId) {
-    if (service.delete(urlId))
+    if (service.delete(urlId)) {
       return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
   }
 }
