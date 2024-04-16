@@ -8,15 +8,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
+/**
+ * skdfjvb.
+ * */
 @Aspect
 @Component
 public class LoggerAspect {
   private final Logger logger = LoggerFactory.getLogger(LoggerAspect.class);
 
-  @Pointcut("execution(public * com.byshnev.groupschedule.service.changes.*.*(..))" +
-      "|| execution(public * com.byshnev.groupschedule.service.search.*.*(..))")
+  @Pointcut("execution(public * com.byshnev.groupschedule.service.changes.*.*(..))"
+      + "|| execution(public * com.byshnev.groupschedule.service.search.*.*(..))")
   public void servicesPointcut() {}
 
+  /**
+   * skdfjvb.
+   * */
   @Before("servicesPointcut()")
   public void serviceLog(JoinPoint joinPoint) {
     logger.info("Service method was invoked - Class: {}, Method: {}, Args: {}",
@@ -25,6 +31,9 @@ public class LoggerAspect {
                 joinPoint.getArgs());
   }
 
+  /**
+   * skdfjvb.
+   * */
   @Before("execution(* com.byshnev.groupschedule.exception.ExceptionsHandler.*(..))")
   public void errorLog(JoinPoint joinPoint) {
     logger.error("error: Exception handler {} with parameter(s) {} invoked",
