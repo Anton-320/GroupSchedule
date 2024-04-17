@@ -6,7 +6,6 @@ import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.service.changes.LessonService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

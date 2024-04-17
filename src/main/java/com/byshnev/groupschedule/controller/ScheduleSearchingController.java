@@ -5,7 +5,6 @@ import com.byshnev.groupschedule.service.search.ScheduleSearchingService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
