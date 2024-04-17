@@ -3,6 +3,8 @@ package com.byshnev.groupschedule.controller;
 import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.service.search.ScheduleSearchingService;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import org.springframework.validation.annotation.Validated;
@@ -23,7 +25,7 @@ public class ScheduleSearchingController {
   private ScheduleSearchingService service;
 
   @GetMapping
-  public List<LessonDto> getSchedule(@Positive @RequestParam Integer groupNumber, @RequestParam String date) {
+  public List<LessonDto> getSchedule(@Min(100000) @Max(999999) @RequestParam Integer groupNumber, @RequestParam String date) {
     try {
       return service.getSchedule(groupNumber, date);
     } catch (JsonProcessingException e) {

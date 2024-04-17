@@ -2,7 +2,8 @@ package com.byshnev.groupschedule.controller;
 
 import com.byshnev.groupschedule.model.dto.GroupDto;
 import com.byshnev.groupschedule.service.changes.GroupService;
-import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,7 @@ public class GroupController {
   }
 
   @GetMapping("/{groupNumber}")
-  public ResponseEntity<GroupDto> getById(@Positive @PathVariable Integer groupNumber) {
+  public ResponseEntity<GroupDto> getById(@Min(100000) @Max(999999) @PathVariable Integer groupNumber) {
     GroupDto tmp = service.getGroupByNum(groupNumber);
     if (tmp != null) {
       return new ResponseEntity<>(tmp, HttpStatus.FOUND);
@@ -40,7 +41,7 @@ public class GroupController {
   }
 
   @PostMapping()
-  public ResponseEntity<GroupDto> addGroup(@Positive @RequestBody GroupDto group) {
+  public ResponseEntity<GroupDto> addGroup(@Min(100000) @Max(999999) @RequestBody GroupDto group) {
     GroupDto tmp = service.add(group);
     if (tmp == null) {
       return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -50,7 +51,7 @@ public class GroupController {
   }
 
   @PutMapping("/{groupNumber}")
-  public ResponseEntity<GroupDto> updateGroup(@Positive @PathVariable Integer groupNumber,
+  public ResponseEntity<GroupDto> updateGroup(@Min(100000) @Max(999999) @PathVariable Integer groupNumber,
                                               @RequestBody GroupDto group) {
     GroupDto tmp = service.update(groupNumber, group);
     if (tmp == null) {
@@ -61,7 +62,7 @@ public class GroupController {
   }
 
   @DeleteMapping("/{groupNumber}")
-  public ResponseEntity<String> deleteGroup(@Positive @PathVariable Integer groupNumber) {
+  public ResponseEntity<String> deleteGroup(@Min(100000) @Max(999999) @PathVariable Integer groupNumber) {
     if (service.delete(groupNumber)) {
       return new ResponseEntity<>("Deleting was successful", HttpStatus.NO_CONTENT);
     } else {

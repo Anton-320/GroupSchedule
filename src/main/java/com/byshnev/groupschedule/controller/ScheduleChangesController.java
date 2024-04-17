@@ -4,6 +4,8 @@ import com.byshnev.groupschedule.model.dto.DateLessonListDto;
 import com.byshnev.groupschedule.model.dto.GroupLessonListDto;
 import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.service.changes.LessonService;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,7 +30,7 @@ public class ScheduleChangesController {
   }
 
   @GetMapping("/{groupNumber}")
-  public GroupLessonListDto getAllGroupScheduleChanges(@Positive @PathVariable(name = "groupNumber") Integer groupNum) {
+  public GroupLessonListDto getAllGroupScheduleChanges(@Min(100000) @Max(999999) @PathVariable(name = "groupNumber") Integer groupNum) {
     return service.getByGroup(groupNum);
   }
 
@@ -43,7 +45,8 @@ public class ScheduleChangesController {
   }
 
   @GetMapping("/{groupNumber}/{date}")
-  public List<LessonDto> getGroupScheduleChangesByDate(@PathVariable(name = "date") String date, @PathVariable(name = "groupNumber") Integer groupNum) {
+  public List<LessonDto> getGroupScheduleChangesByDate(
+      @PathVariable(name = "date") String date, @Min(100000) @Max(999999) @PathVariable(name = "groupNumber") Integer groupNum) {
     return service.getByGroupAndDate(groupNum, date);
   }
 
@@ -53,7 +56,7 @@ public class ScheduleChangesController {
   }
 
   @PostMapping
-  public ResponseEntity<LessonDto> addScheduleChange(@RequestParam(name = "groupNum") Integer groupNum, @RequestParam(name = "date") String date, @RequestBody LessonDto lesson) {
+  public ResponseEntity<LessonDto> addScheduleChange(@Min(100000) @Max(999999) @RequestParam(name = "groupNum") Integer groupNum, @RequestParam(name = "date") String date, @RequestBody LessonDto lesson) {
     return ResponseEntity.ok(service.add(lesson, date, groupNum));
   }
 
@@ -64,7 +67,7 @@ public class ScheduleChangesController {
   }
 
   @DeleteMapping("/{groupNumber}")
-  public ResponseEntity<String> deleteScheduleChanges(@Positive @PathVariable Integer groupNumber) {
+  public ResponseEntity<String> deleteScheduleChanges(@Min(100000) @Max(999999) @PathVariable Integer groupNumber) {
     if (service.deleteByGroup(groupNumber)) {
       return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
     } else {
@@ -73,7 +76,7 @@ public class ScheduleChangesController {
   }
 
   @DeleteMapping("/{groupNumber}/{date}")
-  public ResponseEntity<String> deleteScheduleChanges(@PathVariable Integer groupNumber, @PathVariable String date) {
+  public ResponseEntity<String> deleteScheduleChanges(@Min(100000) @Max(999999) @PathVariable Integer groupNumber, @PathVariable String date) {
     if (service.deleteByGroupAndDate(groupNumber, date)) {
       return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
     } else {
@@ -82,7 +85,7 @@ public class ScheduleChangesController {
   }
 
   @DeleteMapping("/{groupNumber}/{date}/{startTime}")
-  public ResponseEntity<String> deleteScheduleChange(@PathVariable Integer groupNumber, @PathVariable String date, @PathVariable String startTime) {
+  public ResponseEntity<String> deleteScheduleChange(@Min(100000) @Max(999999) @PathVariable Integer groupNumber, @PathVariable String date, @PathVariable String startTime) {
     if (service.deleteByGroupAndDateAndTime(date, startTime, groupNumber)) {
       return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
     } else {
