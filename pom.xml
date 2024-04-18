@@ -14,7 +14,7 @@
     <name>groupSchedule</name>
     <description>groupSchedule</description>
     <properties>
-        <java.version>21</java.version>
+        <java.version>19</java.version>
         <sonar.organization>anton-320</sonar.organization>
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
