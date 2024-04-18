@@ -18,6 +18,7 @@ import jakarta.transaction.Transactional;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -91,6 +92,29 @@ public class LessonService {
       result = LessonUtility.convertToLessonDto(updateLesson(lesson, lessonDto));
     }
     cache.put(lesson.getId(), result);
+    return result;
+  }
+
+  @Transactional
+  public List<LessonDto> addBatch(Integer groupNumber, String dateInString, List<LessonDto> lessonDtos) {
+    List<LessonDto> result = new ArrayList<>();
+    LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern(DATE_FORMAT));
+    lessonDtos.stream().forEach(lessonDto -> {
+      Lesson lesson = lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(
+          groupNumber, date, LocalTime.parse(
+              lessonDto.getStartTime(),
+              DateTimeFormatter.ofPattern(TIME_FORMAT))).orElse(null);
+      LessonDto addedLessonDto;
+      if (lesson == null)	{	//if it doesn't exists, create new lesson entity
+        lesson = createLesson(lessonDto, date, groupNumber);
+        addedLessonDto = LessonUtility.convertToLessonDto(lesson);
+      } else {
+        cache.remove(lesson.getId());
+        addedLessonDto = LessonUtility.convertToLessonDto(updateLesson(lesson, lessonDto));
+      }
+      cache.put(lesson.getId(), addedLessonDto);
+      result.add(addedLessonDto);
+    });
     return result;
   }
 

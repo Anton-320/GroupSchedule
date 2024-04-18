@@ -55,8 +55,18 @@ public class ScheduleChangesController {
   }
 
   @PostMapping
-  public ResponseEntity<LessonDto> addScheduleChange(@Min(100000) @Max(999999) @RequestParam(name = "groupNum") Integer groupNum, @RequestParam(name = "date") String date, @RequestBody LessonDto lesson) {
+  public ResponseEntity<LessonDto> addScheduleChange(
+      @Min(100000) @Max(999999) @RequestParam(name = "groupNum") Integer groupNum,
+      @RequestParam(name = "date") String date, @RequestBody LessonDto lesson) {
     return ResponseEntity.ok(service.add(lesson, date, groupNum));
+  }
+
+  @PostMapping("/batch")
+  public ResponseEntity<List<LessonDto>> addScheduleChanges(
+      @Min(100000) @Max(999999) @RequestParam(name = "groupNum") Integer groupNum,
+      @RequestParam(name = "date") String date, @RequestBody LessonDto lesson) {
+
+    return null;
   }
 
   @PutMapping("/{id}")
