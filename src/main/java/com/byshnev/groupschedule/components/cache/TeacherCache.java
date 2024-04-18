@@ -5,5 +5,4 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class TeacherCache extends Cache<String, TeacherDto> {
-
 }
