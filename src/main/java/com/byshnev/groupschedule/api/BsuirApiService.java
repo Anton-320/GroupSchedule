@@ -14,9 +14,6 @@ import java.util.stream.StreamSupport;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
-/**
- * sdkfjvb.
- * */
 @Component
 public class BsuirApiService {
   private final RestTemplate restTemplate = new RestTemplate();
@@ -55,9 +52,6 @@ public class BsuirApiService {
     return res;
   }
 
-  /**
-   * lskdfjn.
-   * */
   public List<LessonDto> getScheduleFromBsuirApi(Integer groupNum, LocalDate date)
       throws JsonProcessingException {
     int[] dateInfo = defineWeekNumber(date);   //номер недели и день недели
@@ -106,5 +100,4 @@ public class BsuirApiService {
     }
     return result;
   }
-
 }
