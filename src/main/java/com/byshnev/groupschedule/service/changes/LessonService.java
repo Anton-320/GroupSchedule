@@ -219,7 +219,7 @@ public class LessonService {
 
   //creates and links teachers and auditoriums to the lesson entity according to the dto content
   private void addTeachersAndAuditoriums(Lesson lesson, LessonDto lessonDto) {
-    lessonDto.getAuditoriums().forEach((auditorium) -> {
+    lessonDto.getAuditoriums().forEach(auditorium -> {
       Auditorium entity = auditoriumRepository.findByName(auditorium);
       if (entity == null) {
         entity = new Auditorium(auditorium);
