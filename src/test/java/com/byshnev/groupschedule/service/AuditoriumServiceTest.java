@@ -75,9 +75,53 @@ public class AuditoriumServiceTest {
     when(cache.get(id)).thenReturn(Optional.empty());
     when(repository.findById(id)).thenReturn(Optional.empty());
     String auditorium = service.getById(id);
-    verify(repository, times(1)).findById(any());
-    verify(cache, times(1)).put(id, auditorium);
+    verify(cache, times(1)).get(id);
+    verify(repository, times(1)).findById(id);
     assertNull(auditorium);
   }
+
+  @Test
+  void createTest_NotExists() {
+    String auditorium = "505-5 к.";
+    when(repository.existsByName(auditorium)).thenReturn(false);
+    when(repository.save(any())).thenReturn(new Auditorium(2L, "505-5 к.", any()));
+    String finalResult = service.create(auditorium);
+    verify(repository, times(1)).save(any());
+    verify(cache, times(1)).put(any(), any());
+    assertEquals(auditorium, finalResult);
+  }
+
+  @Test
+  void createTest_Exists() {
+    String auditorium = "505-5 к.";
+    when(repository.existsByName(auditorium)).thenReturn(true);
+    String finalResult = service.create(auditorium);
+    verify(repository, never()).save(any());
+    verify(cache, never()).put(any(), any());
+    assertNull(finalResult);
+  }
+
+  @Test
+  void updateTest_Exists() {
+    String initialValue = "505-5 к.";
+    String newValue = "514-5 к.";
+    Auditorium auditorium = mock(Auditorium.class);
+    auditorium = new Auditorium(any(), initialValue, any());
+    when(repository.findById(anyLong())).
+        thenReturn(Optional.of(auditorium));
+    auditorium = repository.findById(anyLong()).orElse(null);
+    when(repository.save(any())).thenReturn(new Auditorium(any(), newValue, any()));
+    String finalResult = service.create(initialValue);
+    verify(repository.findById(anyLong()));
+    verify(repository, times(1)).save(any());
+    verify(cache, times(1)).put(any(), any());
+    assertEquals(initialValue, finalResult);
+  }
+  
+  @Test
+  void deleteTest() {
+    
+  }
 }
+
 
