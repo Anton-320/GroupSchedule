@@ -130,13 +130,27 @@ public class AuditoriumServiceTest {
   }
 
   @Test
-  void deleteTest() {
-    Auditorium auditoriumTmp = new Auditorium(any(), "505-5 к.", any());
-    when(repository.findById(any())).thenReturn(Optional.of(auditoriumTmp));
-    service.delete(anyLong());
-    verify(repository, times(1)).findById(any());
+  void deleteTest_Exists() {
+    Long id = 5L;
+    Auditorium auditoriumTmp = new Auditorium(id, "505-5 к.", new ArrayList<>());
+    when(repository.findById(anyLong())).thenReturn(Optional.of(auditoriumTmp));
+    boolean result = service.delete(id);
+    verify(repository, times(1)).findById(anyLong());
     verify(repository, times(1)).delete(any());
     verify(cache, times(1)).remove(any());
+    assertTrue(result);
+  }
+
+  @Test
+  void deleteTest_DoesNotExists() {
+    Long id = 5L;
+    Auditorium auditoriumTmp = new Auditorium(id, "505-5 к.", new ArrayList<>());
+    when(repository.findById(anyLong())).thenReturn(Optional.empty());
+    boolean result = service.delete(id);
+    verify(repository, times(1)).findById(anyLong());
+    verify(repository, never()).delete(any());
+    verify(cache, never()).remove(any());
+    assertFalse(result);
   }
 }
 
