@@ -61,9 +61,6 @@ public class AuditoriumService {
 
   @Transactional
   public boolean delete(Long id) {
-    if (!repository.existsById(id)) {
-      return false;
-    }
     Auditorium tmp = repository.findById(id).orElse(null);
     if (tmp == null) {
       return false;

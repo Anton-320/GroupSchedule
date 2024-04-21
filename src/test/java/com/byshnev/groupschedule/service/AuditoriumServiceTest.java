@@ -103,24 +103,40 @@ public class AuditoriumServiceTest {
 
   @Test
   void updateTest_Exists() {
+    Long id = 5L;
     String initialValue = "505-5 к.";
     String newValue = "514-5 к.";
-    Auditorium auditorium = mock(Auditorium.class);
-    auditorium = new Auditorium(any(), initialValue, any());
-    when(repository.findById(anyLong())).
+    Auditorium auditorium = new Auditorium(125L, initialValue, any());
+    when(repository.findById(id)).
         thenReturn(Optional.of(auditorium));
-    auditorium = repository.findById(anyLong()).orElse(null);
-    when(repository.save(any())).thenReturn(new Auditorium(any(), newValue, any()));
-    String finalResult = service.create(initialValue);
-    verify(repository.findById(anyLong()));
+    when(repository.save(new Auditorium(id, newValue, any()))).thenReturn(new Auditorium(125L, newValue, any()));
+    String finalResult = service.update(id, initialValue);
+    verify(repository, times(1)).findById(id);
     verify(repository, times(1)).save(any());
     verify(cache, times(1)).put(any(), any());
-    assertEquals(initialValue, finalResult);
+    assertEquals(newValue, finalResult);
   }
-  
+
+  @Test
+  void updateTest_NotExists() {
+    String initialValue = "505-5 к.";
+    when(repository.findById(any())).
+        thenReturn(Optional.empty());
+    String finalResult = service.update(any(), initialValue);
+    verify(repository, times(1)).findById(any());
+    verify(repository, never()).save(any());
+    verify(cache, never()).put(any(), any());
+    assertNull(finalResult);
+  }
+
   @Test
   void deleteTest() {
-    
+    Auditorium auditoriumTmp = new Auditorium(any(), "505-5 к.", any());
+    when(repository.findById(any())).thenReturn(Optional.of(auditoriumTmp));
+    service.delete(anyLong());
+    verify(repository, times(1)).findById(any());
+    verify(repository, times(1)).delete(any());
+    verify(cache, times(1)).remove(any());
   }
 }
 
