@@ -4,10 +4,10 @@ import com.byshnev.groupschedule.components.cache.AuditoriumCache;
 import com.byshnev.groupschedule.model.entity.Auditorium;
 import com.byshnev.groupschedule.repository.AuditoriumRepository;
 import jakarta.transaction.Transactional;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -19,7 +19,7 @@ public class AuditoriumService {
   public List<String> getAll() {
     return repository.findAll().stream()
         .map(Auditorium::getName)
-        .collect(Collectors.toList());
+        .toList();
   }
 
   public String getById(Long id) {
