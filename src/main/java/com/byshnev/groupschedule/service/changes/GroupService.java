@@ -57,7 +57,6 @@ public class GroupService {
   public GroupDto update(Integer groupNumber, GroupDto group) {
     StudentGroup tmp = groupRepository.findById(groupNumber).orElse(null);
     if (tmp != null) {
-      tmp.setGroupNumber(group.getGroupNumber());
       tmp.setStudentsAmount(group.getStudentsAmount());
       groupCache.put(groupNumber, group);
       groupRepository.flush();
