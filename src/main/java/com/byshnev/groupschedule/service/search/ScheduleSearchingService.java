@@ -33,14 +33,14 @@ public class ScheduleSearchingService {
       cache.put(key, schedule);
     }
     List<Lesson> changes = lessonRepository.findLessonsByGroupAndDate(groupNum, date);
-    if (schedule != null) {
+    if (schedule != null && changes != null) {
       schedule = schedule.stream()
           .filter(lessonDto -> changes.stream().noneMatch(lesson -> LocalTime
               .parse(lessonDto.getStartTime(), DateTimeFormatter.ofPattern("HH:mm"))
               .equals(lesson.getStartTime())
           ))
           .toList();
-    } else {
+    } else if (schedule == null) {
       schedule = new ArrayList<>();
     }
     if (changes.isEmpty()) {

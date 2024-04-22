@@ -2,14 +2,27 @@ package com.byshnev.groupschedule.service;
 
 import com.byshnev.groupschedule.api.BsuirApiService;
 import com.byshnev.groupschedule.components.cache.ScheduleGettingCache;
+import com.byshnev.groupschedule.model.dto.LessonDto;
+import com.byshnev.groupschedule.model.dto.TeacherDto;
 import com.byshnev.groupschedule.repository.LessonRepository;
 import com.byshnev.groupschedule.service.search.ScheduleSearchingService;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class ScheduleSearchingServiceTest {
@@ -32,6 +45,33 @@ public class ScheduleSearchingServiceTest {
     MockitoAnnotations.openMocks(this);
   }
 
-
-
+  @Test
+  void getSchedule_DoesNotExistInCacheWithNoChanges() throws JsonProcessingException {
+    Integer groupNumber = 250501;
+    String dateInString = "05-04-2024";
+    String key = groupNumber.toString() + dateInString;
+    LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+    final List<LessonDto> scheduleWithNoChanges = new ArrayList<>();
+    scheduleWithNoChanges.add(new LessonDto(
+        "ОИнфБ", null, "14:00", "15:20",
+        null, "ЛК", List.of("311-1 к."), 0,
+        List.of(new TeacherDto(
+            "nataly", "Наталья", "Смирнова",
+            "Анатольевна", "", "zismirnova@bsuir.by"
+        ))));
+    scheduleWithNoChanges.add(new LessonDto(
+        "ОУИС", null, "15:50", "17:10",
+        null, "ЛК", List.of("311-1 к."), 0,
+        List.of(new TeacherDto(
+            "nataly", "Наталья", "Смирнова",
+            "Анатольевна", "", "zismirnova@bsuir.by"
+        ))));
+    when(cache.get(key)).thenReturn(Optional.empty());
+    when(bsuirApiService.getScheduleFromBsuirApi(groupNumber, date))
+        .thenReturn(scheduleWithNoChanges);
+    when(lessonRepository.findLessonsByGroupAndDate(groupNumber, date)).thenReturn(new ArrayList<>());
+    List<LessonDto> result = service.getSchedule(groupNumber, dateInString);
+    verify(cache, times(1)).get(key);
+    assertEquals(scheduleWithNoChanges.size(), result.size());
+  }
 }
