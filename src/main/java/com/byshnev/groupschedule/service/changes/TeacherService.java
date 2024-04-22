@@ -18,13 +18,13 @@ public class TeacherService {
   private TeacherCache cache;
 
   @Transactional
-  public List<TeacherDto> findAllTeachers() {
+  public List<TeacherDto> getAll() {
     return repository.findAll().stream()
         .map((TeacherUtility::convertToDto))
         .toList();
   }
 
-  public TeacherDto findTeacherByUrlId(String urlId) {
+  public TeacherDto getByUrlId(String urlId) {
     TeacherDto tmpDto = cache.get(urlId).orElse(null);
     Teacher tmp;
     if (tmpDto != null) {

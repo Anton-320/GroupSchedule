@@ -21,12 +21,12 @@ public class TeacherController {
 
   @GetMapping("/all")
   public List<TeacherDto> getAllTeachers() {
-    return service.findAllTeachers();
+    return service.getAll();
   }
 
   @GetMapping("/{urlId}")
   public TeacherDto getTeacherByUrlId(@NotEmpty @PathVariable String urlId) {
-    return service.findTeacherByUrlId(urlId);
+    return service.getByUrlId(urlId);
   }
 
   @PostMapping
