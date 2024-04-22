@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -16,7 +17,7 @@ public class StudentGroup {
   private Integer groupNumber;
   private Integer studentsAmount;
   @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.LAZY)	//link to lessons
-  private List<Lesson> lessons;
+  private List<Lesson> lessons = new ArrayList<>();
 
   public StudentGroup(Integer groupNum) {
     this.groupNumber = groupNum;
