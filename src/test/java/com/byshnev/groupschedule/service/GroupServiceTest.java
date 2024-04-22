@@ -25,25 +25,25 @@ import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class GroupServiceTest {
-  @InjectMocks
-  private GroupService groupService;
+    @InjectMocks
+    private GroupService groupService;
 
-  @Mock
-  private GroupRepository repository;
+    @Mock
+    private GroupRepository repository;
 
-  @Mock
-  private ScheduleChangesCache lessonCache;
+    @Mock
+    private ScheduleChangesCache lessonCache;
 
-  @Mock
-  private LessonService lessonService;
+    @Mock
+    private LessonService lessonService;
 
-  @Mock
-  private GroupCache groupCache;
+    @Mock
+    private GroupCache groupCache;
 
-  @BeforeEach
-  void setUp() {
-    MockitoAnnotations.openMocks(this);
-  }
+    @BeforeEach
+    void setUp() {
+      MockitoAnnotations.openMocks(this);
+    }
 
   @Test
   void getAll() {

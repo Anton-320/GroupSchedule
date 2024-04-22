@@ -80,7 +80,7 @@ public class TeacherService {
 
   private boolean checkIfTeacherExists(TeacherDto teacher) {
     return repository.existsByUrlId(teacher.getUrlId())
-        || repository.existsByNameAndSurnameAndPatronymic(
+          || repository.existsByNameAndSurnameAndPatronymic(
         teacher.getName(),
         teacher.getSurname(),
         teacher.getPatronymic());
