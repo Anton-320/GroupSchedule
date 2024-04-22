@@ -70,7 +70,7 @@ public class AuditoriumServiceTest {
   }
 
   @Test
-  void getByIdTest_NotExists() {
+  void getByIdTest_DoesNotExists() {
     Long id = 125L;
     when(cache.get(id)).thenReturn(Optional.empty());
     when(repository.findById(id)).thenReturn(Optional.empty());
@@ -81,7 +81,7 @@ public class AuditoriumServiceTest {
   }
 
   @Test
-  void createTest_NotExists() {
+  void createTest_DoesNotExists() {
     String auditorium = "505-5 к.";
     when(repository.existsByName(auditorium)).thenReturn(false);
     when(repository.save(any())).thenReturn(new Auditorium(2L, "505-5 к.", any()));
@@ -118,7 +118,7 @@ public class AuditoriumServiceTest {
   }
 
   @Test
-  void updateTest_NotExists() {
+  void updateTest_DoesNotExists() {
     String initialValue = "505-5 к.";
     when(repository.findById(any())).
         thenReturn(Optional.empty());

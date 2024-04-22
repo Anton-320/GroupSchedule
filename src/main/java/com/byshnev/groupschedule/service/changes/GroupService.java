@@ -7,9 +7,10 @@ import com.byshnev.groupschedule.model.entity.StudentGroup;
 import com.byshnev.groupschedule.repository.GroupRepository;
 import com.byshnev.groupschedule.service.utility.GroupUtility;
 import jakarta.transaction.Transactional;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 @AllArgsConstructor
@@ -26,12 +27,12 @@ public class GroupService {
         .toList();
   }
 
-  public GroupDto getGroupByNum(Integer groupNumber) {
+  public GroupDto getGroupByNumber(Integer groupNumber) {
     GroupDto tmpDto = groupCache.get(groupNumber).orElse(null);
-    StudentGroup tmp;
     if (tmpDto != null) {
       return tmpDto;
     }
+    StudentGroup tmp;
     tmp = groupRepository.findById(groupNumber).orElse(null);
     if (tmp != null) {
       tmpDto = GroupUtility.convertToDto(tmp);
@@ -43,7 +44,7 @@ public class GroupService {
 
   @Transactional
   public GroupDto add(GroupDto group) {
-    if (groupRepository.findByGroupNumber(group.getGroupNumber()) == null) {
+    if (!groupRepository.existsById(group.getGroupNumber())) {
       groupCache.put(group.getGroupNumber(), group);
       return GroupUtility.convertToDto(
           groupRepository.save(GroupUtility.createEntityWithoutLink(group)));
