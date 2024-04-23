@@ -54,6 +54,8 @@ public class LessonServiceTest {
     MockitoAnnotations.openMocks(this);
   }
 
+
+
   @Test
   void getAll() {
     final List<Lesson> lessons = new ArrayList<>();
@@ -82,4 +84,7 @@ public class LessonServiceTest {
     List<GroupLessonListDto> result = service.getAll();
     assertEquals(result.size(), 2);
   }
+
+
 }
+

@@ -4,7 +4,10 @@ import com.byshnev.groupschedule.api.BsuirApiService;
 import com.byshnev.groupschedule.components.cache.ScheduleGettingCache;
 import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.model.dto.TeacherDto;
+import com.byshnev.groupschedule.model.entity.Auditorium;
 import com.byshnev.groupschedule.model.entity.Lesson;
+import com.byshnev.groupschedule.model.entity.StudentGroup;
+import com.byshnev.groupschedule.model.entity.Teacher;
 import com.byshnev.groupschedule.repository.LessonRepository;
 import com.byshnev.groupschedule.service.search.ScheduleSearchingService;
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -85,25 +88,9 @@ public class ScheduleSearchingServiceTest {
     String key = groupNumber.toString() + dateInString;
     LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     List<LessonDto> schedule = new ArrayList<>();
-    schedule.add(new LessonDto(
-        "ОИнфБ", null, "14:00", "15:20",
-        null, "ЛК", List.of("311-1 к."), 0,
-        List.of(new TeacherDto(
-            "nataly", "Наталья", "Смирнова",
-            "Анатольевна", "", "zismirnova@bsuir.by"
-        ))));
-    schedule.add(new LessonDto(
-        "ОУИС", null, "15:50", "17:10",
-        null, "ЛК", List.of("311-1 к."), 0,
-        List.of(new TeacherDto(
-            "nataly", "Наталья", "Смирнова",
-            "Анатольевна", "", "zismirnova@bsuir.by"
-        ))));
-    List<Lesson> changes = new ArrayList<>();
-    Lesson lessonTmp = new Lesson();
-    lessonTmp.setStartTime(LocalTime.parse("15:50"));
-    changes.add(new Lesson());
-    changes.add(new Lesson());
+    schedule.add(createTestLessonDto_1());
+    schedule.add(createTestLessonDto_2());
+    List<Lesson> changes = createTestLessonList();
     when(cache.get(key)).thenReturn(Optional.empty());
     when(bsuirApiService.getScheduleFromBsuirApi(groupNumber, date))
         .thenReturn(schedule);
@@ -117,4 +104,63 @@ public class ScheduleSearchingServiceTest {
 
     assertNotNull(result);
   }
+
+  private LessonDto createTestLessonDto_1() {
+    return new LessonDto(
+        "ОИнфБ", null, "14:00", "15:20",
+        null, "ЛК", List.of("311-1 к."), 0,
+        List.of(new TeacherDto(
+            "nataly", "Наталья", "Смирнова",
+            "Анатольевна", "", "zismirnova@bsuir.by"
+        )));
+  }
+
+  private LessonDto createTestLessonDto_2() {
+    return new LessonDto(
+        "ОУИС", null, "15:50", "17:10",
+        null, "ЛК", List.of("311-1 к."), 0,
+        List.of(new TeacherDto(
+            "nataly", "Наталья", "Смирнова",
+            "Анатольевна", "", "zismirnova@bsuir.by"
+        )));
+  }
+
+  private List<Lesson> createTestLessonList() {
+    List<Lesson> result = new ArrayList<>();
+
+    Lesson lesson_1 = new Lesson(
+        0L, null,
+        LocalDate.of(2024, 4,5),
+        "ОИнфБ", null,
+        LocalTime.of(14,0),
+        LocalTime.of(15,20),
+        null, "ЛК",
+        null, 0, null);
+
+    Lesson lesson_2 = new Lesson(
+        1L, null,
+        LocalDate.of(2024, 4,5),
+        "ОУИС", null,
+        LocalTime.of(15,50), LocalTime.of(17,10),
+        null, "ЛК", null, 0, null);
+
+    lesson_1.setAuditoriums(List.of(
+        new Auditorium(0L, "311-1 к.", List.of(lesson_1, lesson_2))));
+    lesson_1.setTeachers(List.of(
+        new Teacher("nataly", "Наталья", "Смирнова",
+                    "Анатольевна", "", "zismirnova@bsuir.by",
+                    List.of(lesson_1, lesson_2))));
+    lesson_1.setGroup(new StudentGroup(
+        250501, 21, List.of(lesson_1, lesson_2)));
+
+    lesson_2.setTeachers(List.of(lesson_1.getTeachers().get(0)));
+    lesson_2.setAuditoriums(List.of(lesson_1.getAuditoriums().get(0)));
+    lesson_2.setGroup(lesson_1.getGroup());
+
+    result.add(lesson_1);
+    result.add(lesson_2);
+
+    return result;
+  }
+
 }
