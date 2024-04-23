@@ -48,8 +48,8 @@ public class ScheduleSearchingService {
     }
 
     schedule = new ArrayList<>(schedule);	//VERY IMPORTANT
-    schedule.addAll(LessonUtility.convertToLessonDtoList(changes.stream()
-                                                             .sorted(Comparator.comparing(Lesson::getStartTime)).toList()));
+    schedule.addAll(LessonUtility.convertToLessonDtoList(
+        changes.stream().sorted(Comparator.comparing(Lesson::getStartTime)).toList()));
     return schedule;
   }
 }
