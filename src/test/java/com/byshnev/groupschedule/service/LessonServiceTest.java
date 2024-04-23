@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
 public class LessonServiceTest {
@@ -54,37 +54,63 @@ public class LessonServiceTest {
     MockitoAnnotations.openMocks(this);
   }
 
-
-
   @Test
   void getAll() {
-    final List<Lesson> lessons = new ArrayList<>();
-    lessons.add(new Lesson(0L, new StudentGroup(250501, 21),
-                           LocalDate.of(2024, 4,5),
-                           "ОИнфБ", null,
-                           LocalTime.of(14,0),
-                           LocalTime.of(15,20),
-                           null, "ЛК",
-                           List.of(new Auditorium("311-1 к.")),
-                           0, List.of(new Teacher(
-            "nataly", "Наталья", "Смирнова",
-            "Анатольевна", "", "zismirnova@bsuir.by"
-        ))));
-    lessons.add(new Lesson(
-        0L, new StudentGroup(251002, 25),
-        LocalDate.of(2024, 4,5),
-        "ОУИС", null,
-        LocalTime.of(15,50), LocalTime.of(17,10),
-        null, "ЛК", List.of(new Auditorium("311-1 к.")), 0,
-        List.of(new Teacher(
-            "nataly", "Наталья", "Смирнова",
-            "Анатольевна", "", "zismirnova@bsuir.by"
-        ))));
+    final List<Lesson> lessons = createTestLessonList();
     when(lessonRepository.findAll()).thenReturn(lessons);
     List<GroupLessonListDto> result = service.getAll();
-    assertEquals(result.size(), 2);
+    assertEquals(1, result.size());
+  }
+
+  @Test
+  void getByGroup() {
+    Integer groupNumber = 250501;
+    final List<Lesson> foundLessons = createTestLessonList();
+    when(lessonRepository.findLessonsByGroupGroupNumber(groupNumber)).thenReturn(foundLessons);
+    GroupLessonListDto result = service.getByGroup(groupNumber);
+    verify(lessonRepository, times(1))
+        .findLessonsByGroupGroupNumber(groupNumber);
+    assertEquals(1, result.getLessons().size());  //1, as lessons are of one date
   }
 
 
+
+  private List<Lesson> createTestLessonList() {
+    List<Lesson> result = new ArrayList<>();
+
+    Lesson lesson_1 = new Lesson(
+        0L, null,
+        LocalDate.of(2024, 4,5),
+        "ОИнфБ", null,
+        LocalTime.of(14,0),
+        LocalTime.of(15,20),
+        null, "ЛК",
+        null, 0, null);
+
+    Lesson lesson_2 = new Lesson(
+        1L, null,
+        LocalDate.of(2024, 4,5),
+        "ОУИС", null,
+        LocalTime.of(15,50), LocalTime.of(17,10),
+        null, "ЛК", null, 0, null);
+
+    lesson_1.setAuditoriums(List.of(
+        new Auditorium(0L, "311-1 к.", List.of(lesson_1, lesson_2))));
+    lesson_1.setTeachers(List.of(
+        new Teacher("nataly", "Наталья", "Смирнова",
+                    "Анатольевна", "", "zismirnova@bsuir.by",
+                    List.of(lesson_1, lesson_2))));
+    lesson_1.setGroup(new StudentGroup(
+        250501, 21, List.of(lesson_1, lesson_2)));
+
+    lesson_2.setTeachers(List.of(lesson_1.getTeachers().get(0)));
+    lesson_2.setAuditoriums(List.of(lesson_1.getAuditoriums().get(0)));
+    lesson_2.setGroup(lesson_1.getGroup());
+
+    result.add(lesson_1);
+    result.add(lesson_2);
+
+    return result;
+  }
 }
 
