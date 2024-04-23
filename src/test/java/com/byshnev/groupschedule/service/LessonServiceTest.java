@@ -28,6 +28,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -252,7 +253,7 @@ public class LessonServiceTest {
     });
 
     when(lessonRepository.save(any())).thenReturn(foundLesson);
-    LessonDto result = service.update(id, newLessonForm);
+    LessonDto result = assertDoesNotThrow(() -> service.update(id, newLessonForm));
     verify(lessonRepository, times(1)).findById(id);
     verify(cache, times(1)).remove(id);
     verify(cache, times(1)).put(eq(id), eq(newLessonForm));
@@ -261,16 +262,100 @@ public class LessonServiceTest {
   }
 
   @Test
-  void deleteByGroup() {
-
+  void update_DoesNotExist() {
+    Long id = 5L;
+    LessonDto dto = createTestLessonDto();
+    when(lessonRepository.findById(id)).thenReturn(Optional.empty());
+    assertThrows(RuntimeException.class, () -> service.update(id, dto));
   }
 
   @Test
-  void deleteByGroupAndDate() {
+  void deleteByGroup_Exist() {
+    Integer groupNumber = 250501;
+    List<Lesson> foundLessons = createTestLessonList();
+    when(lessonRepository.findLessonsByGroupGroupNumber(groupNumber)).thenReturn(foundLessons);
+    boolean returnValue = service.deleteByGroup(groupNumber);
+    verify(lessonRepository, times(1)).findLessonsByGroupGroupNumber(groupNumber);
+    verify(cache, times(2)).remove(any());
+    verify(lessonRepository, times(1)).deleteAll(any());
+    assertTrue(returnValue);
   }
 
   @Test
-  void deleteByGroupAndDateAndTime() {
+  void deleteByGroup_DoNotExist() {
+    Integer groupNumber = 250501;
+    when(lessonRepository.findLessonsByGroupGroupNumber(groupNumber))
+        .thenReturn(Collections.emptyList());
+    boolean returnValue = service.deleteByGroup(groupNumber);
+    verify(lessonRepository, times(1)).findLessonsByGroupGroupNumber(groupNumber);
+    verify(cache, times(0)).remove(any());
+    verify(lessonRepository, times(0)).deleteAll(any());
+    assertFalse(returnValue);
+  }
+
+  @Test
+  void deleteByGroupAndDate_Exist() {
+    Integer groupNumber = 250501;
+    List<Lesson> foundLessons = createTestLessonList();
+    String dateInString = "05-04-2024";
+    LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern(DATE_FORMAT));
+    when(lessonRepository.findLessonsByGroupAndDate(groupNumber, date)).thenReturn(foundLessons);
+    boolean returnValue = service.deleteByGroupAndDate(groupNumber, dateInString);
+    verify(lessonRepository, times(1)).findLessonsByGroupAndDate(groupNumber, date);
+    verify(cache, times(2)).remove(any());
+    verify(lessonRepository, times(1)).deleteByGroupGroupNumberAndDate(any(), any());
+    assertTrue(returnValue);
+  }
+
+  @Test
+  void deleteByGroupAndDate_DoNotExist() {
+    Integer groupNumber = 250501;
+    String dateInString = "05-04-2024";
+    LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern(DATE_FORMAT));
+    when(lessonRepository.findLessonsByGroupAndDate(groupNumber, date))
+        .thenReturn(Collections.emptyList());
+    boolean returnValue = service.deleteByGroupAndDate(groupNumber, dateInString);
+    verify(lessonRepository, times(1)).findLessonsByGroupAndDate(groupNumber, date);
+    verify(cache, times(0)).remove(any());
+    verify(lessonRepository, times(0)).deleteByGroupGroupNumberAndDate(any(), any());
+    assertFalse(returnValue);
+  }
+
+  @Test
+  void deleteByGroupAndDateAndTime_Exists() {
+    Integer groupNumber = 250501;
+    Lesson foundLesson = createTestLesson();
+    String dateInString = "05-04-2024";
+    LocalDate date = foundLesson.getDate();
+    String startTimeInString = foundLesson.getStartTime().toString();
+    LocalTime startTime = foundLesson.getStartTime();
+    when(lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(groupNumber, date, startTime))
+        .thenReturn(Optional.of(foundLesson));
+    boolean returnValue = service
+        .deleteByGroupAndDateAndTime(dateInString, startTimeInString, groupNumber);
+    verify(lessonRepository, times(1))
+        .findLessonByGroupGroupNumberAndDateAndStartTime(groupNumber, date, startTime);
+    verify(cache, times(1)).remove(any());
+    verify(lessonRepository, times(1)).delete(any());
+    assertTrue(returnValue);
+  }
+
+  @Test
+  void deleteByGroupAndDateAndTime_DoesNotExist() {
+    Integer groupNumber = 250501;
+    String dateInString = "05-04-2024";
+    LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern(DATE_FORMAT));
+    String startTimeInString = "17:10";
+    LocalTime startTime = LocalTime.parse(startTimeInString);
+    when(lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(groupNumber, date, startTime))
+        .thenReturn(Optional.empty());
+    boolean returnValue = service
+        .deleteByGroupAndDateAndTime(dateInString, startTimeInString, groupNumber);
+    verify(lessonRepository, times(1))
+        .findLessonByGroupGroupNumberAndDateAndStartTime(groupNumber, date, startTime);
+    verify(cache, times(0)).remove(any());
+    verify(lessonRepository, times(0)).delete(any());
+    assertFalse(returnValue);
   }
 
   private List<Lesson> createTestLessonList() {
@@ -292,17 +377,17 @@ public class LessonServiceTest {
         LocalTime.of(15,50), LocalTime.of(17,10),
         null, "ЛК", null, 0, null);
 
-    lesson_1.setAuditoriums(List.of(
-        new Auditorium(0L, "311-1 к.", List.of(lesson_1, lesson_2))));
-    lesson_1.setTeachers(List.of(
+    lesson_1.setAuditoriums(new ArrayList<>(List.of(
+        new Auditorium(0L, "311-1 к.", new ArrayList<>(List.of(lesson_1, lesson_2))))));
+    lesson_1.setTeachers(new ArrayList<>(List.of(
         new Teacher("nataly", "Наталья", "Смирнова",
                     "Анатольевна", "", "zismirnova@bsuir.by",
-                    List.of(lesson_1, lesson_2))));
+                    new ArrayList<>(List.of(lesson_1, lesson_2))))));
     lesson_1.setGroup(new StudentGroup(
-        250501, 21, List.of(lesson_1, lesson_2)));
+        250501, 21, new ArrayList<>(List.of(lesson_1, lesson_2))));
 
-    lesson_2.setTeachers(List.of(lesson_1.getTeachers().get(0)));
-    lesson_2.setAuditoriums(List.of(lesson_1.getAuditoriums().get(0)));
+    lesson_2.setTeachers(new ArrayList<>(List.of(lesson_1.getTeachers().get(0))));
+    lesson_2.setAuditoriums(new ArrayList<>(List.of(lesson_1.getAuditoriums().get(0))));
     lesson_2.setGroup(lesson_1.getGroup());
 
     result.add(lesson_1);

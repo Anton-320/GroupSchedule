@@ -150,7 +150,7 @@ public class LessonService {
     }
     tmp.forEach(lesson -> cache.remove(lesson.getId()));
     deleteLinksOfLessons(tmp);
-    return lessonRepository.deleteByGroupGroupNumberAndDate(groupNumber, date) != 0;
+    return lessonRepository.deleteByGroupGroupNumberAndDate(groupNumber, date) == 0;
   }
 
   @Transactional
