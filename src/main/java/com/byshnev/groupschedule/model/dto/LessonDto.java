@@ -1,11 +1,13 @@
 package com.byshnev.groupschedule.model.dto;
 
 import jakarta.validation.constraints.NotNull;
-import java.util.List;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+import java.util.List;
+
+@Getter
 @AllArgsConstructor
 public class LessonDto {
   private String name;
