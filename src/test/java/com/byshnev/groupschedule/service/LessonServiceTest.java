@@ -14,6 +14,7 @@ import com.byshnev.groupschedule.repository.GroupRepository;
 import com.byshnev.groupschedule.repository.LessonRepository;
 import com.byshnev.groupschedule.repository.TeacherRepository;
 import com.byshnev.groupschedule.service.changes.LessonService;
+import com.byshnev.groupschedule.service.utility.LessonUtility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -160,19 +161,21 @@ public class LessonServiceTest {
 
   @Test
   void add_DoesNotExist() {
-    LessonDto dto = createTestLessonDto();
-    Lesson foundLesson = createTestLesson();
+    Lesson savedLesson = createTestLesson();
+    LessonDto dto = LessonUtility.convertToLessonDto(savedLesson);
     Integer groupNumber = 250501;
     String dateInString = "05-04-2024";
-    LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
-    LocalTime time = LocalTime.of(15, 50);
+    LocalDate date = savedLesson.getDate();
+    LocalTime time = savedLesson.getStartTime();
     when(lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(
         groupNumber, date, time)).thenReturn(Optional.empty());
     when(groupRepository.findByGroupNumber(groupNumber)).thenReturn(new StudentGroup(groupNumber));
+    when(lessonRepository.save(any())).thenReturn(savedLesson);
     LessonDto result = service.add(dto, dateInString, groupNumber);
     verify(lessonRepository, times(1))
         .findLessonByGroupGroupNumberAndDateAndStartTime(groupNumber, date, time);
-    verify(cache, times(1)).remove(any());
+    verify(groupRepository, times(1)).findByGroupNumber(groupNumber);
+    verify(cache, never()).remove(any());
     verify(cache, times(1)).put(any(), any());
     assertNotNull(result);
   }
