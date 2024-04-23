@@ -182,6 +182,26 @@ public class LessonServiceTest {
 
   @Test
   void addBatch() {
+    List<Lesson> savedLessons = createTestLessonList();
+    List<LessonDto> dtoList = LessonUtility.convertToLessonDtoList(savedLessons);
+    Integer groupNumber = 250501;
+    String dateInString = "05-04-2024";
+    LocalDate date = savedLessons.get(0).getDate();
+    LocalTime time0 = savedLessons.get(0).getStartTime();
+    LocalTime time1 = savedLessons.get(1).getStartTime();
+    when(lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(
+        groupNumber, date, time0)).thenReturn(Optional.of(createTestLesson()));
+    when(lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(
+        groupNumber, date, time1)).thenReturn(Optional.empty());
+    when(groupRepository.findByGroupNumber(groupNumber)).thenReturn(new StudentGroup(groupNumber));
+    when(lessonRepository.save(any())).thenReturn(savedLessons.get(1));
+    List<LessonDto> result = service.addBatch(groupNumber, dateInString, dtoList);
+    verify(lessonRepository, times(2))
+        .findLessonByGroupGroupNumberAndDateAndStartTime(any(), any(), any());
+    verify(groupRepository, times(1)).findByGroupNumber(groupNumber);
+    verify(cache, times(1)).remove(any());
+    verify(cache, times(2)).put(any(), any());
+    assertNotNull(result);
   }
 
   @Test
@@ -245,7 +265,7 @@ public class LessonServiceTest {
         "ОИнфБ", null,
         LocalTime.of(14,0),
         LocalTime.of(15,20),
-        null, "ЛК",
+        "note", "ЛК",
         null, 0, null);
     lesson.setAuditoriums(new ArrayList<>(List.of(
         new Auditorium(0L, "311-1 к.", new ArrayList<>(List.of(lesson))))));
