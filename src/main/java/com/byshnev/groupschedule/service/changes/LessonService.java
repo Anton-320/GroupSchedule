@@ -15,13 +15,14 @@ import com.byshnev.groupschedule.repository.TeacherRepository;
 import com.byshnev.groupschedule.service.utility.LessonUtility;
 import com.byshnev.groupschedule.service.utility.TeacherUtility;
 import jakarta.transaction.Transactional;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
@@ -96,7 +97,7 @@ public class LessonService {
   }
 
   @Transactional
-  public List<LessonDto> addBatch(Integer groupNumber, String dateInString, List<LessonDto> lessonDtos) {
+    public List<LessonDto> addBatch(Integer groupNumber, String dateInString, List<LessonDto> lessonDtos) {
     List<LessonDto> result = new ArrayList<>();
     LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern(DATE_FORMAT));
     lessonDtos.stream().forEach(lessonDto -> {
