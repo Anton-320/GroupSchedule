@@ -15,6 +15,7 @@ import com.byshnev.groupschedule.repository.LessonRepository;
 import com.byshnev.groupschedule.repository.TeacherRepository;
 import com.byshnev.groupschedule.service.changes.LessonService;
 import com.byshnev.groupschedule.service.utility.LessonUtility;
+import com.byshnev.groupschedule.service.utility.TeacherUtility;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -53,6 +54,9 @@ public class LessonServiceTest {
 
   @Mock
   private ScheduleChangesCache cache;
+
+  private static final String DATE_FORMAT = "dd-MM-yyyy";
+  private static final String TIME_FORMAT = "HH:mm";
 
   @BeforeEach
   void setUp() {
@@ -119,7 +123,7 @@ public class LessonServiceTest {
   void getByGroupAndDate() {
     Integer groupNumber = 250501;
     String dateInString = "05-04-2024";
-    LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+    LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern(DATE_FORMAT));
     List<Lesson> lessons = createTestLessonList();
     when(lessonRepository.findLessonsByGroupAndDate(groupNumber, date)).thenReturn(lessons);
     List<LessonDto> result = service.getByGroupAndDate(groupNumber, dateInString);
@@ -149,7 +153,7 @@ public class LessonServiceTest {
     Lesson foundLesson = createTestLesson();
     Integer groupNumber = 250501;
     String dateInString = "05-04-2024";
-    LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+    LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern(DATE_FORMAT));
     LocalTime time = LocalTime.of(15, 50);
     when(lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(
         groupNumber, date, time)).thenReturn(Optional.of(foundLesson));
@@ -205,11 +209,60 @@ public class LessonServiceTest {
   }
 
   @Test
-  void update() {
+  void update_Exists() {
+    Lesson foundLesson = createTestLesson();
+    LessonDto newLessonForm = createTestLessonDto();
+    Long id = foundLesson.getId();
+    when(lessonRepository.findById(id)).thenReturn(Optional.of(foundLesson));
+    foundLesson.setName(newLessonForm.getName());
+    foundLesson.setSubjectFullName(newLessonForm.getSubjectFullName());
+    foundLesson.setEndTime(
+        LocalTime.parse(newLessonForm.getEndTime(), DateTimeFormatter.ofPattern(TIME_FORMAT)));
+    foundLesson.setNote(newLessonForm.getNote());
+    foundLesson.setLessonTypeAbbr(newLessonForm.getLessonTypeAbbr());
+    foundLesson.setSubgroupNum(newLessonForm.getSubgroupNum());
+
+    foundLesson.getAuditoriums().forEach(auditorium -> auditorium.getLessons().remove(foundLesson));
+    foundLesson.getTeachers().forEach(teacher -> teacher.getLessons().remove(foundLesson));
+    foundLesson.getAuditoriums().clear();
+    foundLesson.getTeachers().clear();
+
+    newLessonForm.getAuditoriums().forEach(auditorium -> {
+      Auditorium entity = auditoriumRepository.findByName(auditorium);
+      if (entity == null) {
+        entity = new Auditorium(auditorium);
+      }
+      entity.getLessons().add(foundLesson);
+      foundLesson.getAuditoriums().add(entity);
+    });
+
+    newLessonForm.getTeachers().forEach(tmp -> {
+      Teacher teacher = teacherRepository.findByUrlId(tmp.getUrlId());
+      if (teacher == null) {
+        teacher = teacherRepository.findByNameAndSurnameAndPatronymic(
+            tmp.getName(), tmp.getSurname(), tmp.getPatronymic());
+      }
+      if (teacher == null) {        //if not found, create
+        teacher = TeacherUtility.createEntityObjWithoutLink(tmp);
+      }
+      // link teacher entity to updated lesson
+      // anyway, as all the links were deleted by deleteLinksOfLesson
+      teacher.getLessons().add(foundLesson);
+      foundLesson.getTeachers().add(teacher);
+    });
+
+    when(lessonRepository.save(any())).thenReturn(foundLesson);
+    LessonDto result = service.update(id, newLessonForm);
+    verify(lessonRepository, times(1)).findById(id);
+    verify(cache, times(1)).remove(id);
+    verify(cache, times(1)).put(eq(id), eq(newLessonForm));
+    verify(lessonRepository, times(1)).save(any());
+    assertNotNull(result);
   }
 
   @Test
   void deleteByGroup() {
+
   }
 
   @Test
