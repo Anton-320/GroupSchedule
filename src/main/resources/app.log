@@ -272,3 +272,67 @@
 2024-04-23 22:44:18.708 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
 2024-04-23 22:44:18.710 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
 2024-04-23 22:44:18.714 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-04-23 22:51:50.999 [main] INFO  c.b.g.GroupScheduleApplication - Starting GroupScheduleApplication using Java 21.0.2 with PID 11040 (D:\JavaProj\groupSchedule\target\classes started by User in D:\JavaProj\groupSchedule)
+2024-04-23 22:51:51.004 [main] INFO  c.b.g.GroupScheduleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-04-23 22:51:51.976 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-23 22:51:52.055 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 70 ms. Found 4 JPA repository interfaces.
+2024-04-23 22:51:52.863 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-04-23 22:51:52.874 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-04-23 22:51:52.876 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-04-23 22:51:52.876 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-04-23 22:51:52.950 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-04-23 22:51:52.950 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1872 ms
+2024-04-23 22:51:53.157 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-23 22:51:53.249 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-04-23 22:51:53.313 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-04-23 22:51:53.631 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-23 22:51:53.670 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-04-23 22:51:53.891 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@4348fa35
+2024-04-23 22:51:53.893 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-04-23 22:51:53.949 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-04-23 22:51:55.293 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-04-23 22:51:55.475 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-23 22:51:56.211 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-04-23 22:51:56.610 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-04-23 22:51:57.373 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-04-23 22:51:57.402 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-04-23 22:51:57.419 [main] INFO  c.b.g.GroupScheduleApplication - Started GroupScheduleApplication in 7.006 seconds (process running for 8.23)
+2024-04-23 22:52:10.798 [http-nio-8080-exec-3] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-04-23 22:52:10.799 [http-nio-8080-exec-3] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-04-23 22:52:10.799 [http-nio-8080-exec-3] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2024-04-23 22:52:10.862 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.changes.LessonService, Method: getByGroupAndDate, Args: [21, 05-04-2024]
+2024-04-23 22:52:17.233 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.changes.LessonService, Method: add, Args: [com.byshnev.groupschedule.model.dto.LessonDto@7a37f2a8, 05-04-2024, 250501]
+2024-04-23 22:52:17.236 [http-nio-8080-exec-1] ERROR c.b.g.components.LoggerAspect - error: Exception handler handlerInternalServerError with parameter(s) [java.lang.NullPointerException: text] invoked
+2024-04-23 22:54:15.092 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.changes.LessonService, Method: add, Args: [com.byshnev.groupschedule.model.dto.LessonDto@5fd6351c, 05-04-2024, 250501]
+2024-04-23 22:54:19.419 [http-nio-8080-exec-6] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.changes.LessonService, Method: getByGroupAndDate, Args: [21, 05-04-2024]
+2024-04-23 22:54:35.633 [http-nio-8080-exec-7] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 05-04-2024]
+2024-04-23 23:00:18.471 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-04-23 23:00:18.473 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-04-23 23:00:18.481 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-04-23 23:00:38.320 [main] INFO  c.b.g.GroupScheduleApplication - Starting GroupScheduleApplication using Java 21.0.2 with PID 13100 (D:\JavaProj\groupSchedule\target\classes started by User in D:\JavaProj\groupSchedule)
+2024-04-23 23:00:38.323 [main] INFO  c.b.g.GroupScheduleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-04-23 23:00:38.941 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-04-23 23:00:38.995 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 48 ms. Found 4 JPA repository interfaces.
+2024-04-23 23:00:39.446 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-04-23 23:00:39.453 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-04-23 23:00:39.454 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-04-23 23:00:39.454 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-04-23 23:00:39.501 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-04-23 23:00:39.501 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1129 ms
+2024-04-23 23:00:39.623 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-04-23 23:00:39.671 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-04-23 23:00:39.703 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-04-23 23:00:39.860 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-04-23 23:00:39.877 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-04-23 23:00:40.003 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@74fc3fc7
+2024-04-23 23:00:40.004 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-04-23 23:00:40.039 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-04-23 23:00:40.769 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-04-23 23:00:40.862 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-04-23 23:00:41.279 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-04-23 23:00:41.521 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-04-23 23:00:41.948 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-04-23 23:00:41.954 [main] INFO  c.b.g.GroupScheduleApplication - Started GroupScheduleApplication in 3.951 seconds (process running for 4.831)
+2024-04-23 23:00:41.965 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-04-23 23:00:41.965 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-04-23 23:00:41.969 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
