@@ -420,10 +420,10 @@ class LessonServiceTest {
     return new LessonDto(
         "ОУИС", null, "15:50", "17:10",
         null, "ЛК", List.of("311-1 к."), 0,
-        List.of(new TeacherDto(
+        new ArrayList<>(List.of(new TeacherDto(
             "nataly", "Наталья", "Смирнова",
             "Анатольевна", "", "zismirnova@bsuir.by"
-        )));
+        ))));
   }
 }
 

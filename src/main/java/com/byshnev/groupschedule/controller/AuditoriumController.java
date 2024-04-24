@@ -1,19 +1,13 @@
 package com.byshnev.groupschedule.controller;
 
 import com.byshnev.groupschedule.service.changes.AuditoriumService;
-import java.util.List;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Validated
 @RestController
@@ -28,17 +22,22 @@ public class AuditoriumController {
   }
 
   @GetMapping("/{id}")
-  public String getById(@PathVariable Long id) {
-    return service.getById(id);
+  public ResponseEntity<String> getById(@PathVariable Long id) {
+    String tmp = service.getById(id);
+    if (tmp == null) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    } else {
+      return new ResponseEntity<>(tmp, HttpStatus.FOUND);
+    }
   }
 
   @PostMapping()
   public ResponseEntity<String> addAuditorium(@RequestBody String auditorium) {
     String tmp = service.create(auditorium);
     if (tmp == null) {
-      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     } else {
-      return new ResponseEntity<>(HttpStatus.CREATED);
+      return new ResponseEntity<>(tmp, HttpStatus.CREATED);
     }
   }
 
@@ -49,15 +48,14 @@ public class AuditoriumController {
     if (tmp == null) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     } else {
-      return new ResponseEntity<>(HttpStatus.ACCEPTED);
+      return new ResponseEntity<>(tmp, HttpStatus.ACCEPTED);
     }
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<String> deleteAuditorium(@PathVariable Long id) {
     if (service.delete(id)) {
-      return new ResponseEntity<>("Deleting was successful",
-                                  HttpStatus.NO_CONTENT);
+      return new ResponseEntity<>("Deleting was successful", HttpStatus.NO_CONTENT);
     } else {
       return new ResponseEntity<>("Deleting wasn't successful", HttpStatus.NOT_FOUND);
     }

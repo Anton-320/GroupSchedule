@@ -25,8 +25,13 @@ public class TeacherController {
   }
 
   @GetMapping("/{urlId}")
-  public TeacherDto getTeacherByUrlId(@NotEmpty @PathVariable String urlId) {
-    return service.getByUrlId(urlId);
+  public ResponseEntity<TeacherDto> getTeacherByUrlId(@NotEmpty @PathVariable String urlId) {
+    TeacherDto tmp = service.getByUrlId(urlId);
+    if (tmp != null) {
+      return new ResponseEntity<>(tmp, HttpStatus.FOUND);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
   }
 
   @PostMapping
