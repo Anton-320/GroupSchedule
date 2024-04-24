@@ -6,6 +6,7 @@ import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.service.changes.LessonService;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -57,14 +58,14 @@ public class ScheduleChangesController {
   @PostMapping
   public ResponseEntity<LessonDto> addScheduleChange(
       @Min(100000) @Max(999999) @RequestParam(name = "groupNum") Integer groupNum,
-      @RequestParam(name = "date") String date, @RequestBody LessonDto lesson) {
+      @RequestParam(name = "date") String date, @NotNull @RequestBody LessonDto lesson) {
     return ResponseEntity.ok(service.add(lesson, date, groupNum));
   }
 
   @PostMapping("/batch")
   public ResponseEntity<List<LessonDto>> addScheduleChanges(
       @Min(100000) @Max(999999) @RequestParam(name = "groupNum") Integer groupNum,
-      @RequestParam(name = "date") String date, @RequestBody List<LessonDto> lessons) {
+      @RequestParam(name = "date") String date, @NotNull @RequestBody List<LessonDto> lessons) {
     return ResponseEntity.ok(service.addBatch(groupNum, date, lessons));
   }
 
