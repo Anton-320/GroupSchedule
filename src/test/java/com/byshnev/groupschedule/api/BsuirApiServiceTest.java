@@ -3,31 +3,24 @@ package com.byshnev.groupschedule.api;
 import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.model.dto.TeacherDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.web.client.RestTemplate;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(MockitoExtension.class)
 public class BsuirApiServiceTest {
 
   @InjectMocks
   private BsuirApiService service;
-
-  @Mock
-  private final RestTemplate restTemplate = new RestTemplate();
-
-  @Mock
-  private final ObjectMapper mapper = new ObjectMapper();
 
   private static final String HTTPS_URL_BSUIR_SRCH = "https://iis.bsuir.by/api/v1/schedule?studentGroup={groupNumber}";
   private static final String[] DAYS_OF_WEEK = {
@@ -48,7 +41,16 @@ public class BsuirApiServiceTest {
   void getScheduleFromBsuirApi_NotSunday() throws JsonProcessingException {
     Integer groupNumber = 250501;
     LocalDate date = LocalDate.of(2024, 4, 5);
-    service.getScheduleFromBsuirApi(groupNumber, date);
+    List<LessonDto> result = service.getScheduleFromBsuirApi(groupNumber, date);
+    assertNotNull(result);
+  }
+
+  @Test
+  void getScheduleFromBsuirApi_Sunday() throws JsonProcessingException {
+    Integer groupNumber = 250501;
+    LocalDate date = LocalDate.of(2024, 5, 5);
+    List<LessonDto> result = service.getScheduleFromBsuirApi(groupNumber, date);
+    assertNotNull(result);
   }
 
   private List<LessonDto> createLessonDtoList() {
