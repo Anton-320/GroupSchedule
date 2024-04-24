@@ -3,13 +3,15 @@ package com.byshnev.groupschedule.api;
 import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -25,29 +27,11 @@ class BsuirApiServiceTest {
     MockitoAnnotations.openMocks(this);
   }
 
-  @Test
-  void getScheduleFromBsuirApi_NotSundayFoundLessons() throws JsonProcessingException {
+  @ParameterizedTest
+  @ValueSource(strings = { "05-04-2024", "05-05-2024", "06-05-2024" })
+  void getScheduleFromBsuirApi_NotSundayFoundLessons(String dateInString) throws JsonProcessingException {
     Integer groupNumber = 250501;
-    //friday
-    LocalDate date = LocalDate.of(2024, 4, 5);
-    List<LessonDto> result = service.getScheduleFromBsuirApi(groupNumber, date);
-    assertNotNull(result);
-  }
-
-  @Test
-  void getScheduleFromBsuirApi_Sunday() throws JsonProcessingException {
-    Integer groupNumber = 250501;
-    //sunday
-    LocalDate date = LocalDate.of(2024, 5, 5);
-    List<LessonDto> result = service.getScheduleFromBsuirApi(groupNumber, date);
-    assertNotNull(result);
-  }
-
-  @Test
-  void getScheduleFromBsuirApi_NotSundayNotFoundLessons() throws JsonProcessingException {
-    Integer groupNumber = 250501;
-    //not a sunday, but when there is no lessons (monday)
-    LocalDate date = LocalDate.of(2024, 5, 6);
+    LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
     List<LessonDto> result = service.getScheduleFromBsuirApi(groupNumber, date);
     assertNotNull(result);
   }

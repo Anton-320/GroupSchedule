@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class GroupControllerTest {
+class GroupControllerTest {
   @InjectMocks
   private GroupController controller;
 
