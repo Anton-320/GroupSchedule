@@ -425,7 +425,5 @@ public class LessonServiceTest {
             "Анатольевна", "", "zismirnova@bsuir.by"
         )));
   }
-
-
 }
 
