@@ -43,7 +43,7 @@ public class ScheduleSearchingService {
     } else if (schedule == null) {
       schedule = new ArrayList<>();
     }
-    if (changes.isEmpty()) {
+    if (changes == null || changes.isEmpty()) {
       return schedule;
     }
 

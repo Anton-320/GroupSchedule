@@ -20,16 +20,6 @@ public class BsuirApiServiceTest {
   @InjectMocks
   private BsuirApiService service;
 
-  private static final String HTTPS_URL_BSUIR_SRCH = "https://iis.bsuir.by/api/v1/schedule?studentGroup={groupNumber}";
-  private static final String[] DAYS_OF_WEEK = {
-      "Понедельник",
-      "Вторник",
-      "Среда",
-      "Четверг",
-      "Пятница",
-      "Суббота"
-  };
-
   @BeforeEach
   void setUp() {
     MockitoAnnotations.openMocks(this);

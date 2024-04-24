@@ -1,7 +1,6 @@
 package com.byshnev.groupschedule.service;
 
 import com.byshnev.groupschedule.components.cache.GroupCache;
-import com.byshnev.groupschedule.components.cache.ScheduleChangesCache;
 import com.byshnev.groupschedule.model.dto.GroupDto;
 import com.byshnev.groupschedule.model.entity.StudentGroup;
 import com.byshnev.groupschedule.repository.GroupRepository;
@@ -30,9 +29,6 @@ public class GroupServiceTest {
 
     @Mock
     private GroupRepository repository;
-
-    @Mock
-    private ScheduleChangesCache lessonCache;
 
     @Mock
     private LessonService lessonService;

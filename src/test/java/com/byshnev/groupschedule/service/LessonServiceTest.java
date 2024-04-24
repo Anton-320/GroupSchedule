@@ -102,7 +102,7 @@ public class LessonServiceTest {
     Lesson foundValue = createTestLesson();
     when(cache.get(id)).thenReturn(Optional.empty());
     when(lessonRepository.findById(id)).thenReturn(Optional.of(foundValue));
-    LessonDto result = service.getById(id);
+    service.getById(id);
     verify(cache, times(1)).get(id);
     verify(lessonRepository, times(1)).findById(id);
     verify(cache, times(1)).put(any(), any());

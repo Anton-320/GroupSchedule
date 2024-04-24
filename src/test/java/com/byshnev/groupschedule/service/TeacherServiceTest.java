@@ -141,13 +141,6 @@ public class TeacherServiceTest {
   @Test
   void add_Exists() {
     String urlId = "l-podenok";
-    Teacher addedEntity = new Teacher(
-        "l-podenok",
-        "Леонид",
-        "Поденок",
-        "Петрович",
-        "",
-        null);
     TeacherDto addedDto = new TeacherDto(
         "l-podenok",
         "Леонид",
@@ -181,7 +174,7 @@ public class TeacherServiceTest {
         "zismirnova@bsuir.by"
     );
     when(repository.findByUrlId(urlId)).thenReturn(oldValue);
-    TeacherDto finalResult = service.update(urlId, newValue);
+    service.update(urlId, newValue);
     verify(repository, times(1)).findByUrlId(urlId);
     verify(cache, times(1)).put(eq(newValue.getUrlId()), eq(newValue));
   }

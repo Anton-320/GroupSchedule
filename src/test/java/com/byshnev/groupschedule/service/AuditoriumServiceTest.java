@@ -38,7 +38,6 @@ public class AuditoriumServiceTest {
 
   @Test
   void getAll() {
-    Auditorium auditorium = new Auditorium("311-4 к.");
     List<Auditorium> auditoriumList = new ArrayList<>();
     auditoriumList.add(new Auditorium("311-4 к."));
     auditoriumList.add(new Auditorium("514-5 к."));
@@ -144,7 +143,6 @@ public class AuditoriumServiceTest {
   @Test
   void deleteTest_DoesNotExists() {
     Long id = 5L;
-    Auditorium auditoriumTmp = new Auditorium(id, "505-5 к.", new ArrayList<>());
     when(repository.findById(anyLong())).thenReturn(Optional.empty());
     boolean result = service.delete(id);
     verify(repository, times(1)).findById(anyLong());
