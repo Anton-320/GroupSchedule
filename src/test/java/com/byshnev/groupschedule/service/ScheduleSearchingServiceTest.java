@@ -31,7 +31,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class ScheduleSearchingServiceTest {
+class ScheduleSearchingServiceTest {
 
   @Mock
   private LessonRepository lessonRepository;

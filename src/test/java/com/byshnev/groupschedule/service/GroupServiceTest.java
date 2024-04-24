@@ -23,7 +23,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
-public class GroupServiceTest {
+class GroupServiceTest {
     @InjectMocks
     private GroupService groupService;
 
