@@ -256,7 +256,7 @@ class LessonServiceTest {
     LessonDto result = assertDoesNotThrow(() -> service.update(id, newLessonForm));
     verify(lessonRepository, times(1)).findById(id);
     verify(cache, times(1)).remove(id);
-    verify(cache, times(1)).put(eq(id), eq(newLessonForm));
+    verify(cache, times(1)).put(id, newLessonForm);
     verify(lessonRepository, times(1)).save(any());
     assertNotNull(result);
   }

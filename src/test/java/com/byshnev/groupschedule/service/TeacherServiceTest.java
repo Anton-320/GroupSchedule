@@ -111,7 +111,7 @@ class TeacherServiceTest {
   }
 
   @Test
-  void add_DoseNotExist() {
+  void add_DoesNotExist() {
     String urlId = "l-podenok";
     Teacher addedEntity = new Teacher(
         "l-podenok",
@@ -135,7 +135,7 @@ class TeacherServiceTest {
     when(repository.save(addedEntity)).thenReturn(addedEntity);
     service.add(addedDto);
     verify(repository, times(1)).save(any());
-    verify(cache, times(1)).put(eq(urlId), eq(addedDto));
+    verify(cache, times(1)).put(urlId, addedDto);
   }
 
   @Test
@@ -176,7 +176,7 @@ class TeacherServiceTest {
     when(repository.findByUrlId(urlId)).thenReturn(oldValue);
     service.update(urlId, newValue);
     verify(repository, times(1)).findByUrlId(urlId);
-    verify(cache, times(1)).put(eq(newValue.getUrlId()), eq(newValue));
+    verify(cache, times(1)).put(newValue.getUrlId(), newValue);
   }
 
   @Test
@@ -213,7 +213,7 @@ class TeacherServiceTest {
     verify(repository, times(1)).existsByUrlId(urlId);
     verify(cache, times(1)).remove(urlId);
     verify(repository, times(1)).findByUrlId(urlId);
-    verify(repository, times(1)).delete(eq(foundTeacher));
+    verify(repository, times(1)).delete(foundTeacher);
     assertTrue(returnValue);
   }
 

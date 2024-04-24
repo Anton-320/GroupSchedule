@@ -47,7 +47,7 @@ class GroupServiceTest {
         new StudentGroup(250501, 24),
         new StudentGroup(251002, 25)));
     List<GroupDto> finalResult = groupService.getAllGroups();
-    assertEquals(finalResult.size(), 2);
+    assertEquals(2, finalResult.size());
   }
 
   @Test
@@ -119,7 +119,7 @@ class GroupServiceTest {
     when(repository.findById(id)).thenReturn(Optional.of(oldValue));
     GroupDto finalResult = groupService.update(id, newValue);
     verify(repository, times(1)).findById(id);
-    verify(groupCache, times(1)).put(eq(id), eq(newValue));
+    verify(groupCache, times(1)).put(id, newValue);
     verify(repository, times(1)).flush();
     assertEquals(finalResult, newValue);
   }
