@@ -1,7 +1,6 @@
 package com.byshnev.groupschedule.api;
 
 import com.byshnev.groupschedule.model.dto.LessonDto;
-import com.byshnev.groupschedule.model.dto.TeacherDto;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,6 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -38,8 +36,9 @@ public class BsuirApiServiceTest {
   }
 
   @Test
-  void getScheduleFromBsuirApi_NotSunday() throws JsonProcessingException {
+  void getScheduleFromBsuirApi_NotSundayFoundLessons() throws JsonProcessingException {
     Integer groupNumber = 250501;
+    //friday
     LocalDate date = LocalDate.of(2024, 4, 5);
     List<LessonDto> result = service.getScheduleFromBsuirApi(groupNumber, date);
     assertNotNull(result);
@@ -48,38 +47,18 @@ public class BsuirApiServiceTest {
   @Test
   void getScheduleFromBsuirApi_Sunday() throws JsonProcessingException {
     Integer groupNumber = 250501;
+    //sunday
     LocalDate date = LocalDate.of(2024, 5, 5);
     List<LessonDto> result = service.getScheduleFromBsuirApi(groupNumber, date);
     assertNotNull(result);
   }
 
-  private List<LessonDto> createLessonDtoList() {
-    return new ArrayList<>(List.of(
-        new LessonDto(
-            "ОСиСП",
-            "Операционные системы и системное программирование",
-            "09:00",
-            "10:20",
-            "только 09.02",
-            "ЛК",
-            new ArrayList<>(List.of("206-3 к.")),
-            0,
-            new ArrayList<>(List.of(new TeacherDto(
-                "l-podenok", "Леонид", "Поденок",
-                "Петрович", "", null)))),
-        new LessonDto(
-            "ОИнфБ",
-            "Основы информационной безопасности",
-            "10:35",
-            "11:55",
-            null,
-            "ЛК",
-            new ArrayList<>(List.of("431-1 к.")),
-            0,
-            new ArrayList<>(List.of(
-                new TeacherDto(
-                    "n-smirnova", "Наталия", "Смирнова",
-                    "Анатольевна", "", "zismirnova@bsuir.by"))))
-    ));
+  @Test
+  void getScheduleFromBsuirApi_NotSundayNotFoundLessons() throws JsonProcessingException {
+    Integer groupNumber = 250501;
+    //not a sunday, but when there is no lessons (monday)
+    LocalDate date = LocalDate.of(2024, 5, 6);
+    List<LessonDto> result = service.getScheduleFromBsuirApi(groupNumber, date);
+    assertNotNull(result);
   }
 }
