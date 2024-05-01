@@ -1,5 +1,6 @@
 package com.byshnev.groupschedule.components;
 
+import com.byshnev.groupschedule.service.CounterService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -30,5 +31,13 @@ public class LoggerAspect {
     logger.error("error: Exception handler {} with parameter(s) {} invoked",
                  joinPoint.getSignature().getName(),
                  joinPoint.getArgs());
+  }
+
+  @Before("execution(public * com.byshnev.groupschedule.service.search.*.*(..))")
+  public void counterLog(JoinPoint joinPoint) {
+    logger.info("Increment counter from {}.{}(). Current value of counter is {}",
+                joinPoint.getSignature().getDeclaringTypeName(),
+                joinPoint.getSignature().getName(),
+                CounterService.increment());
   }
 }
