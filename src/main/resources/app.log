@@ -1,27 +1,394 @@
-2024-05-01 12:12:06.099 [main] INFO  c.b.g.GroupScheduleApplication - Starting GroupScheduleApplication using Java 21.0.2 with PID 22772 (D:\JavaProj\groupSchedule\target\classes started by User in D:\JavaProj\groupSchedule)
-2024-05-01 12:12:06.110 [main] INFO  c.b.g.GroupScheduleApplication - No active profile set, falling back to 1 default profile: "default"
-2024-05-01 12:12:06.837 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2024-05-01 12:12:06.900 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 54 ms. Found 4 JPA repository interfaces.
-2024-05-01 12:12:07.488 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
-2024-05-01 12:12:07.500 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
-2024-05-01 12:12:07.501 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
-2024-05-01 12:12:07.501 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
-2024-05-01 12:12:07.562 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
-2024-05-01 12:12:07.563 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1400 ms
-2024-05-01 12:12:07.731 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
-2024-05-01 12:12:07.811 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
-2024-05-01 12:12:07.867 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
-2024-05-01 12:12:08.078 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
-2024-05-01 12:12:08.098 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
-2024-05-01 12:12:08.389 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@608b35fa
-2024-05-01 12:12:08.391 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
-2024-05-01 12:12:08.453 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
-2024-05-01 12:12:09.373 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
-2024-05-01 12:12:09.487 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
-2024-05-01 12:12:10.042 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
-2024-05-01 12:12:10.331 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2024-05-01 12:12:10.990 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
-2024-05-01 12:12:10.997 [main] INFO  c.b.g.GroupScheduleApplication - Started GroupScheduleApplication in 5.276 seconds (process running for 6.11)
-2024-05-01 12:12:11.008 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
-2024-05-01 12:12:11.010 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
-2024-05-01 12:12:11.014 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-05-22 14:40:54.239 [main] INFO  c.b.g.GroupScheduleApplication - Starting GroupScheduleApplication using Java 21.0.2 with PID 3016 (D:\JavaProj\groupSchedule\target\classes started by User in D:\JavaProj\groupSchedule)
+2024-05-22 14:40:54.243 [main] INFO  c.b.g.GroupScheduleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-05-22 14:40:55.392 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-05-22 14:40:55.503 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 99 ms. Found 4 JPA repository interfaces.
+2024-05-22 14:40:56.520 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-05-22 14:40:56.534 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-05-22 14:40:56.537 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-05-22 14:40:56.537 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-05-22 14:40:56.645 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-05-22 14:40:56.648 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2304 ms
+2024-05-22 14:40:56.895 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-05-22 14:40:56.972 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-05-22 14:40:57.066 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-05-22 14:40:57.621 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-05-22 14:40:57.643 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-05-22 14:40:58.124 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@71039ce1
+2024-05-22 14:40:58.124 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-05-22 14:40:58.382 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-05-22 14:40:59.921 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-05-22 14:41:00.173 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-05-22 14:41:01.483 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-05-22 14:41:02.537 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-05-22 14:41:04.622 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-05-22 14:41:04.665 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-05-22 14:41:04.696 [main] INFO  c.b.g.GroupScheduleApplication - Started GroupScheduleApplication in 11.266 seconds (process running for 13.234)
+2024-05-22 14:41:22.207 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-05-22 14:41:22.208 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-05-22 14:41:22.210 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 2 ms
+2024-05-22 14:41:22.309 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 1
+2024-05-22 14:41:22.309 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 13-05-2024]
+2024-05-22 14:41:25.096 [http-nio-8080-exec-2] ERROR c.b.g.components.LoggerAspect - error: Exception handler handlerFoundException with parameter(s) [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.] invoked
+2024-05-22 14:46:34.903 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-05-22 14:46:34.906 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-05-22 14:46:34.917 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-05-30 09:26:59.406 [main] INFO  c.b.g.GroupScheduleApplication - Starting GroupScheduleApplication using Java 21.0.2 with PID 14996 (D:\JavaProj\groupSchedule\target\classes started by User in D:\JavaProj\groupSchedule)
+2024-05-30 09:26:59.409 [main] INFO  c.b.g.GroupScheduleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-05-30 09:27:00.618 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-05-30 09:27:00.693 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 60 ms. Found 4 JPA repository interfaces.
+2024-05-30 09:27:01.788 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-05-30 09:27:01.811 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-05-30 09:27:01.815 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-05-30 09:27:01.815 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-05-30 09:27:01.903 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-05-30 09:27:01.903 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2445 ms
+2024-05-30 09:27:02.076 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-05-30 09:27:02.146 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-05-30 09:27:02.193 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-05-30 09:27:02.432 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-05-30 09:27:02.452 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-05-30 09:27:02.653 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7ba06506
+2024-05-30 09:27:02.655 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-05-30 09:27:02.733 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-05-30 09:27:03.678 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-05-30 09:27:03.812 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-05-30 09:27:04.485 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-05-30 09:27:05.025 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-05-30 09:27:05.909 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-05-30 09:27:05.944 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-05-30 09:27:05.954 [main] INFO  c.b.g.GroupScheduleApplication - Started GroupScheduleApplication in 7.075 seconds (process running for 8.342)
+2024-05-30 09:27:28.784 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-05-30 09:27:28.784 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-05-30 09:27:28.785 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-05-30 09:27:28.830 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 1
+2024-05-30 09:27:28.830 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 03-05-2024]
+2024-05-30 16:05:35.420 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-05-30 16:05:35.618 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-05-30 16:05:35.704 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-05-30 16:05:41.467 [main] INFO  c.b.g.GroupScheduleApplication - Starting GroupScheduleApplication using Java 21.0.2 with PID 17056 (D:\JavaProj\groupSchedule\target\classes started by User in D:\JavaProj\groupSchedule)
+2024-05-30 16:05:41.469 [main] INFO  c.b.g.GroupScheduleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-05-30 16:05:42.261 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-05-30 16:05:42.339 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 70 ms. Found 4 JPA repository interfaces.
+2024-05-30 16:05:43.081 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-05-30 16:05:43.089 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-05-30 16:05:43.091 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-05-30 16:05:43.091 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-05-30 16:05:43.153 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-05-30 16:05:43.153 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1632 ms
+2024-05-30 16:05:43.313 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-05-30 16:05:43.374 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-05-30 16:05:43.418 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-05-30 16:05:43.749 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-05-30 16:05:43.770 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-05-30 16:05:43.955 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@13a268cd
+2024-05-30 16:05:43.957 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-05-30 16:05:44.014 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-05-30 16:05:45.085 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-05-30 16:05:45.228 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-05-30 16:05:45.770 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-05-30 16:05:46.147 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-05-30 16:05:46.714 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-05-30 16:05:46.738 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-05-30 16:05:46.745 [main] INFO  c.b.g.GroupScheduleApplication - Started GroupScheduleApplication in 5.811 seconds (process running for 6.606)
+2024-05-30 16:17:08.485 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-05-30 16:17:08.500 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-05-30 16:17:08.605 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 103 ms
+2024-05-30 16:17:08.833 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 1
+2024-05-30 16:17:08.834 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:17:10.406 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 2
+2024-05-30 16:17:10.406 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:17:11.368 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 3
+2024-05-30 16:17:11.368 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:17:21.140 [http-nio-8080-exec-6] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 4
+2024-05-30 16:17:21.140 [http-nio-8080-exec-6] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 2024-05-30]
+2024-05-30 16:17:21.147 [http-nio-8080-exec-6] ERROR c.b.g.components.LoggerAspect - error: Exception handler handlerInternalServerError with parameter(s) [java.time.format.DateTimeParseException: Text '2024-05-30' could not be parsed at index 2] invoked
+2024-05-30 16:17:21.957 [http-nio-8080-exec-7] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 5
+2024-05-30 16:17:21.958 [http-nio-8080-exec-7] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 2024-05-30]
+2024-05-30 16:17:21.958 [http-nio-8080-exec-7] ERROR c.b.g.components.LoggerAspect - error: Exception handler handlerInternalServerError with parameter(s) [java.time.format.DateTimeParseException: Text '2024-05-30' could not be parsed at index 2] invoked
+2024-05-30 16:17:36.549 [http-nio-8080-exec-8] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 6
+2024-05-30 16:17:36.549 [http-nio-8080-exec-8] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:17:37.925 [http-nio-8080-exec-9] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 7
+2024-05-30 16:17:37.925 [http-nio-8080-exec-9] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:17:38.505 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 8
+2024-05-30 16:17:38.505 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:25:15.374 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 9
+2024-05-30 16:25:15.377 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:25:16.047 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 10
+2024-05-30 16:25:16.047 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:25:16.158 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 11
+2024-05-30 16:25:16.159 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:25:16.334 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 12
+2024-05-30 16:25:16.335 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:25:16.512 [http-nio-8080-exec-6] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 13
+2024-05-30 16:25:16.512 [http-nio-8080-exec-6] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:25:16.754 [http-nio-8080-exec-7] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 14
+2024-05-30 16:25:16.754 [http-nio-8080-exec-7] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:25:16.797 [http-nio-8080-exec-8] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 15
+2024-05-30 16:25:16.798 [http-nio-8080-exec-8] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:25:16.850 [http-nio-8080-exec-9] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 16
+2024-05-30 16:25:16.850 [http-nio-8080-exec-9] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:25:17.041 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 17
+2024-05-30 16:25:17.042 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:29:09.860 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 18
+2024-05-30 16:29:09.864 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:29:11.575 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 19
+2024-05-30 16:29:11.575 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:29:13.872 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 20
+2024-05-30 16:29:13.872 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:29:23.304 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 21
+2024-05-30 16:29:23.305 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:29:25.090 [http-nio-8080-exec-6] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 22
+2024-05-30 16:29:25.090 [http-nio-8080-exec-6] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:29:26.499 [http-nio-8080-exec-7] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 23
+2024-05-30 16:29:26.499 [http-nio-8080-exec-7] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:36:18.209 [http-nio-8080-exec-9] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 24
+2024-05-30 16:36:18.211 [http-nio-8080-exec-9] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:36:24.328 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 25
+2024-05-30 16:36:24.328 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:36:25.100 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 26
+2024-05-30 16:36:25.101 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:36:25.616 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 27
+2024-05-30 16:36:25.616 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:36:57.376 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 28
+2024-05-30 16:36:57.376 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:37:08.761 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 29
+2024-05-30 16:37:08.761 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:40:23.176 [http-nio-8080-exec-7] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 30
+2024-05-30 16:40:23.176 [http-nio-8080-exec-7] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:41:20.504 [http-nio-8080-exec-8] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 31
+2024-05-30 16:41:20.504 [http-nio-8080-exec-8] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:43:08.085 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 32
+2024-05-30 16:43:08.085 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:43:11.923 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 33
+2024-05-30 16:43:11.923 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:43:24.759 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 34
+2024-05-30 16:43:24.759 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:47:26.955 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 35
+2024-05-30 16:47:26.955 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:48:35.500 [http-nio-8080-exec-7] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 36
+2024-05-30 16:48:35.500 [http-nio-8080-exec-7] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:50:26.590 [http-nio-8080-exec-9] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 37
+2024-05-30 16:50:26.590 [http-nio-8080-exec-9] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:50:28.198 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 38
+2024-05-30 16:50:28.198 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:50:29.961 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 39
+2024-05-30 16:50:29.961 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 16:56:27.184 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 40
+2024-05-30 16:56:27.185 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 17:01:39.405 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 41
+2024-05-30 17:01:39.405 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 17:02:01.180 [http-nio-8080-exec-7] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 42
+2024-05-30 17:02:01.180 [http-nio-8080-exec-7] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 17:02:01.461 [http-nio-8080-exec-8] ERROR c.b.g.components.LoggerAspect - error: Exception handler handlerFoundException with parameter(s) [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.] invoked
+2024-05-30 17:02:38.454 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-05-30 17:02:38.490 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-05-30 17:02:38.532 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-05-30 17:12:00.544 [main] INFO  c.b.g.GroupScheduleApplication - Starting GroupScheduleApplication using Java 21.0.2 with PID 4856 (D:\JavaProj\groupSchedule\target\classes started by User in D:\JavaProj\groupSchedule)
+2024-05-30 17:12:00.552 [main] INFO  c.b.g.GroupScheduleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-05-30 17:12:02.738 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-05-30 17:12:02.802 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 56 ms. Found 4 JPA repository interfaces.
+2024-05-30 17:12:03.500 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-05-30 17:12:03.514 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-05-30 17:12:03.514 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-05-30 17:12:03.514 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-05-30 17:12:03.604 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-05-30 17:12:03.604 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 2262 ms
+2024-05-30 17:12:03.769 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-05-30 17:12:03.862 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-05-30 17:12:03.912 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-05-30 17:12:04.179 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-05-30 17:12:04.201 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-05-30 17:12:04.409 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@17354708
+2024-05-30 17:12:04.411 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-05-30 17:12:04.493 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-05-30 17:12:05.398 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-05-30 17:12:05.542 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-05-30 17:12:06.212 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-05-30 17:12:06.508 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-05-30 17:12:07.152 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-05-30 17:12:07.180 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-05-30 17:12:07.190 [main] INFO  c.b.g.GroupScheduleApplication - Started GroupScheduleApplication in 7.708 seconds (process running for 9.741)
+2024-05-30 17:12:34.175 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-05-30 17:12:34.175 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-05-30 17:12:34.175 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 0 ms
+2024-05-30 17:12:34.264 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 1
+2024-05-30 17:12:34.267 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 17:12:36.286 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 2
+2024-05-30 17:12:36.286 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 17:12:49.647 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 3
+2024-05-30 17:12:49.648 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 17:12:49.702 [http-nio-8080-exec-4] ERROR c.b.g.components.LoggerAspect - error: Exception handler handlerFoundException with parameter(s) [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.] invoked
+2024-05-30 17:13:48.708 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-05-30 17:13:48.710 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-05-30 17:13:48.722 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-05-30 19:48:28.379 [main] INFO  c.b.g.GroupScheduleApplication - Starting GroupScheduleApplication using Java 21.0.2 with PID 10784 (D:\JavaProj\groupSchedule\target\classes started by User in D:\JavaProj\groupSchedule)
+2024-05-30 19:48:28.379 [main] INFO  c.b.g.GroupScheduleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-05-30 19:48:29.142 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-05-30 19:48:29.220 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 77 ms. Found 4 JPA repository interfaces.
+2024-05-30 19:48:29.846 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-05-30 19:48:29.862 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-05-30 19:48:29.862 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-05-30 19:48:29.862 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-05-30 19:48:29.924 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-05-30 19:48:29.924 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1476 ms
+2024-05-30 19:48:30.075 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-05-30 19:48:30.137 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-05-30 19:48:30.184 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-05-30 19:48:30.388 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-05-30 19:48:30.403 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-05-30 19:48:30.591 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@608b35fa
+2024-05-30 19:48:30.591 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-05-30 19:48:30.653 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-05-30 19:48:31.841 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-05-30 19:48:32.013 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-05-30 19:48:32.631 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-05-30 19:48:32.996 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-05-30 19:48:33.709 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-05-30 19:48:33.740 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-05-30 19:48:33.740 [main] INFO  c.b.g.GroupScheduleApplication - Started GroupScheduleApplication in 5.976 seconds (process running for 7.102)
+2024-05-30 19:49:03.971 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-05-30 19:49:03.971 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-05-30 19:49:03.973 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-05-30 19:49:04.021 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 1
+2024-05-30 19:49:04.021 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 19:49:05.580 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 2
+2024-05-30 19:49:05.580 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 19:49:13.757 [http-nio-8080-exec-4] INFO  o.a.coyote.http11.Http11Processor - Error parsing HTTP request header
+ Note: further occurrences of HTTP request parsing errors will be logged at DEBUG level.
+java.lang.IllegalArgumentException: Invalid character found in the request target [/api/v1/schedule_gr?groupNumber=[object+Object]&date=[object+Object] ]. The valid characters are defined in RFC 7230 and RFC 3986
+	at org.apache.coyote.http11.Http11InputBuffer.parseRequestLine(Http11InputBuffer.java:482)
+	at org.apache.coyote.http11.Http11Processor.service(Http11Processor.java:264)
+	at org.apache.coyote.AbstractProcessorLight.process(AbstractProcessorLight.java:63)
+	at org.apache.coyote.AbstractProtocol$ConnectionHandler.process(AbstractProtocol.java:896)
+	at org.apache.tomcat.util.net.NioEndpoint$SocketProcessor.doRun(NioEndpoint.java:1744)
+	at org.apache.tomcat.util.net.SocketProcessorBase.run(SocketProcessorBase.java:52)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1191)
+	at org.apache.tomcat.util.threads.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:659)
+	at org.apache.tomcat.util.threads.TaskThread$WrappingRunnable.run(TaskThread.java:63)
+	at java.base/java.lang.Thread.run(Thread.java:1583)
+2024-05-30 19:51:51.216 [http-nio-8080-exec-8] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 3
+2024-05-30 19:51:51.216 [http-nio-8080-exec-8] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 05-03-2024]
+2024-05-30 19:51:55.490 [http-nio-8080-exec-9] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 4
+2024-05-30 19:51:55.490 [http-nio-8080-exec-9] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 05-03-2024]
+2024-05-30 20:17:26.558 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 5
+2024-05-30 20:17:26.560 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 03-05-2024]
+2024-05-30 20:17:28.140 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 6
+2024-05-30 20:17:28.140 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 03-05-2024]
+2024-05-30 20:17:34.086 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 7
+2024-05-30 20:17:34.086 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 03-05-2024]
+2024-05-30 20:17:34.221 [http-nio-8080-exec-6] ERROR c.b.g.components.LoggerAspect - error: Exception handler handlerFoundException with parameter(s) [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.] invoked
+2024-05-30 20:18:15.517 [http-nio-8080-exec-9] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 8
+2024-05-30 20:18:15.517 [http-nio-8080-exec-9] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 03-05-2024]
+2024-05-30 20:18:43.671 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 9
+2024-05-30 20:18:43.671 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 20:19:26.861 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 10
+2024-05-30 20:19:26.861 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 20:21:09.827 [http-nio-8080-exec-6] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 11
+2024-05-30 20:21:09.828 [http-nio-8080-exec-6] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 20:22:27.586 [http-nio-8080-exec-8] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 12
+2024-05-30 20:22:27.586 [http-nio-8080-exec-8] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-05-30 20:22:46.310 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-05-30 20:22:46.339 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-05-30 20:22:46.349 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-06-02 12:14:23.395 [main] INFO  c.b.g.GroupScheduleApplication - Starting GroupScheduleApplication using Java 21.0.2 with PID 15564 (D:\JavaProj\groupSchedule\target\classes started by User in D:\JavaProj\groupSchedule)
+2024-06-02 12:14:23.396 [main] INFO  c.b.g.GroupScheduleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-06-02 12:14:24.051 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-06-02 12:14:24.110 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 53 ms. Found 4 JPA repository interfaces.
+2024-06-02 12:14:24.663 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-06-02 12:14:24.671 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-06-02 12:14:24.673 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-06-02 12:14:24.673 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-06-02 12:14:24.725 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-06-02 12:14:24.726 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1277 ms
+2024-06-02 12:14:24.885 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-06-02 12:14:24.946 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-06-02 12:14:24.984 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-06-02 12:14:25.179 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-06-02 12:14:25.198 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-06-02 12:14:25.389 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@7b3a6e95
+2024-06-02 12:14:25.393 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-06-02 12:14:25.479 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-06-02 12:14:26.351 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-06-02 12:14:26.482 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-06-02 12:14:27.034 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-06-02 12:14:27.288 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-06-02 12:14:27.820 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-06-02 12:14:27.842 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-06-02 12:14:27.848 [main] INFO  c.b.g.GroupScheduleApplication - Started GroupScheduleApplication in 4.772 seconds (process running for 14.294)
+2024-06-02 12:14:38.061 [http-nio-8080-exec-1] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-06-02 12:14:38.061 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-06-02 12:14:38.062 [http-nio-8080-exec-1] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-06-02 12:14:38.093 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 1
+2024-06-02 12:14:38.093 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 05-03-2024]
+2024-06-02 12:14:40.520 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 2
+2024-06-02 12:14:40.520 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 05-03-2024]
+2024-06-02 12:14:42.007 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 3
+2024-06-02 12:14:42.007 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 05-03-2024]
+2024-06-02 12:15:18.800 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 4
+2024-06-02 12:15:18.800 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 05-03-2024]
+2024-06-02 12:15:36.181 [http-nio-8080-exec-7] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 5
+2024-06-02 12:15:36.181 [http-nio-8080-exec-7] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 05-03-2024]
+2024-06-02 12:16:07.132 [http-nio-8080-exec-9] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'groupNumber' for method parameter type Integer is present but converted to null]
+2024-06-02 12:16:07.210 [http-nio-8080-exec-10] ERROR c.b.g.components.LoggerAspect - error: Exception handler handlerFoundException with parameter(s) [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource favicon.ico.] invoked
+2024-06-02 12:16:49.655 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 6
+2024-06-02 12:16:49.656 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 03-05-2024]
+2024-06-02 12:16:50.372 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 7
+2024-06-02 12:16:50.372 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 03-05-2024]
+2024-06-02 12:16:50.377 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 8
+2024-06-02 12:16:50.378 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 03-05-2024]
+2024-06-02 12:16:56.014 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 9
+2024-06-02 12:16:56.015 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 03-05-2024]
+2024-06-02 12:17:00.043 [http-nio-8080-exec-8] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 10
+2024-06-02 12:17:00.043 [http-nio-8080-exec-8] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 03-05-2024]
+2024-06-02 12:17:00.059 [http-nio-8080-exec-9] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 11
+2024-06-02 12:17:00.059 [http-nio-8080-exec-9] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 03-05-2024]
+2024-06-02 12:17:00.079 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 12
+2024-06-02 12:17:00.079 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 03-05-2024]
+2024-06-02 12:17:22.140 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 13
+2024-06-02 12:17:22.141 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 03-05-2024]
+2024-06-02 12:46:04.737 [http-nio-8080-exec-6] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 14
+2024-06-02 12:46:04.740 [http-nio-8080-exec-6] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 03-05-2024]
+2024-06-02 12:46:07.667 [http-nio-8080-exec-8] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 15
+2024-06-02 12:46:07.667 [http-nio-8080-exec-8] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 03-05-2024]
+2024-06-02 13:19:49.967 [http-nio-8080-exec-2] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'groupNumber' for method parameter type Integer is present but converted to null]
+2024-06-02 13:19:50.166 [http-nio-8080-exec-1] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'groupNumber' for method parameter type Integer is present but converted to null]
+2024-06-02 13:19:50.171 [http-nio-8080-exec-4] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'groupNumber' for method parameter type Integer is present but converted to null]
+2024-06-02 13:19:53.350 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 16
+2024-06-02 13:19:53.350 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, ]
+2024-06-02 13:19:53.383 [http-nio-8080-exec-3] ERROR c.b.g.components.LoggerAspect - error: Exception handler handlerInternalServerError with parameter(s) [java.time.format.DateTimeParseException: Text '' could not be parsed at index 0] invoked
+2024-06-02 13:19:55.681 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 17
+2024-06-02 13:19:55.681 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-06-02 13:19:57.411 [http-nio-8080-exec-6] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'groupNumber' for method parameter type Integer is present but converted to null]
+2024-06-02 13:19:57.416 [http-nio-8080-exec-7] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'groupNumber' for method parameter type Integer is present but converted to null]
+2024-06-02 13:19:57.420 [http-nio-8080-exec-8] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'groupNumber' for method parameter type Integer is present but converted to null]
+2024-06-02 13:20:00.366 [http-nio-8080-exec-9] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 18
+2024-06-02 13:20:00.366 [http-nio-8080-exec-9] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, ]
+2024-06-02 13:20:00.366 [http-nio-8080-exec-9] ERROR c.b.g.components.LoggerAspect - error: Exception handler handlerInternalServerError with parameter(s) [java.time.format.DateTimeParseException: Text '' could not be parsed at index 0] invoked
+2024-06-02 13:20:02.787 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 19
+2024-06-02 13:20:02.787 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-06-02 13:20:18.251 [http-nio-8080-exec-2] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'groupNumber' for method parameter type Integer is present but converted to null]
+2024-06-02 13:20:18.259 [http-nio-8080-exec-1] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'groupNumber' for method parameter type Integer is present but converted to null]
+2024-06-02 13:20:18.267 [http-nio-8080-exec-4] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'groupNumber' for method parameter type Integer is present but converted to null]
+2024-06-02 13:20:23.054 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 20
+2024-06-02 13:20:23.054 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, ]
+2024-06-02 13:20:23.054 [http-nio-8080-exec-3] ERROR c.b.g.components.LoggerAspect - error: Exception handler handlerInternalServerError with parameter(s) [java.time.format.DateTimeParseException: Text '' could not be parsed at index 0] invoked
+2024-06-02 13:20:30.124 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 21
+2024-06-02 13:20:30.124 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-06-02 13:20:42.362 [http-nio-8080-exec-7] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'groupNumber' for method parameter type Integer is present but converted to null]
+2024-06-02 13:34:10.314 [http-nio-8080-exec-9] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'groupNumber' for method parameter type Integer is present but converted to null]
+2024-06-02 13:34:15.493 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 22
+2024-06-02 13:34:15.493 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 05-03-2024]
+2024-06-02 13:34:16.271 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 23
+2024-06-02 13:34:16.271 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 05-03-2024]
+2024-06-02 13:34:16.736 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 24
+2024-06-02 13:34:16.736 [http-nio-8080-exec-1] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 05-03-2024]
+2024-06-02 13:34:43.070 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 25
+2024-06-02 13:34:43.070 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 05-03-2024]
+2024-06-02 13:35:53.952 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 26
+2024-06-02 13:35:53.952 [http-nio-8080-exec-5] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 05-03-2024]
+2024-06-02 13:36:48.696 [http-nio-8080-exec-7] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 27
+2024-06-02 13:36:48.697 [http-nio-8080-exec-7] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 03-05-2024]
+2024-06-02 13:47:16.918 [http-nio-8080-exec-9] ERROR c.b.g.components.LoggerAspect - error: Exception handler handlerFoundException with parameter(s) [org.springframework.web.servlet.resource.NoResourceFoundException: No static resource api/v1.] invoked
+2024-06-02 13:50:46.960 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-06-02 13:50:47.008 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-06-02 13:50:47.029 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
