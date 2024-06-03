@@ -69,6 +69,15 @@ public class ScheduleChangesController {
     return ResponseEntity.ok(service.addBatch(groupNum, date, lessons));
   }
 
+  @PutMapping
+  public ResponseEntity<LessonDto> updateScheduleChange(
+      @Min(100000) @Max(999999) @RequestParam(name = "groupNum") Integer groupNum,
+      @RequestParam(name = "date") String date, @RequestParam(name = "start") String startTime,
+      @RequestBody LessonDto newLesson) {
+    LessonDto tmp = service.update(groupNum, date, startTime, newLesson);
+    return ResponseEntity.ok(tmp);
+  }
+
   @PutMapping("/{id}")
   public ResponseEntity<LessonDto> updateScheduleChange(@PathVariable Long id, @RequestBody LessonDto lesson) {
     LessonDto tmp = service.update(id, lesson);

@@ -469,3 +469,76 @@ java.lang.IllegalArgumentException: Invalid character found in the request targe
 2024-06-02 16:10:48.019 [http-nio-8080-exec-8] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'groupNumber' for method parameter type Integer is present but converted to null]
 2024-06-02 16:13:22.321 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 19
 2024-06-02 16:13:22.321 [http-nio-8080-exec-10] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-06-02 17:20:39.064 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 20
+2024-06-02 17:20:39.064 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 31-05-2024]
+2024-06-02 17:20:53.113 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 21
+2024-06-02 17:20:53.114 [http-nio-8080-exec-3] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 01-05-2024]
+2024-06-02 17:21:07.553 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 22
+2024-06-02 17:21:07.553 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 04-06-2024]
+2024-06-02 19:18:15.730 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-06-02 19:18:15.864 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-06-02 19:18:15.881 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-06-02 19:18:24.389 [main] INFO  c.b.g.GroupScheduleApplication - Starting GroupScheduleApplication using Java 21.0.2 with PID 12116 (D:\JavaProj\groupSchedule\target\classes started by User in D:\JavaProj\groupSchedule)
+2024-06-02 19:18:24.391 [main] INFO  c.b.g.GroupScheduleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-06-02 19:18:25.168 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-06-02 19:18:25.224 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 48 ms. Found 4 JPA repository interfaces.
+2024-06-02 19:18:25.802 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-06-02 19:18:25.811 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-06-02 19:18:25.813 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-06-02 19:18:25.813 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-06-02 19:18:25.865 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-06-02 19:18:25.866 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1415 ms
+2024-06-02 19:18:26.013 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-06-02 19:18:26.069 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-06-02 19:18:26.109 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-06-02 19:18:26.288 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-06-02 19:18:26.308 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-06-02 19:18:26.476 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@13a268cd
+2024-06-02 19:18:26.478 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-06-02 19:18:26.528 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-06-02 19:18:27.337 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-06-02 19:18:27.446 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-06-02 19:18:27.989 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-06-02 19:18:28.289 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-06-02 19:18:28.843 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-06-02 19:18:28.858 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-06-02 19:18:28.865 [main] INFO  c.b.g.GroupScheduleApplication - Started GroupScheduleApplication in 4.866 seconds (process running for 5.604)
+2024-06-02 19:18:30.207 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-06-02 19:18:30.208 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-06-02 19:18:30.214 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.
+2024-06-02 21:06:01.356 [main] INFO  c.b.g.GroupScheduleApplication - Starting GroupScheduleApplication using Java 21.0.2 with PID 1860 (D:\JavaProj\groupSchedule\target\classes started by User in D:\JavaProj\groupSchedule)
+2024-06-02 21:06:01.359 [main] INFO  c.b.g.GroupScheduleApplication - No active profile set, falling back to 1 default profile: "default"
+2024-06-02 21:06:02.161 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2024-06-02 21:06:02.231 [main] INFO  o.s.d.r.c.RepositoryConfigurationDelegate - Finished Spring Data repository scanning in 61 ms. Found 4 JPA repository interfaces.
+2024-06-02 21:06:02.972 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat initialized with port 8080 (http)
+2024-06-02 21:06:02.984 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Initializing ProtocolHandler ["http-nio-8080"]
+2024-06-02 21:06:02.986 [main] INFO  o.a.catalina.core.StandardService - Starting service [Tomcat]
+2024-06-02 21:06:02.986 [main] INFO  o.a.catalina.core.StandardEngine - Starting Servlet engine: [Apache Tomcat/10.1.19]
+2024-06-02 21:06:03.071 [main] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring embedded WebApplicationContext
+2024-06-02 21:06:03.071 [main] INFO  o.s.b.w.s.c.ServletWebServerApplicationContext - Root WebApplicationContext: initialization completed in 1662 ms
+2024-06-02 21:06:03.276 [main] INFO  o.h.jpa.internal.util.LogHelper - HHH000204: Processing PersistenceUnitInfo [name: default]
+2024-06-02 21:06:03.356 [main] INFO  org.hibernate.Version - HHH000412: Hibernate ORM core version 6.4.4.Final
+2024-06-02 21:06:03.404 [main] INFO  o.h.c.i.RegionFactoryInitiator - HHH000026: Second-level cache disabled
+2024-06-02 21:06:03.650 [main] INFO  o.s.o.j.p.SpringPersistenceUnitInfo - No LoadTimeWeaver setup: ignoring JPA class transformer
+2024-06-02 21:06:03.679 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Starting...
+2024-06-02 21:06:03.900 [main] INFO  com.zaxxer.hikari.pool.HikariPool - HikariPool-1 - Added connection org.postgresql.jdbc.PgConnection@573a078
+2024-06-02 21:06:03.901 [main] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Start completed.
+2024-06-02 21:06:03.985 [main] WARN  org.hibernate.orm.deprecation - HHH90000025: PostgreSQLDialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2024-06-02 21:06:05.067 [main] INFO  o.h.e.t.j.p.i.JtaPlatformInitiator - HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+2024-06-02 21:06:05.240 [main] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Initialized JPA EntityManagerFactory for persistence unit 'default'
+2024-06-02 21:06:06.020 [main] INFO  o.s.d.j.r.query.QueryEnhancerFactory - Hibernate is in classpath; If applicable, HQL parser will be used.
+2024-06-02 21:06:06.319 [main] WARN  o.s.b.a.o.j.JpaBaseConfiguration$JpaWebConfiguration - spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2024-06-02 21:06:07.139 [main] INFO  o.a.coyote.http11.Http11NioProtocol - Starting ProtocolHandler ["http-nio-8080"]
+2024-06-02 21:06:07.161 [main] INFO  o.s.b.w.e.tomcat.TomcatWebServer - Tomcat started on port 8080 (http) with context path ''
+2024-06-02 21:06:07.167 [main] INFO  c.b.g.GroupScheduleApplication - Started GroupScheduleApplication in 6.608 seconds (process running for 8.112)
+2024-06-02 21:06:31.281 [http-nio-8080-exec-2] INFO  o.a.c.c.C.[Tomcat].[localhost].[/] - Initializing Spring DispatcherServlet 'dispatcherServlet'
+2024-06-02 21:06:31.281 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Initializing Servlet 'dispatcherServlet'
+2024-06-02 21:06:31.282 [http-nio-8080-exec-2] INFO  o.s.web.servlet.DispatcherServlet - Completed initialization in 1 ms
+2024-06-02 21:06:31.334 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 1
+2024-06-02 21:06:31.334 [http-nio-8080-exec-2] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-06-02 21:11:21.824 [http-nio-8080-exec-3] WARN  o.s.w.s.m.s.DefaultHandlerExceptionResolver - Resolved [org.springframework.web.bind.MissingServletRequestParameterException: Required request parameter 'groupNumber' for method parameter type Integer is present but converted to null]
+2024-06-02 21:11:26.207 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Increment counter from com.byshnev.groupschedule.service.search.ScheduleSearchingService.getSchedule(). Current value of counter is 2
+2024-06-02 21:11:26.207 [http-nio-8080-exec-4] INFO  c.b.g.components.LoggerAspect - Service method was invoked - Class: com.byshnev.groupschedule.service.search.ScheduleSearchingService, Method: getSchedule, Args: [250501, 30-05-2024]
+2024-06-02 23:23:07.226 [SpringApplicationShutdownHook] INFO  o.s.o.j.LocalContainerEntityManagerFactoryBean - Closing JPA EntityManagerFactory for persistence unit 'default'
+2024-06-02 23:23:07.256 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown initiated...
+2024-06-02 23:23:07.271 [SpringApplicationShutdownHook] INFO  com.zaxxer.hikari.HikariDataSource - HikariPool-1 - Shutdown completed.

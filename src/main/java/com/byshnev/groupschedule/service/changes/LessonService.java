@@ -130,6 +130,21 @@ public class LessonService {
   }
 
   @Transactional
+  public LessonDto update(
+      Integer groupNumber, String dateInString, String startTimeInString,
+      LessonDto newLessonDto) throws RuntimeException {
+    LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern(DATE_FORMAT));
+    LocalTime startTime = LocalTime.parse(startTimeInString, DateTimeFormatter.ofPattern(TIME_FORMAT));
+    Lesson lesson = lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(
+        groupNumber, date, startTime)
+        .orElseThrow(() -> new RuntimeException("The lesson with such an id is not found"));
+    cache.remove(lesson.getId());
+    cache.put(lesson.getId(), newLessonDto);
+    return LessonUtility.convertToLessonDto(
+        lessonRepository.save(updateLesson(lesson, newLessonDto)));
+  }
+
+  @Transactional
   public boolean deleteByGroup(Integer groupNumber) {
     List<Lesson> tmp = lessonRepository.findLessonsByGroupGroupNumber(groupNumber);
     if (tmp.isEmpty()) {
