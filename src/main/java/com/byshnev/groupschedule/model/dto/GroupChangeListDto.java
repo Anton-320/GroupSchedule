@@ -8,14 +8,14 @@ import java.util.List;
 
 @Getter
 @AllArgsConstructor
-public class GroupLessonListDto {
+public class GroupChangeListDto {
   private Integer group;
-  private List<LessonListByDateDto> lessons;
+  private List<ChangeListByDateDto> lessons;
 
   @Getter
   @AllArgsConstructor
-  public static class LessonListByDateDto {
-    private List<LessonDto> lesson;
+  public static class ChangeListByDateDto {
+    private List<ChangeDto> lesson;
     private LocalDate date;
   }
 }

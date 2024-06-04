@@ -28,6 +28,7 @@ public class AuditoriumService {
     if (tmpDto == null) {
       tmp = repository.findById(id).orElse(null);
       if (tmp != null) {
+        tmpDto = tmp.getName();
         cache.put(id, tmpDto);
         return tmp.getName();
       }

@@ -1,7 +1,8 @@
 package com.byshnev.groupschedule.controller;
 
-import com.byshnev.groupschedule.model.dto.DateLessonListDto;
-import com.byshnev.groupschedule.model.dto.GroupLessonListDto;
+import com.byshnev.groupschedule.model.dto.ChangeDto;
+import com.byshnev.groupschedule.model.dto.DateChangeListDto;
+import com.byshnev.groupschedule.model.dto.GroupChangeListDto;
 import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.service.changes.LessonService;
 import org.junit.jupiter.api.BeforeEach;
@@ -37,27 +38,27 @@ class ScheduleChangesControllerTest {
 
   @Test
   void getAll() {
-    List<GroupLessonListDto> expected = new ArrayList<>();
-    expected.add(new GroupLessonListDto(250501, new ArrayList<>()));
+    List<GroupChangeListDto> expected = new ArrayList<>();
+    expected.add(new GroupChangeListDto(250501, new ArrayList<>()));
     when(service.getAll()).thenReturn(expected);
-    List<GroupLessonListDto> result = controller.getAllScheduleChanges();
+    List<GroupChangeListDto> result = controller.getAllScheduleChanges();
     assertEquals(expected, result);
   }
 
   @Test
   void getAllGroupScheduleChanges() {
     Integer groupNumber = 250501;
-    GroupLessonListDto expected = new GroupLessonListDto(250501, new ArrayList<>());
+    GroupChangeListDto expected = new GroupChangeListDto(250501, new ArrayList<>());
     when(service.getByGroup(groupNumber)).thenReturn(expected);
-    GroupLessonListDto result = controller.getAllGroupScheduleChanges(groupNumber);
+    GroupChangeListDto result = controller.getAllGroupScheduleChanges(groupNumber);
     assertEquals(expected, result);
   }
 
   @Test
   void getById_Null() {
     Long id = 5L;
-    when(service.getById(id)).thenReturn(new LessonDto());
-    ResponseEntity<LessonDto> result = controller.getById(id);
+    when(service.getById(id)).thenReturn(new ChangeDto());
+    ResponseEntity<ChangeDto> result = controller.getById(id);
     assertEquals(result.getStatusCode().value(), HttpStatus.FOUND.value());
   }
 
@@ -65,7 +66,7 @@ class ScheduleChangesControllerTest {
   void getById_NotNull() {
     Long id = 5L;
     when(service.getById(id)).thenReturn(null);
-    ResponseEntity<LessonDto> result = controller.getById(id);
+    ResponseEntity<ChangeDto> result = controller.getById(id);
     assertEquals(result.getStatusCode().value(), HttpStatus.NOT_FOUND.value());
   }
 
@@ -73,52 +74,56 @@ class ScheduleChangesControllerTest {
   void getGroupScheduleChangesByDate() {
     Integer groupNumber = 250501;
     String date = "05-04-2024";
-    List<LessonDto> expected = new ArrayList<>();
-    expected.add(new LessonDto());
+    List<ChangeDto> expected = new ArrayList<>();
+    expected.add(new ChangeDto());
     when(service.getByGroupAndDate(groupNumber, date)).thenReturn(expected);
-    List<LessonDto> result = controller.getGroupScheduleChangesByDate(date, groupNumber);
+    List<ChangeDto> result = controller.getGroupScheduleChangesByDate(date, groupNumber);
     assertEquals(expected, result);
   }
 
   @Test
   void getScheduleChangesByTeacher() {
     String urlId = "l-podenok";
-    List<DateLessonListDto> expected = new ArrayList<>();
-    expected.add(new DateLessonListDto());
+    List<DateChangeListDto> expected = new ArrayList<>();
+    expected.add(new DateChangeListDto());
     when(service.getByTeacher(urlId)).thenReturn(expected);
-    List<DateLessonListDto> result = controller.getScheduleChangesByTeacher(urlId);
+    List<DateChangeListDto> result = controller.getScheduleChangesByTeacher(urlId);
     assertEquals(expected, result);
   }
 
   @Test
   void addScheduleChange() {
-    LessonDto expectedValue = new LessonDto();
+    LessonDto inputValue = new LessonDto();
+    ChangeDto expectedValue = new ChangeDto();
     String date = "05-04-2024";
     Integer groupNumber = 250501;
-    when(service.add(expectedValue, date, groupNumber)).thenReturn(expectedValue);
-    ResponseEntity<LessonDto> result = controller.addScheduleChange(groupNumber, date, expectedValue);
+    when(service.add(inputValue, date, groupNumber)).thenReturn(expectedValue);
+    ResponseEntity<ChangeDto> result = controller.addScheduleChange(groupNumber, date, inputValue);
     assertEquals(expectedValue, result.getBody());
     assertTrue(result.getStatusCode().is2xxSuccessful());
   }
   
   @Test
   void addScheduleChangesBatch() {
-    List<LessonDto> expectedValue = new ArrayList<>();
-    expectedValue.add(new LessonDto());
+    List<LessonDto> inputValue = new ArrayList<>();
+    inputValue.add(new LessonDto());
+    List<ChangeDto> expectedValue = new ArrayList<>();
+    expectedValue.add(new ChangeDto());
     String date = "05-04-2024";
     Integer groupNumber = 250501;
-    when(service.addBatch(groupNumber, date, expectedValue)).thenReturn(expectedValue);
-    ResponseEntity<List<LessonDto>> result = controller.addScheduleChanges(groupNumber, date, expectedValue);
+    when(service.addBatch(groupNumber, date, inputValue)).thenReturn(expectedValue);
+    ResponseEntity<List<ChangeDto>> result = controller.addScheduleChanges(groupNumber, date, inputValue);
     assertEquals(expectedValue, result.getBody());
     assertTrue(result.getStatusCode().is2xxSuccessful());
   }
 
   @Test
   void updateScheduleChange() {
-    LessonDto expectedValue = new LessonDto();
+    LessonDto inputValue = new LessonDto();
+    ChangeDto expectedValue = new ChangeDto();
     Long id = 5L;
-    when(service.update(id, expectedValue)).thenReturn(expectedValue);
-    ResponseEntity<LessonDto> result = controller.updateScheduleChange(id, expectedValue);
+    when(service.update(id, inputValue)).thenReturn(expectedValue);
+    ResponseEntity<ChangeDto> result = controller.updateScheduleChange(id, inputValue);
     assertEquals(expectedValue, result.getBody());
     assertTrue(result.getStatusCode().is2xxSuccessful());
   }
@@ -163,23 +168,19 @@ class ScheduleChangesControllerTest {
   }
 
   @Test
-  void deleteScheduleChangeByGroupAndDateAndTime_Exists() {
-    Integer groupNumber = 250501;
-    String date = "06-05-2024";
-    String startTime = "17:10";
-    when(service.deleteByGroupAndDateAndTime(date, startTime, groupNumber)).thenReturn(true);
-    ResponseEntity<String> result = controller.deleteScheduleChange(groupNumber, date, startTime);
+  void deleteScheduleChangeById_Exists() {
+    Long id = 0L;
+    when(service.deleteById(id)).thenReturn(true);
+    ResponseEntity<String> result = controller.deleteScheduleChange(id);
     assertTrue(result.getStatusCode().is2xxSuccessful());
     assertEquals("Deleting was successful", result.getBody());
   }
 
   @Test
-  void deleteScheduleChangeByGroupAndDateAndTime_DoesNotExist() {
-    Integer groupNumber = 250501;
-    String date = "06-05-2024";
-    String startTime = "17:10";
-    when(service.deleteByGroupAndDateAndTime(date, startTime, groupNumber)).thenReturn(false);
-    ResponseEntity<String> result = controller.deleteScheduleChange(groupNumber, date, startTime);
+  void deleteScheduleChangeById_DoesNotExist() {
+    Long id = 0L;
+    when(service.deleteById(id)).thenReturn(false);
+    ResponseEntity<String> result = controller.deleteScheduleChange(id);
     assertTrue(result.getStatusCode().is4xxClientError());
     assertEquals("Deleting wasn't successful", result.getBody());
   }

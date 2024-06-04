@@ -1,7 +1,8 @@
 package com.byshnev.groupschedule.controller;
 
-import com.byshnev.groupschedule.model.dto.DateLessonListDto;
-import com.byshnev.groupschedule.model.dto.GroupLessonListDto;
+import com.byshnev.groupschedule.model.dto.ChangeDto;
+import com.byshnev.groupschedule.model.dto.DateChangeListDto;
+import com.byshnev.groupschedule.model.dto.GroupChangeListDto;
 import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.service.changes.LessonService;
 import jakarta.validation.constraints.Max;
@@ -25,18 +26,18 @@ public class ScheduleChangesController {
   private static final String NOT_SUCCESSFUL_DELETING = "Deleting wasn't successful";
 
   @GetMapping("/all")
-  public List<GroupLessonListDto> getAllScheduleChanges() {
+  public List<GroupChangeListDto> getAllScheduleChanges() {
     return service.getAll();
   }
 
   @GetMapping("/{groupNumber}")
-  public GroupLessonListDto getAllGroupScheduleChanges(@Min(100000) @Max(999999) @PathVariable(name = "groupNumber") Integer groupNum) {
+  public GroupChangeListDto getAllGroupScheduleChanges(@Min(100000) @Max(999999) @PathVariable(name = "groupNumber") Integer groupNum) {
     return service.getByGroup(groupNum);
   }
 
   @GetMapping
-  public ResponseEntity<LessonDto> getById(@RequestParam Long id) {
-    LessonDto tmp = service.getById(id);
+  public ResponseEntity<ChangeDto> getById(@RequestParam Long id) {
+    ChangeDto tmp = service.getById(id);
     if (tmp != null) {
       return new ResponseEntity<>(tmp, HttpStatus.FOUND);
     } else {
@@ -45,47 +46,38 @@ public class ScheduleChangesController {
   }
 
   @GetMapping("/{groupNumber}/{date}")
-  public List<LessonDto> getGroupScheduleChangesByDate(
+  public List<ChangeDto> getGroupScheduleChangesByDate(
       @PathVariable(name = "date") String date, @Min(100000) @Max(999999) @PathVariable(name = "groupNumber") Integer groupNum) {
     return service.getByGroupAndDate(groupNum, date);
   }
 
   @GetMapping("/by_teacher/{urlId}")
-  public List<DateLessonListDto> getScheduleChangesByTeacher(@PathVariable String urlId) {
+  public List<DateChangeListDto> getScheduleChangesByTeacher(@PathVariable String urlId) {
     return service.getByTeacher(urlId);
   }
 
   @PostMapping
-  public ResponseEntity<LessonDto> addScheduleChange(
+  public ResponseEntity<ChangeDto> addScheduleChange(
       @Min(100000) @Max(999999) @RequestParam(name = "groupNum") Integer groupNum,
       @RequestParam(name = "date") String date, @NotNull @RequestBody LessonDto lesson) {
     return ResponseEntity.ok(service.add(lesson, date, groupNum));
   }
 
   @PostMapping("/batch")
-  public ResponseEntity<List<LessonDto>> addScheduleChanges(
+  public ResponseEntity<List<ChangeDto>> addScheduleChanges(
       @Min(100000) @Max(999999) @RequestParam(name = "groupNum") Integer groupNum,
       @RequestParam(name = "date") String date, @NotNull @RequestBody List<LessonDto> lessons) {
     return ResponseEntity.ok(service.addBatch(groupNum, date, lessons));
   }
 
-  @PutMapping
-  public ResponseEntity<LessonDto> updateScheduleChange(
-      @Min(100000) @Max(999999) @RequestParam(name = "groupNum") Integer groupNum,
-      @RequestParam(name = "date") String date, @RequestParam(name = "start") String startTime,
-      @RequestBody LessonDto newLesson) {
-    LessonDto tmp = service.update(groupNum, date, startTime, newLesson);
-    return ResponseEntity.ok(tmp);
-  }
-
   @PutMapping("/{id}")
-  public ResponseEntity<LessonDto> updateScheduleChange(@PathVariable Long id, @RequestBody LessonDto lesson) {
-    LessonDto tmp = service.update(id, lesson);
+  public ResponseEntity<ChangeDto> updateScheduleChange(@PathVariable Long id, @RequestBody LessonDto lesson) {
+    ChangeDto tmp = service.update(id, lesson);
     return ResponseEntity.ok(tmp);
   }
 
-  @DeleteMapping("/{groupNumber}")
-  public ResponseEntity<String> deleteScheduleChanges(@Min(100000) @Max(999999) @PathVariable Integer groupNumber) {
+  @DeleteMapping("/by_group")
+  public ResponseEntity<String> deleteScheduleChanges(@Min(100000) @Max(999999) @RequestParam(name = "groupNum") Integer groupNumber) {
     if (service.deleteByGroup(groupNumber)) {
       return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
     } else {
@@ -93,8 +85,8 @@ public class ScheduleChangesController {
     }
   }
 
-  @DeleteMapping("/{groupNumber}/{date}")
-  public ResponseEntity<String> deleteScheduleChanges(@Min(100000) @Max(999999) @PathVariable Integer groupNumber, @PathVariable String date) {
+  @DeleteMapping("/by_group_and_date")
+  public ResponseEntity<String> deleteScheduleChanges(@Min(100000) @Max(999999) @RequestParam(name = "groupNum") Integer groupNumber, @RequestParam String date) {
     if (service.deleteByGroupAndDate(groupNumber, date)) {
       return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
     } else {
@@ -102,12 +94,13 @@ public class ScheduleChangesController {
     }
   }
 
-  @DeleteMapping("/{groupNumber}/{date}/{startTime}")
-  public ResponseEntity<String> deleteScheduleChange(@Min(100000) @Max(999999) @PathVariable Integer groupNumber, @PathVariable String date, @PathVariable String startTime) {
-    if (service.deleteByGroupAndDateAndTime(date, startTime, groupNumber)) {
+  @DeleteMapping("/{id}")
+  public ResponseEntity<String> deleteScheduleChange(@PathVariable Long id) {
+    if (service.deleteById(id)) {
       return ResponseEntity.accepted().body(SUCCESSFUL_DELETING);
     } else {
       return ResponseEntity.badRequest().body(NOT_SUCCESSFUL_DELETING);
     }
   }
+
 }

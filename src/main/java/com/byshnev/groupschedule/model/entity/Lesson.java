@@ -34,7 +34,7 @@ public class Lesson {
   @ManyToMany(mappedBy = "lessons", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
       fetch = FetchType.LAZY)
   private List<Auditorium> auditoriums = new ArrayList<>();
-  private int subgroupNum;
+  private Integer subgroupNum;
   @ManyToMany(mappedBy = "lessons", cascade = {CascadeType.PERSIST, CascadeType.MERGE},
       fetch = FetchType.LAZY)
   private List<Teacher> teachers = new ArrayList<>();

@@ -1,8 +1,9 @@
 package com.byshnev.groupschedule.service.changes;
 
 import com.byshnev.groupschedule.components.cache.ScheduleChangesCache;
-import com.byshnev.groupschedule.model.dto.DateLessonListDto;
-import com.byshnev.groupschedule.model.dto.GroupLessonListDto;
+import com.byshnev.groupschedule.model.dto.ChangeDto;
+import com.byshnev.groupschedule.model.dto.DateChangeListDto;
+import com.byshnev.groupschedule.model.dto.GroupChangeListDto;
 import com.byshnev.groupschedule.model.dto.LessonDto;
 import com.byshnev.groupschedule.model.entity.Auditorium;
 import com.byshnev.groupschedule.model.entity.Lesson;
@@ -37,26 +38,26 @@ public class LessonService {
   private static final String TIME_FORMAT = "HH:mm";
 
   @Transactional
-  public List<GroupLessonListDto> getAll() {
+  public List<GroupChangeListDto> getAll() {
     return LessonUtility.convertToGroupLessonListDtoList(lessonRepository.findAll());
   }
 
   @Transactional
-  public GroupLessonListDto getByGroup(Integer groupNumber) {
-    return LessonUtility.convertToGroupLessonListDto(
+  public GroupChangeListDto getByGroup(Integer groupNumber) {
+    return LessonUtility.convertToGroupChangeListDto(
         lessonRepository.findLessonsByGroupGroupNumber(groupNumber),
         groupNumber
     );
   }
 
-  public LessonDto getById(Long id) {
-    LessonDto tmpDto = cache.get(id).orElse(null);
+  public ChangeDto getById(Long id) {
+    ChangeDto tmpDto = cache.get(id).orElse(null);
     if (tmpDto != null) {
       return tmpDto;
     }
     Lesson tmp = lessonRepository.findById(id).orElse(null);
     if (tmp != null) {
-      tmpDto = LessonUtility.convertToLessonDto(tmp);
+      tmpDto = LessonUtility.convertToChangeDto(tmp);
       cache.put(id, tmpDto);
       return tmpDto;
     }
@@ -64,54 +65,60 @@ public class LessonService {
   }
 
   @Transactional
-  public List<LessonDto> getByGroupAndDate(Integer groupNumber, String dateInStr) {
+  public List<ChangeDto> getByGroupAndDate(Integer groupNumber, String dateInStr) {
     LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
-    return LessonUtility.convertToLessonDtoList(
+    return LessonUtility.convertToChangeDtoList(
         lessonRepository.findLessonsByGroupAndDate(groupNumber, date));
   }
 
   @Transactional
-  public List<DateLessonListDto> getByTeacher(String urlId) {
+  public List<DateChangeListDto> getByTeacher(String urlId) {
     return LessonUtility.convertToDateLessonListDtoList(
         lessonRepository.findLessonsByTeachers(
             teacherRepository.findByUrlId(urlId)));
   }
 
   @Transactional
-  public LessonDto add(LessonDto lessonDto, String dateInStr, Integer groupNumber) {
-    LessonDto result;
+  public ChangeDto add(LessonDto lessonDto, String dateInStr, Integer groupNumber) {
+    ChangeDto result;
     LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
-    Lesson lesson = lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(
-        groupNumber, date, LocalTime.parse(
+    Lesson lesson = lessonRepository.findConcreteLesson(
+        groupNumber,
+        date,
+        LocalTime.parse(
             lessonDto.getStartTime(),
-            DateTimeFormatter.ofPattern(TIME_FORMAT))).orElse(null);
+            DateTimeFormatter.ofPattern(TIME_FORMAT)),
+        lessonDto.getSubgroupNum()).orElse(null);
     if (lesson == null)	{	//if it doesn't exists, create new lesson entity
       lesson = createLesson(lessonDto, date, groupNumber);
-      result = LessonUtility.convertToLessonDto(lesson);
+      result = LessonUtility.convertToChangeDto(lesson);
     } else {
       cache.remove(lesson.getId());
-      result = LessonUtility.convertToLessonDto(updateLesson(lesson, lessonDto));
+      result = LessonUtility.convertToChangeDto(updateLesson(lesson, lessonDto));
     }
     cache.put(lesson.getId(), result);
     return result;
   }
 
   @Transactional
-    public List<LessonDto> addBatch(Integer groupNumber, String dateInString, List<LessonDto> lessonDtos) {
-    List<LessonDto> result = new ArrayList<>();
+    public List<ChangeDto> addBatch(Integer groupNumber, String dateInString, List<LessonDto> lessonDtos) {
+    List<ChangeDto> result = new ArrayList<>();
     LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern(DATE_FORMAT));
     lessonDtos.stream().forEach(lessonDto -> {
-      Lesson lesson = lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(
-          groupNumber, date, LocalTime.parse(
+      Lesson lesson = lessonRepository.findConcreteLesson(
+          groupNumber,
+          date,
+          LocalTime.parse(
               lessonDto.getStartTime(),
-              DateTimeFormatter.ofPattern(TIME_FORMAT))).orElse(null);
-      LessonDto addedLessonDto;
+              DateTimeFormatter.ofPattern(TIME_FORMAT)),
+          lessonDto.getSubgroupNum()).orElse(null);
+      ChangeDto addedLessonDto;
       if (lesson == null)	{	//if it doesn't exists, create new lesson entity
         lesson = createLesson(lessonDto, date, groupNumber);
-        addedLessonDto = LessonUtility.convertToLessonDto(lesson);
+        addedLessonDto = LessonUtility.convertToChangeDto(lesson);
       } else {
         cache.remove(lesson.getId());
-        addedLessonDto = LessonUtility.convertToLessonDto(updateLesson(lesson, lessonDto));
+        addedLessonDto = LessonUtility.convertToChangeDto(updateLesson(lesson, lessonDto));
       }
       cache.put(lesson.getId(), addedLessonDto);
       result.add(addedLessonDto);
@@ -120,28 +127,14 @@ public class LessonService {
   }
 
   @Transactional
-  public LessonDto update(Long id, LessonDto lessonDto) throws RuntimeException {
+  public ChangeDto update(Long id, LessonDto lessonDto) throws RuntimeException {
     Lesson lesson = lessonRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("The lesson with such an id is not found"));
-    cache.remove(id);
-    cache.put(id, lessonDto);
-    return LessonUtility.convertToLessonDto(
+    ChangeDto result = LessonUtility.convertToChangeDto(
         lessonRepository.save(updateLesson(lesson, lessonDto)));
-  }
-
-  @Transactional
-  public LessonDto update(
-      Integer groupNumber, String dateInString, String startTimeInString,
-      LessonDto newLessonDto) throws RuntimeException {
-    LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern(DATE_FORMAT));
-    LocalTime startTime = LocalTime.parse(startTimeInString, DateTimeFormatter.ofPattern(TIME_FORMAT));
-    Lesson lesson = lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(
-        groupNumber, date, startTime)
-        .orElseThrow(() -> new RuntimeException("The lesson with such an id is not found"));
-    cache.remove(lesson.getId());
-    cache.put(lesson.getId(), newLessonDto);
-    return LessonUtility.convertToLessonDto(
-        lessonRepository.save(updateLesson(lesson, newLessonDto)));
+    cache.remove(id);
+    cache.put(id, result);
+    return result;
   }
 
   @Transactional
@@ -168,18 +161,12 @@ public class LessonService {
     return lessonRepository.deleteByGroupGroupNumberAndDate(groupNumber, date) == 0;
   }
 
-  @Transactional
-  public boolean deleteByGroupAndDateAndTime(String dateInStr, String startTimeInStr, Integer groupNumber) {
-    LocalDate date = LocalDate.parse(dateInStr, DateTimeFormatter.ofPattern(DATE_FORMAT));
-    LocalTime startTime = LocalTime.parse(startTimeInStr, DateTimeFormatter.ofPattern(TIME_FORMAT));
-    Lesson lesson = lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(groupNumber, date, startTime).orElse(null);
+  public boolean deleteById(Long id) {
+    Lesson lesson = lessonRepository.findById(id).orElse(null);
     if (lesson == null) {
       return false;
     }
-    lesson.getAuditoriums().forEach(auditorium -> auditorium.getLessons().remove(lesson));
-    lesson.getTeachers().forEach(teacher -> teacher.getLessons().remove(lesson));
-    lesson.getAuditoriums().clear();
-    lesson.getTeachers().clear();
+    deleteLinksOfLesson(lesson);
     cache.remove(lesson.getId());
     lessonRepository.delete(lesson);
     return true;

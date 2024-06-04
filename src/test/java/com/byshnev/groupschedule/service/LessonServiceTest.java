@@ -1,10 +1,7 @@
 package com.byshnev.groupschedule.service;
 
 import com.byshnev.groupschedule.components.cache.ScheduleChangesCache;
-import com.byshnev.groupschedule.model.dto.DateLessonListDto;
-import com.byshnev.groupschedule.model.dto.GroupLessonListDto;
-import com.byshnev.groupschedule.model.dto.LessonDto;
-import com.byshnev.groupschedule.model.dto.TeacherDto;
+import com.byshnev.groupschedule.model.dto.*;
 import com.byshnev.groupschedule.model.entity.Auditorium;
 import com.byshnev.groupschedule.model.entity.Lesson;
 import com.byshnev.groupschedule.model.entity.StudentGroup;
@@ -69,7 +66,7 @@ class LessonServiceTest {
   void getAll() {
     final List<Lesson> lessons = createTestLessonList();
     when(lessonRepository.findAll()).thenReturn(lessons);
-    List<GroupLessonListDto> result = service.getAll();
+    List<GroupChangeListDto> result = service.getAll();
     assertEquals(1, result.size());
   }
 
@@ -78,7 +75,7 @@ class LessonServiceTest {
     Integer groupNumber = 250501;
     final List<Lesson> foundLessons = createTestLessonList();
     when(lessonRepository.findLessonsByGroupGroupNumber(groupNumber)).thenReturn(foundLessons);
-    GroupLessonListDto result = service.getByGroup(groupNumber);
+    GroupChangeListDto result = service.getByGroup(groupNumber);
     verify(lessonRepository, times(1))
         .findLessonsByGroupGroupNumber(groupNumber);
     assertEquals(1, result.getLessons().size());  //1, as lessons are of one date
@@ -87,9 +84,9 @@ class LessonServiceTest {
   @Test
   void getById_ExistsInCache() {
     Long id = 3L;
-    LessonDto dto = createTestLessonDto();
+    ChangeDto dto = createTestChangeDto();
     when(cache.get(id)).thenReturn(Optional.of(dto));
-    LessonDto result = service.getById(id);
+    ChangeDto result = service.getById(id);
     verify(cache, times(1)).get(id);
     verify(lessonRepository, never()).findById(any());
     verify(cache, never()).put(any(), any());
@@ -113,7 +110,7 @@ class LessonServiceTest {
     Long id = 3L;
     when(cache.get(id)).thenReturn(Optional.empty());
     when(lessonRepository.findById(id)).thenReturn(Optional.empty());
-    LessonDto result = service.getById(id);
+    ChangeDto result = service.getById(id);
     verify(cache, times(1)).get(id);
     verify(lessonRepository, times(1)).findById(id);
     verify(cache, never()).put(any(), any());
@@ -127,7 +124,7 @@ class LessonServiceTest {
     LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern(DATE_FORMAT));
     List<Lesson> lessons = createTestLessonList();
     when(lessonRepository.findLessonsByGroupAndDate(groupNumber, date)).thenReturn(lessons);
-    List<LessonDto> result = service.getByGroupAndDate(groupNumber, dateInString);
+    List<ChangeDto> result = service.getByGroupAndDate(groupNumber, dateInString);
     verify(lessonRepository, times(1))
         .findLessonsByGroupAndDate(groupNumber, date);
     assertNotNull(result);
@@ -140,7 +137,7 @@ class LessonServiceTest {
     String urlId = teacher.getUrlId();
     when(teacherRepository.findByUrlId(urlId)).thenReturn(teacher);
     when(lessonRepository.findLessonsByTeachers(teacher)).thenReturn(lessons);
-    List<DateLessonListDto> result = service.getByTeacher(urlId);
+    List<DateChangeListDto> result = service.getByTeacher(urlId);
     verify(teacherRepository, times(1))
         .findByUrlId(urlId);
     verify(lessonRepository, times(1))
@@ -156,11 +153,11 @@ class LessonServiceTest {
     String dateInString = "05-04-2024";
     LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern(DATE_FORMAT));
     LocalTime time = LocalTime.of(15, 50);
-    when(lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(
-        groupNumber, date, time)).thenReturn(Optional.of(foundLesson));
-    LessonDto result = service.add(dto, dateInString, groupNumber);
+    when(lessonRepository.findConcreteLesson(
+        groupNumber, date, time, 0)).thenReturn(Optional.of(foundLesson));
+    ChangeDto result = service.add(dto, dateInString, groupNumber);
     verify(lessonRepository, times(1))
-        .findLessonByGroupGroupNumberAndDateAndStartTime(groupNumber, date, time);
+        .findConcreteLesson(groupNumber, date, time, 0);
     assertNotNull(result);
   }
 
@@ -172,13 +169,13 @@ class LessonServiceTest {
     String dateInString = "05-04-2024";
     LocalDate date = savedLesson.getDate();
     LocalTime time = savedLesson.getStartTime();
-    when(lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(
-        groupNumber, date, time)).thenReturn(Optional.empty());
+    when(lessonRepository.findConcreteLesson(
+        groupNumber, date, time, 0)).thenReturn(Optional.empty());
     when(groupRepository.findByGroupNumber(groupNumber)).thenReturn(new StudentGroup(groupNumber));
     when(lessonRepository.save(any())).thenReturn(savedLesson);
-    LessonDto result = service.add(dto, dateInString, groupNumber);
+    ChangeDto result = service.add(dto, dateInString, groupNumber);
     verify(lessonRepository, times(1))
-        .findLessonByGroupGroupNumberAndDateAndStartTime(groupNumber, date, time);
+        .findConcreteLesson(groupNumber, date, time, 0);
     verify(groupRepository, times(1)).findByGroupNumber(groupNumber);
     verify(cache, never()).remove(any());
     verify(cache, times(1)).put(any(), any());
@@ -194,15 +191,15 @@ class LessonServiceTest {
     LocalDate date = savedLessons.get(0).getDate();
     LocalTime time0 = savedLessons.get(0).getStartTime();
     LocalTime time1 = savedLessons.get(1).getStartTime();
-    when(lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(
-        groupNumber, date, time0)).thenReturn(Optional.of(createTestLesson()));
-    when(lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(
-        groupNumber, date, time1)).thenReturn(Optional.empty());
+    when(lessonRepository.findConcreteLesson(
+        groupNumber, date, time0, 0)).thenReturn(Optional.of(createTestLesson()));
+    when(lessonRepository.findConcreteLesson(
+        groupNumber, date, time1, 0)).thenReturn(Optional.empty());
     when(groupRepository.findByGroupNumber(groupNumber)).thenReturn(new StudentGroup(groupNumber));
     when(lessonRepository.save(any())).thenReturn(savedLessons.get(1));
-    List<LessonDto> result = service.addBatch(groupNumber, dateInString, dtoList);
+    List<ChangeDto> result = service.addBatch(groupNumber, dateInString, dtoList);
     verify(lessonRepository, times(2))
-        .findLessonByGroupGroupNumberAndDateAndStartTime(any(), any(), any());
+        .findConcreteLesson(any(), any(), any(), any());
     verify(groupRepository, times(1)).findByGroupNumber(groupNumber);
     verify(cache, times(1)).remove(any());
     verify(cache, times(2)).put(any(), any());
@@ -253,10 +250,10 @@ class LessonServiceTest {
     });
 
     when(lessonRepository.save(any())).thenReturn(foundLesson);
-    LessonDto result = assertDoesNotThrow(() -> service.update(id, newLessonForm));
+    ChangeDto result = assertDoesNotThrow(() -> service.update(id, newLessonForm));
     verify(lessonRepository, times(1)).findById(id);
     verify(cache, times(1)).remove(id);
-    verify(cache, times(1)).put(id, newLessonForm);
+    verify(cache, times(1)).put(id, result);
     verify(lessonRepository, times(1)).save(any());
     assertNotNull(result);
   }
@@ -322,37 +319,29 @@ class LessonServiceTest {
   }
 
   @Test
-  void deleteByGroupAndDateAndTime_Exists() {
-    Integer groupNumber = 250501;
+  void deleteById_Exists() {
+    Long id = 0L;
     Lesson foundLesson = createTestLesson();
-    String dateInString = "05-04-2024";
-    LocalDate date = foundLesson.getDate();
-    String startTimeInString = foundLesson.getStartTime().toString();
-    LocalTime startTime = foundLesson.getStartTime();
-    when(lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(groupNumber, date, startTime))
+    when(lessonRepository.findById(id))
         .thenReturn(Optional.of(foundLesson));
     boolean returnValue = service
-        .deleteByGroupAndDateAndTime(dateInString, startTimeInString, groupNumber);
+        .deleteById(id);
     verify(lessonRepository, times(1))
-        .findLessonByGroupGroupNumberAndDateAndStartTime(groupNumber, date, startTime);
+        .findById(id);
     verify(cache, times(1)).remove(any());
     verify(lessonRepository, times(1)).delete(any());
     assertTrue(returnValue);
   }
 
   @Test
-  void deleteByGroupAndDateAndTime_DoesNotExist() {
-    Integer groupNumber = 250501;
-    String dateInString = "05-04-2024";
-    LocalDate date = LocalDate.parse(dateInString, DateTimeFormatter.ofPattern(DATE_FORMAT));
-    String startTimeInString = "17:10";
-    LocalTime startTime = LocalTime.parse(startTimeInString);
-    when(lessonRepository.findLessonByGroupGroupNumberAndDateAndStartTime(groupNumber, date, startTime))
+  void deleteById_DoesNotExist() {
+    Long id = 0L;
+    when(lessonRepository.findById(id))
         .thenReturn(Optional.empty());
     boolean returnValue = service
-        .deleteByGroupAndDateAndTime(dateInString, startTimeInString, groupNumber);
+        .deleteById(id);
     verify(lessonRepository, times(1))
-        .findLessonByGroupGroupNumberAndDateAndStartTime(groupNumber, date, startTime);
+        .findById(id);
     verify(cache, times(0)).remove(any());
     verify(lessonRepository, times(0)).delete(any());
     assertFalse(returnValue);
@@ -414,6 +403,16 @@ class LessonServiceTest {
     lesson.setGroup(new StudentGroup(
         250501, 21, new ArrayList<>(List.of(lesson))));
     return lesson;
+  }
+
+  private ChangeDto createTestChangeDto() {
+    return new ChangeDto(
+        0L, "ОУИС", null, "15:50", "17:10",
+        null, "ЛК", List.of("311-1 к."), 0,
+        new ArrayList<>(List.of(new TeacherDto(
+            "nataly", "Наталья", "Смирнова",
+            "Анатольевна", "", "zismirnova@bsuir.by"
+        ))));
   }
 
   private LessonDto createTestLessonDto() {
