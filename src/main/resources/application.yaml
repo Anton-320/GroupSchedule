@@ -25,4 +25,4 @@ springdoc:
   api-docs:
     path: /api
 server:
-  port: ${PORT:8080}
+  port: 8080
