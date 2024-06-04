@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://dpg-cpfjgdlds78s739e9eig-a:5432/schedule_changes
+    url: jdbc:postgresql://localhost:5432/schedule_changes
     username: anton
-    password: Vs2WvUW6ibrkepcHJ9k9gZQk98ln0Hx3
+    password: 123
   application:
     name: groupSchedule
   mvc:
