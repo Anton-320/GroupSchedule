@@ -16,10 +16,10 @@ services:
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
   db:
-    image: postgres:13
+    image: postgres:14
     environment:
-      POSTGRES_DB: groupschedule
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: password
+      POSTGRES_DB: schedule_changes
+      POSTGRES_USER: anton
+      POSTGRES_PASSWORD: Vs2WvUW6ibrkepcHJ9k9gZQk98ln0Hx3
     ports:
       - "5432:5432"
