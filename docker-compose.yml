@@ -10,9 +10,9 @@ services:
     depends_on:
       - db
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/groupschedule
-      SPRING_DATASOURCE_USERNAME: postgres
-      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_DATASOURCE_URL: postgres://anton:Vs2WvUW6ibrkepcHJ9k9gZQk98ln0Hx3@dpg-cpfjgdlds78s739e9eig-a/schedule_changes
+      SPRING_DATASOURCE_USERNAME: anton
+      SPRING_DATASOURCE_PASSWORD: Vs2WvUW6ibrkepcHJ9k9gZQk98ln0Hx3
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
   db:
