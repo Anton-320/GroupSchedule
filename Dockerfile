@@ -1,30 +1,9 @@
-# Используем официальный образ с OpenJDK 17 в качестве базового
-FROM openjdk:17-jdk-slim
+FROM maven:3.9.2-eclipse-temurin-17-alpine as builder
 
-# Устанавливаем рабочую директорию внутри контейнера
-WORKDIR /app
+COPY . .
+RUN mvn clean package -DskipTests
 
-# Копируем файл конфигурации проекта Maven
-COPY pom.xml .
-
-# Копируем скрипт maven wrapper
-COPY .mvn/ .mvn
-COPY mvnw .
-
-# Скачиваем зависимости проекта
-RUN ./mvnw dependency:resolve
-
-# Копируем исходный код проекта
-COPY src ./src
-
-# Сборка проекта
-RUN ./mvnw clean package -DskipTests
-
-# Указываем порт, который будет использоваться приложением
+FROM openjdk:17
+COPY --from=builder target/*.jar app.jar
 EXPOSE 8080
-
-# Указываем переменные окружения
-ENV SPRING_PROFILES_ACTIVE prod
-
-# Команда для запуска приложения
-CMD ["java", "-jar", "target/GroupSchedule-0.0.1-SNAPSHOT.jar"]
+CMD ["java","-jar","app.jar"]
