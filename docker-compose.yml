@@ -11,15 +11,15 @@ services:
       - db
     environment:
       SPRING_DATASOURCE_URL: postgres://anton:Vs2WvUW6ibrkepcHJ9k9gZQk98ln0Hx3@dpg-cpfjgdlds78s739e9eig-a/schedule_changes
-      SPRING_DATASOURCE_USERNAME: anton
-      SPRING_DATASOURCE_PASSWORD: Vs2WvUW6ibrkepcHJ9k9gZQk98ln0Hx3
+      SPRING_DATASOURCE_USERNAME: ${SPRING_DATASOURCE_USERNAME}
+      SPRING_DATASOURCE_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
 
   db:
     image: postgres:14
     environment:
       POSTGRES_DB: schedule_changes
-      POSTGRES_USER: anton
-      POSTGRES_PASSWORD: Vs2WvUW6ibrkepcHJ9k9gZQk98ln0Hx3
+      POSTGRES_USER: ${SPRING_DATASOURCE_USERNAME}
+      POSTGRES_PASSWORD: ${SPRING_DATASOURCE_PASSWORD}
     ports:
       - "5432:5432"
