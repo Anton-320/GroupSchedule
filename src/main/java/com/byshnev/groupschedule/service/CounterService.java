@@ -10,8 +10,7 @@ public class CounterService {
 
   private static final AtomicInteger count = new AtomicInteger(0);
 
-  private CounterService() {
-  }
+  private CounterService() {}
 
   public static synchronized int increment() {
     return count.incrementAndGet();
